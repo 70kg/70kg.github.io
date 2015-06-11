@@ -22,7 +22,7 @@
 
 
 
-  <meta name="keywords" content="生活杂记," />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -45,7 +45,7 @@
 
 
 
-  <title> 慢情调 // 70kg </title>
+  <title> Android字体浅谈 // 70kg </title>
 </head>
 
 <body>
@@ -287,7 +287,7 @@
           
           
             
-              慢情调
+              Android字体浅谈
             
           
         </h1>
@@ -295,14 +295,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-09
+          发表于 2015-06-11
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/生活杂记/">生活杂记</a>
+              <a href="/categories/Android/">Android</a>
 
               
               
@@ -315,8 +315,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/09/慢情调/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/09/慢情调/"></span>
+            <a href="/2015/06/11/Android字体浅谈/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/11/Android字体浅谈/"></span>
             </a>
           </span>
           
@@ -330,8 +330,23 @@
       
 
       
-        <p> 今天刚刚学会怎么添加音乐，才发现是这么简单，这算是我平时没事听的歌单，先扔上面吧<a id="more"></a></p>
- <embed src="http://music.163.com/style/swf/widget.swf?sid=4982564&type=0&auto=1&width=310&height=430" width="330" height="450" allownetworking="all">
+        <p>  今天想写个可以加文字的imageview,结果吭吭哧哧的卡在了绘制文字的地方，总是不知道怎么对齐文字，翻了一些资料了解了一些，还是写下来吧，也没什么太大的技术含量，就是为了不懒。。</p>
+<p>  <code>mPaint.getTextBounds(mText, 0, mText.length(), mTextBound);</code><br> 这个方法可以获取包裹文字的一个最小矩形。使用<code>mTextBound.width()</code>和<code>mTextBound.height()</code>就可以获得文字的宽和高了。</p>
+<p>   想要让文字居中显示这个还不够，先稍微了解一下文字的绘制，先放张图吧<br> <img src="http://img.blog.csdn.net/20141124164714390?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="cmd-markdown-logo"><br> 这张图就包含了绘制文字的top,ascent,descent,bottom,leading这五个参数,首先我们要知道Baseline基线，在Android中，文字的绘制都是从Baseline处开始的，Baseline往上至字符最高处的距离我们称之为ascent（上坡度），Baseline往下至字符最底处的距离我们称之为descent（下坡度），而leading（行间距）则表示上一行字符的descent到该行字符的ascent之间的距离，top和bottom文档描述地很模糊，其实这里我们可以借鉴一下TextView对文本的绘制，TextView在绘制文本的时候总会在文本的最外层留出一些内边距，为什么要这样做？因为TextView在绘制文本的时候考虑到了类似读音符号，可能大家很久没写过拼音了已经忘了什么叫读音符号了吧……下图中的A上面的符号就是一个拉丁文的类似读音符号的东西：</p>
+<p> <img src="http://img.blog.csdn.net/20141124164740174?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="a"></p>
+<p>如何获得这些参数呢，Android提供了一个字体测量的类，<code>FontMetrics</code>通过这个方法 <code>mFontMetrics = mPaint.getFontMetrics();</code>获得一个FontMetrics对象，然后就可以获得前面的属性了。<a id="more"></a></p>
+<p>   我们可以注意到，这个是在我们真正开始绘制文字之前就已经获得了这些属性，也就是说这些属性和要绘制什么文字无关，只和paint有关。</p>
+<p>  下面就来让文字居中吧，之前说过了，绘制文字是从Baseline开始绘制的，对应的就是安卓的y轴。</p>
+<p>  <code>canvas.drawText(TEXT, x, y, mPaint);</code>就可以愉快的绘制文字去了。</p>
+<p>  想要居中，主要就是y方向</p>
+<p>  baseY = (int) ((canvas.getHeight() / 2) + ((Math.abs(textPaint.ascent()-Math.abs(textPaint.descent()))) / 2));</p>
+<p>  这样就可以啦。</p>
+<p>  顺便说一下使用自定义字体的问题，安卓给我们提供的就四个NORMAL,ITALIC,BOLD,BOLD_ITALIC,同时也可以轻松的使用我们自己的字体。</p>
+<pre><code>Typeface typeface = Typeface.createFromAsset<span class="params">(context.getAssets<span class="params">()</span>, <span class="string">"kt.ttf"</span>)</span>;  
+textPaint.setTypeface<span class="params">(typeface)</span>;
+</code></pre><p>  最后如果有人看到了我写的这些玩意，去github上点个star吧，地址侧边栏就有。。（写这么烂真不要脸。。。）</p>
+<p>  参考文章：爱歌的神作（我就是个搬运工）:<a href="http://blog.csdn.net/aigestudio/article/details/41447349" target="_blank" rel="external">自定义控件其实很简单1/4</a>.</p>
+
       
     </div>
 
@@ -339,7 +354,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/生活杂记/"> #生活杂记 </a>
+            <a href="/tags/Android/"> #Android </a>
           
         </div>
       
@@ -348,13 +363,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/11/Android字体浅谈/">Android字体浅谈</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/08/My-new-post/">开站大吉！</a>
+              <a href="/2015/06/09/慢情调/">慢情调</a>
             
           </div>
         </div>
@@ -370,8 +383,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/09/慢情调/"
-               data-title="慢情调" data-url="http://70kg.info/2015/06/09/慢情调/">
+          <div class="ds-thread" data-thread-key="2015/06/11/Android字体浅谈/"
+               data-title="Android字体浅谈" data-url="http://70kg.info/2015/06/11/Android字体浅谈/">
           </div>
         
       </div>
