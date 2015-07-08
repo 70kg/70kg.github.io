@@ -353,7 +353,15 @@
 </code></pre><h2 id="删除当前view">删除当前view</h2><pre><code>ViewGroup <span class="keyword">parent</span> <span class="subst">=</span> (ViewGroup) mBlueBall<span class="built_in">.</span>getParent();  
     <span class="keyword">if</span> (<span class="keyword">parent</span> <span class="subst">!=</span> <span class="built_in">null</span>)  
         <span class="keyword">parent</span><span class="built_in">.</span>removeView(mBlueBall); 
-</code></pre>
+</code></pre><h2 id="将View的内容保存为图像">将View的内容保存为图像</h2><pre><code> public <span class="keyword">Bitmap </span>createViewBitmap(View v) {
+    <span class="keyword">Bitmap </span><span class="keyword">bitmap </span>= <span class="keyword">Bitmap.createBitmap(v.getWidth(), </span>v.getHeight(),
+            <span class="keyword">Bitmap.Config.ARGB_8888);
+</span>    Canvas canvas = new Canvas(<span class="keyword">bitmap);
+</span>    v.draw(canvas)<span class="comment">;</span>
+    return <span class="keyword">bitmap;
+</span>}
+</code></pre><p> public void onClickShare() {<br>        Intent intent = new Intent(Intent.ACTION_SEND);<br>        intent.setType(“text/plain”);<br>        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_just));<br>        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));<br>        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);<br>        startActivity(Intent.createChooser(intent, getTitle()));<br>    }</p>
+
       
     </div>
 
@@ -440,7 +448,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -492,7 +500,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TextView添加成链接"><span class="nav-number">1.</span> <span class="nav-text">TextView添加成链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改变Frament"><span class="nav-number">2.</span> <span class="nav-text">改变Frament</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获得当前界面所用的xml文件的根view"><span class="nav-number">3.</span> <span class="nav-text">获得当前界面所用的xml文件的根view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除当前view"><span class="nav-number">4.</span> <span class="nav-text">删除当前view</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TextView添加成链接"><span class="nav-number">1.</span> <span class="nav-text">TextView添加成链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改变Frament"><span class="nav-number">2.</span> <span class="nav-text">改变Frament</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获得当前界面所用的xml文件的根view"><span class="nav-number">3.</span> <span class="nav-text">获得当前界面所用的xml文件的根view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除当前view"><span class="nav-number">4.</span> <span class="nav-text">删除当前view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将View的内容保存为图像"><span class="nav-number">5.</span> <span class="nav-text">将View的内容保存为图像</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

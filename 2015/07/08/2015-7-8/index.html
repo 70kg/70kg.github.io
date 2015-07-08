@@ -22,7 +22,7 @@
 
 
 
-  <meta name="keywords" content="动画," />
+  <meta name="keywords" content="生活杂记," />
 
 
 
@@ -45,7 +45,7 @@
 
 
 
-  <title> Android属性动画 // 70kg </title>
+  <title> 2015.7.8 // 70kg </title>
 </head>
 
 <body>
@@ -287,7 +287,7 @@
           
           
             
-              Android属性动画
+              2015.7.8
             
           
         </h1>
@@ -295,28 +295,17 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-07-03
+          发表于 2015-07-08
         </span>
 
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/动画/">动画</a>
-
-              
-              
-
-            
-          </span>
         
 
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/07/03/Android属性动画/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/03/Android属性动画/"></span>
+            <a href="/2015/07/08/2015-7-8/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/08/2015-7-8/"></span>
             </a>
           </span>
           
@@ -330,118 +319,8 @@
       
 
       
-        <p>&emsp;&emsp;其实之前就学习过关于android动画的一些东西,但是只是为了解决当时的问题简单的学习了一下，没有系统的学习，时间久了就忘记了，这段时间再从新系统的学习一下动画。</p>
-<h2 id="属性动画">属性动画</h2><p>&emsp;&emsp;关于Android动画的部分，我决定直接学习属性动画，之前的帧动画等用处没有属性动画那么的广泛和强大。好吧，现在开始聊聊属性动画。这篇还是讲基础。</p>
-<h3 id="ObjectAnimator">ObjectAnimator</h3><p>&emsp;&emsp;ObjectAnimator是属性动画的执行类，使用起来也是很简单，比如让一个view围绕y轴旋转</p>
-<pre><code><span class="tag">ObjectAnimator</span><span class="class">.ofFloat</span>(<span class="tag">mTestImage</span>,"<span class="tag">rotationY</span>",0<span class="class">.0f</span>,360<span class="tag">f</span>)<span class="class">.setDuration</span>(500)<span class="class">.start</span>();
-</code></pre><p>顺便提一下，属性动画改变的对象真正的属性，像View的Animation动画只是改变了”表面”的属性，比如使用Animation移动一个buton到一个新的位置，但是点击事件的响应还是在原来的位置，这样就十分的不方便。属性动画则不会有这样的问题。<br>上面的代码只是改变了一个属性，如果想改变两个属性怎么办？可以使用AnimatorSet。这个后面会说到。我们也可以使用ObjectAnimator来实现改变多个属性。</p>
-<pre><code>ObjectAnimator animator = ObjectAnimator.ofFloat<span class="params">(mTestImage, <span class="string">"abc"</span>, <span class="number">1</span>f, <span class="number">0</span>f)</span>
-           .setDuration<span class="params">(<span class="number">500</span>)</span>;
-   animator.start<span class="params">()</span>;
-   animator.addUpdateListener<span class="params">(new ValueAnimator.AnimatorUpdateListener<span class="params">()</span> {
-       @Override
-       public void onAnimationUpdate<span class="params">(ValueAnimator valueAnimator)</span> {
-           float cVal = <span class="params">(Float)</span> valueAnimator.getAnimatedValue<span class="params">()</span>;
-           mTestImage.setAlpha<span class="params">(cVal)</span>;
-           mTestImage.setScaleX<span class="params">(cVal)</span>;
-           mTestImage.setScaleY<span class="params">(cVal)</span>;
-       }
-   })</span>;
-</code></pre><p> 我们可以看出，上面的代码中是随便写了一个属性的名称，我们只是取用了valueAnimator的值，这个值是个0-1的值，在设置的持续时间中变化。然后根据valueAnimator的值动态的去改变对象的属性，这样就可以使用ObjectAnimator来同时改变多个属性了。不过还是使用AnimatorSet比较方便。<a id="more"></a></p>
-<h3 id="PropertyValuesHolder">PropertyValuesHolder</h3><p>这个看名称就知道，这是用于储存数值的”容器”，使用方法如下：</p>
-<pre><code>PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat(<span class="string">"alpha"</span>, <span class="number">1.0f</span>, <span class="number">0f</span>, <span class="number">1.0f</span>);
-   PropertyValuesHolder p2 = PropertyValuesHolder.ofFloat(<span class="string">"scaleX"</span>, <span class="number">1.0f</span>, <span class="number">0f</span>, <span class="number">1.0f</span>);
-   PropertyValuesHolder p3 = PropertyValuesHolder.ofFloat(<span class="string">"scaleY"</span>, <span class="number">1.0f</span>, <span class="number">0f</span>, <span class="number">1.0f</span>);
-   ObjectAnimator.ofPropertyValuesHolder(mTestImage, p1, p2, p3).setDuration(<span class="number">500</span>).start();
-</code></pre><h3 id="ValueAnimator">ValueAnimator</h3><p>这个也是动画的执行类，用法和ObjectAnimator差不多，但是更加的灵活。<br>先看一下代码</p>
-<pre><code> ValueAnimator animator = ValueAnimator.ofFloat<span class="params">(<span class="number">0</span>, mScreenHeight- mBlueBall.getHeight<span class="params">()</span>)</span>;  
-animator.setTarget<span class="params">(mBlueBall)</span>;  
-animator.setDuration<span class="params">(<span class="number">1000</span>)</span>.start<span class="params">()</span>;
-</code></pre><p>这段代码是让一个小球垂直的移动，但是我们发现，这里并没有指定要操作的属性，这就是和ObjectAnimator的差别。这样的做法可以让我们去操作那些没有get和set方法的属性，我们知道，使用ObjectAnimator操作的属性是都有get和set方法的。比如我们写一个让小球抛物线运动的代码：</p>
-<pre><code>ValueAnimator valueAnimator = new ValueAnimator<span class="params">()</span>;
-  valueAnimator.setDuration<span class="params">(<span class="number">1000</span>)</span>;
-  valueAnimator.setObjectValues<span class="params">(new PointF<span class="params">(<span class="number">0</span>, <span class="number">0</span>)</span>)</span>;
-  valueAnimator.setInterpolator<span class="params">(new LinearInterpolator<span class="params">()</span>)</span>;
-  valueAnimator.setEvaluator<span class="params">(new TypeEvaluator<span class="params">()</span> {
-      @Override
-      public Object evaluate<span class="params">(float v, Object o, Object t1)</span> {
-          PointF p = new PointF<span class="params">()</span>;
-          LogUtils.e<span class="params">(v)</span>;
-          p.x = <span class="number">200</span> * v * <span class="number">3</span>;
-          p.y = <span class="number">100</span> * v * <span class="number">3</span> * v * <span class="number">3</span>;
-          return p;
-      }
-  })</span>;
-  valueAnimator.start<span class="params">()</span>;
-  valueAnimator.addUpdateListener<span class="params">(new ValueAnimator.AnimatorUpdateListener<span class="params">()</span> {
-      @Override
-      public void onAnimationUpdate<span class="params">(ValueAnimator valueAnimator)</span> {
-          PointF p = <span class="params">(PointF)</span> valueAnimator.getAnimatedValue<span class="params">()</span>;
-          mTestImage.setX<span class="params">(p.x)</span>;
-          mTestImage.setY<span class="params">(p.y)</span>;
-      }
-  })</span>;
-</code></pre><p>这里定义了一个TypeValue，根据当前的时间返回一个PointF,然后再UpdateListener去获得当前的值，这个和前面使用ObjectAnimator操作多个属性的方法类似。</p>
-<h3 id="动画监听器">动画监听器</h3><p>为了监听动画执行，可以给动画设置监听器：</p>
-<pre><code>ObjectAnimator anim <span class="subst">=</span> ObjectAnimator<span class="built_in">.</span>ofFloat(mBlueBall, <span class="string">"alpha"</span>, <span class="number">0.5</span>f);  
-
-    anim<span class="built_in">.</span>addListener(<span class="literal">new</span> AnimatorListener()  
-    {  
-
-        @Override  
-        <span class="keyword">public</span> <span class="literal">void</span> onAnimationStart(Animator animation)  
-        {  
-            <span class="keyword">Log</span><span class="built_in">.</span>e(<span class="built_in">TAG</span>, <span class="string">"onAnimationStart"</span>);  
-        }  
-
-        @Override  
-        <span class="keyword">public</span> <span class="literal">void</span> onAnimationRepeat(Animator animation)  
-        {  
-            <span class="comment">// <span class="doctag"><span class="keyword">TODO</span></span> Auto-generated method stub  </span>
-            <span class="keyword">Log</span><span class="built_in">.</span>e(<span class="built_in">TAG</span>, <span class="string">"onAnimationRepeat"</span>);  
-        }  
-
-        @Override  
-        <span class="keyword">public</span> <span class="literal">void</span> onAnimationEnd(Animator animation)  
-        {  
-            <span class="keyword">Log</span><span class="built_in">.</span>e(<span class="built_in">TAG</span>, <span class="string">"onAnimationEnd"</span>);  
-
-        }  
-
-        @Override  
-        <span class="keyword">public</span> <span class="literal">void</span> onAnimationCancel(Animator animation)  
-        {  
-          <span class="comment">//动画立即停止  停在当前位置 </span>
-            <span class="keyword">Log</span><span class="built_in">.</span>e(<span class="built_in">TAG</span>, <span class="string">"onAnimationCancel"</span>);  
-        }  
-    });  
-    anim<span class="built_in">.</span>start();  
-</code></pre><p>如果不想实现全部发方法，可以使用</p>
-<pre><code>  valueAnimator.addListener(<span class="keyword">new</span> AnimatorListenerAdapter() {
-    <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>{
-        <span class="keyword">super</span>.onAnimationEnd(animation);
-    }
-});
-</code></pre><p>这样就可以选择实现要监听的方法。</p>
-<h3 id="AnimatorSet">AnimatorSet</h3><p>这个在前面有提过，是用来执行动画合集的类，简单使用方法：</p>
-<pre><code>ObjectAnimator animator = ObjectAnimator.ofFloat<span class="params">(mTestImage, <span class="string">"scaleX"</span>, <span class="number">1.0</span>f, <span class="number">0</span>f)</span>;
-   ObjectAnimator animator1 = ObjectAnimator.ofFloat<span class="params">(mTestImage, <span class="string">"scaleY"</span>, <span class="number">1.0</span>f, <span class="number">0</span>f)</span>;
-   AnimatorSet animatorSet = new AnimatorSet<span class="params">()</span>;
-   animatorSet.setDuration<span class="params">(<span class="number">1000</span>)</span>;
-   <span class="comment">//animatorSet.playSequentially();顺序执行</span>
-   animatorSet.playTogether<span class="params">(animator, animator1)</span>;
-   animatorSet.start<span class="params">()</span>;
-</code></pre><p>还有一种控制执行顺序的方法：</p>
-<pre><code>AnimatorSet animSet = new AnimatorSet<span class="params">()</span>;  
-    animSet.play<span class="params">(anim1)</span>.with<span class="params">(anim2)</span>;  
-    animSet.play<span class="params">(anim2)</span>.with<span class="params">(anim3)</span>;  
-    animSet.play<span class="params">(anim4)</span>.after<span class="params">(anim3)</span>;  
-    animSet.setDuration<span class="params">(<span class="number">1000</span>)</span>;  
-    animSet.start<span class="params">()</span>; 
-</code></pre><p>好了，这篇先写到这，主要就是参考了<a href="http://blog.csdn.net/lmj623565791/article/details/38067475" target="_blank" rel="external">鸿洋_</a>的这篇博客。感谢大神的分享。</p>
-<p>如果有兴趣看源码，欢迎去我的github,网站右边就有，地址就不贴了。</p>
-
+        <p>&emsp;&emsp;这段时间一直在忙考试和搬校区的事情，再加上工作上的事情，感觉身体真有点吃不消了。所以决定每天去锻炼锻炼，先从跑步做起吧，这两天每天都醒的特别早，躺床上翻来覆去的也睡不着，索性以后下决心去跑步。<br>&emsp;&emsp;其实能和女朋友一起跑步倒是很幸福的一件事，但是估计她也起不来，就算起来一天，过两天也不想去了，我也不想去勉强她。明天起床跑步去喽。<br><a id="more"></a></p>
+<embed src="http://music.163.com/style/swf/widget.swf?sid=29717271&type=2&auto=1&width=320&height=66" width="340" height="86" allownetworking="all">
       
     </div>
 
@@ -449,7 +328,7 @@ animator.setDuration<span class="params">(<span class="number">1000</span>)</spa
       
         <div class="post-tags">
           
-            <a href="/tags/动画/"> #动画 </a>
+            <a href="/tags/生活杂记/"> #生活杂记 </a>
           
         </div>
       
@@ -458,13 +337,11 @@ animator.setDuration<span class="params">(<span class="number">1000</span>)</spa
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/08/2015-7-8/">2015.7.8</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/15/Tips/">Android Tips</a>
+              <a href="/2015/07/03/Android属性动画/">Android属性动画</a>
             
           </div>
         </div>
@@ -480,8 +357,8 @@ animator.setDuration<span class="params">(<span class="number">1000</span>)</spa
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/07/03/Android属性动画/"
-               data-title="Android属性动画" data-url="http://70kg.info/2015/07/03/Android属性动画/">
+          <div class="ds-thread" data-thread-key="2015/07/08/2015-7-8/"
+               data-title="2015.7.8" data-url="http://70kg.info/2015/07/08/2015-7-8/">
           </div>
         
       </div>
@@ -580,7 +457,7 @@ animator.setDuration<span class="params">(<span class="number">1000</span>)</spa
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#属性动画"><span class="nav-number">1.</span> <span class="nav-text">属性动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ObjectAnimator"><span class="nav-number">1.1.</span> <span class="nav-text">ObjectAnimator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PropertyValuesHolder"><span class="nav-number">1.2.</span> <span class="nav-text">PropertyValuesHolder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ValueAnimator"><span class="nav-number">1.3.</span> <span class="nav-text">ValueAnimator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动画监听器"><span class="nav-number">1.4.</span> <span class="nav-text">动画监听器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnimatorSet"><span class="nav-number">1.5.</span> <span class="nav-text">AnimatorSet</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

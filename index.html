@@ -289,6 +289,76 @@
           
           
             
+              <a class="post-title-link" href="/2015/07/08/2015-7-8/">
+                2015.7.8
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-07-08
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/07/08/2015-7-8/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/08/2015-7-8/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>&emsp;&emsp;这段时间一直在忙考试和搬校区的事情，再加上工作上的事情，感觉身体真有点吃不消了。所以决定每天去锻炼锻炼，先从跑步做起吧，这两天每天都醒的特别早，躺床上翻来覆去的也睡不着，索性以后下决心去跑步。<br>&emsp;&emsp;其实能和女朋友一起跑步倒是很幸福的一件事，但是估计她也起不来，就算起来一天，过两天也不想去了，我也不想去勉强她。明天起床跑步去喽。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/08/2015-7-8/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/07/03/Android属性动画/">
                 Android属性动画
               </a>
@@ -456,7 +526,15 @@
 </code></pre><h2 id="删除当前view">删除当前view</h2><pre><code>ViewGroup <span class="keyword">parent</span> <span class="subst">=</span> (ViewGroup) mBlueBall<span class="built_in">.</span>getParent();  
     <span class="keyword">if</span> (<span class="keyword">parent</span> <span class="subst">!=</span> <span class="built_in">null</span>)  
         <span class="keyword">parent</span><span class="built_in">.</span>removeView(mBlueBall); 
-</code></pre>
+</code></pre><h2 id="将View的内容保存为图像">将View的内容保存为图像</h2><pre><code> public <span class="keyword">Bitmap </span>createViewBitmap(View v) {
+    <span class="keyword">Bitmap </span><span class="keyword">bitmap </span>= <span class="keyword">Bitmap.createBitmap(v.getWidth(), </span>v.getHeight(),
+            <span class="keyword">Bitmap.Config.ARGB_8888);
+</span>    Canvas canvas = new Canvas(<span class="keyword">bitmap);
+</span>    v.draw(canvas)<span class="comment">;</span>
+    return <span class="keyword">bitmap;
+</span>}
+</code></pre><p> public void onClickShare() {<br>        Intent intent = new Intent(Intent.ACTION_SEND);<br>        intent.setType(“text/plain”);<br>        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_just));<br>        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));<br>        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);<br>        startActivity(Intent.createChooser(intent, getTitle()));<br>    }</p>
+
         
       
     </div>
@@ -840,7 +918,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
