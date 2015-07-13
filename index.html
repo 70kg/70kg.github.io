@@ -599,15 +599,12 @@
 </code></pre><h2 id="删除当前view">删除当前view</h2><pre><code>ViewGroup <span class="keyword">parent</span> <span class="subst">=</span> (ViewGroup) mBlueBall<span class="built_in">.</span>getParent();  
     <span class="keyword">if</span> (<span class="keyword">parent</span> <span class="subst">!=</span> <span class="built_in">null</span>)  
         <span class="keyword">parent</span><span class="built_in">.</span>removeView(mBlueBall); 
-</code></pre><h2 id="将View的内容保存为图像">将View的内容保存为图像</h2><pre><code> public <span class="keyword">Bitmap </span>createViewBitmap(View v) {
-    <span class="keyword">Bitmap </span><span class="keyword">bitmap </span>= <span class="keyword">Bitmap.createBitmap(v.getWidth(), </span>v.getHeight(),
-            <span class="keyword">Bitmap.Config.ARGB_8888);
-</span>    Canvas canvas = new Canvas(<span class="keyword">bitmap);
-</span>    v.draw(canvas)<span class="comment">;</span>
-    return <span class="keyword">bitmap;
-</span>}
-</code></pre><p> public void onClickShare() {<br>        Intent intent = new Intent(Intent.ACTION_SEND);<br>        intent.setType(“text/plain”);<br>        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_just));<br>        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));<br>        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);<br>        startActivity(Intent.createChooser(intent, getTitle()));<br>    }</p>
-
+</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/15/Tips/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
