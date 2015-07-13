@@ -45,7 +45,7 @@
 
 
 
-  <title> Android字体浅谈 // 70kg </title>
+  <title> 自定义控件学习笔记 // 70kg </title>
 </head>
 
 <body>
@@ -287,7 +287,7 @@
           
           
             
-              Android字体浅谈
+              自定义控件学习笔记
             
           
         </h1>
@@ -295,28 +295,17 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-11
+          发表于 2015-07-13
         </span>
 
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Android/">Android</a>
-
-              
-              
-
-            
-          </span>
         
 
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/11/Android字体浅谈/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/11/Android字体浅谈/"></span>
+            <a href="/2015/07/13/自定义控件学习笔记/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/13/自定义控件学习笔记/"></span>
             </a>
           </span>
           
@@ -330,22 +319,35 @@
       
 
       
-        <p>  今天想写个可以加文字的imageview,结果吭吭哧哧的卡在了绘制文字的地方，总是不知道怎么对齐文字，翻了一些资料了解了一些，还是写下来吧，也没什么太大的技术含量，就是为了不懒。。</p>
-<p>  <code>mPaint.getTextBounds(mText, 0, mText.length(), mTextBound);</code><br> 这个方法可以获取包裹文字的一个最小矩形。使用<code>mTextBound.width()</code>和<code>mTextBound.height()</code>就可以获得文字的宽和高了。</p>
-<p>   想要让文字居中显示这个还不够，先稍微了解一下文字的绘制，先放张图吧<br> <img src="http://img.blog.csdn.net/20141124164714390?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="cmd-markdown-logo"><br> 这张图就包含了绘制文字的top,ascent,descent,bottom,leading这五个参数,首先我们要知道Baseline基线，在Android中，文字的绘制都是从Baseline处开始的，Baseline往上至字符最高处的距离我们称之为ascent（上坡度），Baseline往下至字符最底处的距离我们称之为descent（下坡度），而leading（行间距）则表示上一行字符的descent到该行字符的ascent之间的距离，top和bottom文档描述地很模糊，其实这里我们可以借鉴一下TextView对文本的绘制，TextView在绘制文本的时候总会在文本的最外层留出一些内边距，为什么要这样做？因为TextView在绘制文本的时候考虑到了类似读音符号，可能大家很久没写过拼音了已经忘了什么叫读音符号了吧……下图中的A上面的符号就是一个拉丁文的类似读音符号的东西：</p>
-<p> <img src="http://img.blog.csdn.net/20141124164740174?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="a"></p>
-<p>如何获得这些参数呢，Android提供了一个字体测量的类，<code>FontMetrics</code>通过这个方法 <code>mFontMetrics = mPaint.getFontMetrics();</code>获得一个FontMetrics对象，然后就可以获得前面的属性了。<a id="more"></a></p>
-<p>   我们可以注意到，这个是在我们真正开始绘制文字之前就已经获得了这些属性，也就是说这些属性和要绘制什么文字无关，只和paint有关。</p>
-<p>  下面就来让文字居中吧，之前说过了，绘制文字是从Baseline开始绘制的，对应的就是安卓的y轴。</p>
-<p>  <code>canvas.drawText(TEXT, x, y, mPaint);</code>就可以愉快的绘制文字去了。</p>
-<p>  想要居中，主要就是y方向</p>
-<p>  baseY = (int) ((canvas.getHeight() / 2) + ((Math.abs(textPaint.ascent()-Math.abs(textPaint.descent()))) / 2));</p>
-<p>  这样就可以啦。</p>
-<p>  顺便说一下使用自定义字体的问题，安卓给我们提供的就四个NORMAL,ITALIC,BOLD,BOLD_ITALIC,同时也可以轻松的使用我们自己的字体。</p>
-<pre><code>Typeface typeface = Typeface.createFromAsset<span class="params">(context.getAssets<span class="params">()</span>, <span class="string">"kt.ttf"</span>)</span>;  
-textPaint.setTypeface<span class="params">(typeface)</span>;
-</code></pre><p>  最后如果有人看到了我写的这些玩意，去github上点个star吧，地址侧边栏就有。。（写这么烂真不要脸。。。）</p>
-<p>  参考文章：爱歌的神作（我就是个搬运工）:<a href="http://blog.csdn.net/aigestudio/article/details/41447349" target="_blank" rel="external">自定义控件其实很简单1/4</a>.</p>
+        <h1 id="Canvas">Canvas</h1><h2 id="canvas简介">canvas简介</h2><p>&emsp;&emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，<code>Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
+        Canvas canvas = new Canvas(bitmap);</code>这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。</p>
+<h2 id="canvas的主要方法">canvas的主要方法</h2><p>&emsp;&emsp;canvas主要有几种方法，draw…这类方法是用来画一下东西的，clip…就是用来裁剪的，还有scale,translate，skew，rotate是用来进行画布的变换，还有saveXXX和restoreXXX构成的画布锁定和还原。</p>
+<h2 id="裁剪画布">裁剪画布</h2><p>&emsp;&emsp;裁剪画布可以裁剪规则区域<code>canvas.clipRect</code>和裁剪不规则的区域<code>canvas.clippath</code>，第一个就是传进去一个矩形，然后裁剪剩下矩形区域的画布，第二个就是按路径裁剪。还有就是Region.Op，中文就是区域，这个在API21弃用了，但是还是写一下吧，这个就跟图形的组合模式差不多，Region.Op是个枚举类，<br><img src="http://img.blog.csdn.net/20141216162324031?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>使用举例：</p>
+<pre><code><span class="comment">// 填充颜色  </span>
+<span class="keyword">canvas</span>.drawColor(Color.BLUE);  
+
+<span class="keyword">canvas</span>.save();  
+
+<span class="comment">// 裁剪区域A  </span>
+<span class="keyword">canvas</span>.clipRegion(mRegionA);  
+
+<span class="comment">// 再通过组合方式裁剪区域B  </span>
+<span class="keyword">canvas</span>.clipRegion(mRegionB, Region.Op.DIFFERENCE);  
+
+<span class="comment">// 填充颜色  </span>
+<span class="keyword">canvas</span>.drawColor(Color.RED);  
+
+<span class="keyword">canvas</span>.restore(); 
+</code></pre><p>Rect、Cricle、Ovel等封闭的曲线都可以使用Region.Op。Region和Rect有什么区别呢？首先最重要的一点，Region表示的是一个区域，而Rect表示的是一个矩形，这是最根本的区别之一，其次，Region有个很特别的地方是它不受Canvas的变换影响，Canvas的local不会直接影响到Region自身。</p>
+<h2 id="Path">Path</h2><p>&emsp;&emsp;使用路径可以做出很多很有意思的图形或者动画，<br>先从简单的开始，<code>path.lineto()</code>这个是用来画直线，如果不设置起点，则是默认从（0.0）为起点，可以使用<code>path。moveto(x,y)</code>来将起点移动到合适的位置。要绘制一个闭合的图形，可以使用<code>paht.close()</code>可以自动将最后一个点和最初的一个点进行连接构成封闭的图形。</p>
+<h3 id="贝塞尔曲线">贝塞尔曲线</h3><p>&emsp;&emsp;要绘制贝塞尔曲线可以使用<code>quadTo(float x1, float y1, float x2, float y2)</code>前两个是控制点，后两个是终点。控制点就像一个磁铁，去吸引橡皮条上的另一个磁铁，橡皮条弯曲成一个曲线就类似控制点控制的贝塞尔曲线。<img src="http://img.blog.csdn.net/20141216160213685" alt=""><br>再来两张动图吧，这个的从<a href="http://blog.csdn.net/aigestudio/article/details/41960507" target="_blank" rel="external">爱歌</a>的<a href="http://blog.csdn.net/column/details/androidcustomview.html" target="_blank" rel="external">Android自定义控件其实很简单</a>专栏里面偷得，这篇博客也是看着他的博客总结的。</p>
+<ul>
+<li>一阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216154914760" alt=""></li>
+<li>二阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155508803" alt=""></li>
+<li>三阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155707332" alt=""></li>
+<li>四阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155817984" alt=""></li>
+<li>五阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155848359" alt=""><br>看着就挺爽的。在Android中除了上面提到的<code>quadTo(float x1, float y1, float x2, float y2)</code>来绘制二阶贝塞尔曲线，还有<code>cubicTo(float x1, float y1, float x2, float y2, float x3, float y3)</code>来实现三阶贝塞尔曲线。类似下面的<img src="http://img.blog.csdn.net/20141216160322419" alt=""><br>我们使用贝塞尔曲线主要就是要去控制它的起点终点和控制点。之前看网上写过一个类似QQ气泡拖拽消失的例子，地址：<a href="https://github.com/70kg/Android-Studio-Project/blob/master/app/src/main/java/com/com/mr_wrong/Bezier/BezierView.java" target="_blank" rel="external">我的GitHub</a>原理比较简单，就是计算各个点的坐标比较复杂一些。</li>
+</ul>
 
       
     </div>
@@ -363,13 +365,11 @@ textPaint.setTypeface<span class="params">(typeface)</span>;
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/14/使用Hexo建站的那些坑/">使用Hexo建站的那些坑</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/09/慢情调/">慢情调</a>
+              <a href="/2015/07/09/2015-7-9/">2015.7.9</a>
             
           </div>
         </div>
@@ -385,8 +385,8 @@ textPaint.setTypeface<span class="params">(typeface)</span>;
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/11/Android字体浅谈/"
-               data-title="Android字体浅谈" data-url="http://70kg.info/2015/06/11/Android字体浅谈/">
+          <div class="ds-thread" data-thread-key="2015/07/13/自定义控件学习笔记/"
+               data-title="自定义控件学习笔记" data-url="http://70kg.info/2015/07/13/自定义控件学习笔记/">
           </div>
         
       </div>
@@ -485,7 +485,7 @@ textPaint.setTypeface<span class="params">(typeface)</span>;
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Canvas"><span class="nav-number">1.</span> <span class="nav-text">Canvas</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#canvas简介"><span class="nav-number">1.1.</span> <span class="nav-text">canvas简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#canvas的主要方法"><span class="nav-number">1.2.</span> <span class="nav-text">canvas的主要方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#裁剪画布"><span class="nav-number">1.3.</span> <span class="nav-text">裁剪画布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Path"><span class="nav-number">1.4.</span> <span class="nav-text">Path</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#贝塞尔曲线"><span class="nav-number">1.4.1.</span> <span class="nav-text">贝塞尔曲线</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
