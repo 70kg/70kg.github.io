@@ -373,7 +373,21 @@
 <h2 id="LinearLayout不调用ondraw()">LinearLayout不调用ondraw()</h2><p>  因为viewgroup是个容器，系统默认是没有东西可画，所以不会自动调用ondraw();可以设置任意背景色，如透明，或者在构造函数中调用setWillNotDraw(false)，去掉其WILL_NOT_DRAW的flag</p>
 <h2 id="事件分发">事件分发</h2><p><img src="http://7xjlmz.com1.z0.glb.clouddn.com/dispathTouchevent.jpg" alt=""></p>
 <h2 id="View的一些距离">View的一些距离</h2><p><img src="http://7xjlmz.com1.z0.glb.clouddn.com/view_dis.png" alt=""></p>
-
+<h2 id="获取mListview-getLastVisiblePosition()返回-1">获取mListview.getLastVisiblePosition()返回-1</h2><p>因为在调用这个的时候，listview还没有绘制，所以获取不到，可以使用下面代码</p>
+<pre><code> listview.post(<span class="keyword">new</span> Runnable() {
+<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+    listview.getLastVisiblePosition();
+}
+</code></pre><p>});</p>
+<p> 获取getFirstVisiblePosition()也是一样</p>
+<h2 id="根据包名启动App">根据包名启动App</h2><pre><code> <span class="keyword">public</span> static void launchAppByPackageName(Context context,
+        String packageName) {
+    PackageManager packageManager = context.getPackageManager();
+    <span class="type">Intent</span> <span class="type">intent</span> = new <span class="type">Intent</span>();
+    <span class="type">intent</span> = packageManager.getLaunchIntentForPackage(packageName);
+    context.startActivity(<span class="type">intent</span>);
+}
+</code></pre>
       
     </div>
 
@@ -512,7 +526,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TextView添加成链接"><span class="nav-number">1.</span> <span class="nav-text">TextView添加成链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改变Frament"><span class="nav-number">2.</span> <span class="nav-text">改变Frament</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获得当前界面所用的xml文件的根view"><span class="nav-number">3.</span> <span class="nav-text">获得当前界面所用的xml文件的根view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除当前view"><span class="nav-number">4.</span> <span class="nav-text">删除当前view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将View的内容保存为图像"><span class="nav-number">5.</span> <span class="nav-text">将View的内容保存为图像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分享"><span class="nav-number">6.</span> <span class="nav-text">分享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取控件尺寸"><span class="nav-number">7.</span> <span class="nav-text">获取控件尺寸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinearLayout不调用ondraw()"><span class="nav-number">8.</span> <span class="nav-text">LinearLayout不调用ondraw()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件分发"><span class="nav-number">9.</span> <span class="nav-text">事件分发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的一些距离"><span class="nav-number">10.</span> <span class="nav-text">View的一些距离</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TextView添加成链接"><span class="nav-number">1.</span> <span class="nav-text">TextView添加成链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改变Frament"><span class="nav-number">2.</span> <span class="nav-text">改变Frament</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获得当前界面所用的xml文件的根view"><span class="nav-number">3.</span> <span class="nav-text">获得当前界面所用的xml文件的根view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除当前view"><span class="nav-number">4.</span> <span class="nav-text">删除当前view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将View的内容保存为图像"><span class="nav-number">5.</span> <span class="nav-text">将View的内容保存为图像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分享"><span class="nav-number">6.</span> <span class="nav-text">分享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取控件尺寸"><span class="nav-number">7.</span> <span class="nav-text">获取控件尺寸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinearLayout不调用ondraw()"><span class="nav-number">8.</span> <span class="nav-text">LinearLayout不调用ondraw()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件分发"><span class="nav-number">9.</span> <span class="nav-text">事件分发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的一些距离"><span class="nav-number">10.</span> <span class="nav-text">View的一些距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取mListview-getLastVisiblePosition()返回-1"><span class="nav-number">11.</span> <span class="nav-text">获取mListview.getLastVisiblePosition()返回-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据包名启动App"><span class="nav-number">12.</span> <span class="nav-text">根据包名启动App</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

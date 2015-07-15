@@ -321,7 +321,7 @@
       
         <h1 id="Canvas">Canvas</h1><h2 id="canvas简介">canvas简介</h2><p>&emsp;&emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，<code>Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
         Canvas canvas = new Canvas(bitmap);</code>这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。</p>
-<h2 id="canvas的主要方法">canvas的主要方法</h2><p>&emsp;&emsp;canvas主要有几种方法，draw…这类方法是用来画一下东西的，clip…就是用来裁剪的，还有scale,translate，skew，rotate是用来进行画布的变换，还有saveXXX和restoreXXX构成的画布锁定和还原。</p>
+<h2 id="canvas的主要方法">canvas的主要方法</h2><p>&emsp;&emsp;canvas主要有几种方法，draw…这类方法是用来画一下东西的，clip…就是用来裁剪的，还有scale,translate，skew，rotate是用来进行画布的变换，还有saveXXX和restoreXXX构成的画布锁定和还原。<a id="more"></a></p>
 <h2 id="裁剪画布">裁剪画布</h2><p>&emsp;&emsp;裁剪画布可以裁剪规则区域<code>canvas.clipRect</code>和裁剪不规则的区域<code>canvas.clippath</code>，第一个就是传进去一个矩形，然后裁剪剩下矩形区域的画布，第二个就是按路径裁剪。还有就是Region.Op，中文就是区域，这个在API21弃用了，但是还是写一下吧，这个就跟图形的组合模式差不多，Region.Op是个枚举类，<br><img src="http://img.blog.csdn.net/20141216162324031?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>使用举例：</p>
 <pre><code><span class="comment">// 填充颜色  </span>
 <span class="keyword">canvas</span>.drawColor(Color.BLUE);  
