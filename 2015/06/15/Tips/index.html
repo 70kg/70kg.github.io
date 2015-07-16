@@ -388,6 +388,36 @@
     context.startActivity(<span class="type">intent</span>);
 }
 </code></pre><h2 id="logcat_多个tag过滤">logcat 多个tag过滤</h2><pre><code><span class="keyword">ta</span><span class="variable">g:</span>^( !System.out) <span class="keyword">ta</span><span class="variable">g:</span>^( !dalvikvm)
+</code></pre><h2 id="进入系统图库">进入系统图库</h2><pre><code> <span class="comment">//启动</span>
+ Intent i = <span class="keyword">new</span> Intent(
+                    Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+            startActivityForResult(i, RESULT_LOAD_IMAGE);
+ <span class="comment">//在返回值中读取</span>
+ @Override
+<span class="keyword">protected</span> <span class="keyword">void</span> onActivityResult(<span class="built_in">int</span> requestCode, <span class="built_in">int</span> resultCode, Intent data) {
+    <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);
+
+    <span class="keyword">if</span> (requestCode == RESULT_LOAD_IMAGE &amp;&amp; resultCode == RESULT_OK &amp;&amp; <span class="keyword">null</span> != data) {
+        Uri selectedImage = data.getData();
+
+        <span class="keyword">String</span>[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+        Cursor <span class="built_in">cursor</span> = getContentResolver().query(selectedImage,
+                filePathColumn, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);
+        <span class="built_in">cursor</span>.moveToFirst();
+
+        <span class="built_in">int</span> columnIndex = <span class="built_in">cursor</span>.getColumnIndex(filePathColumn[<span class="number">0</span>]);
+        <span class="keyword">String</span> picturePath = <span class="built_in">cursor</span>.getString(columnIndex);
+        Log.e(<span class="string">"picturePath"</span>, picturePath);
+        <span class="built_in">cursor</span>.close();
+        myBitmap = BitmapFactory.decodeFile(picturePath);
+        weiboimage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+    }
+
+}
 </code></pre>
       
     </div>
@@ -527,7 +557,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TextView添加成链接"><span class="nav-number">1.</span> <span class="nav-text">TextView添加成链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改变Frament"><span class="nav-number">2.</span> <span class="nav-text">改变Frament</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获得当前界面所用的xml文件的根view"><span class="nav-number">3.</span> <span class="nav-text">获得当前界面所用的xml文件的根view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除当前view"><span class="nav-number">4.</span> <span class="nav-text">删除当前view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将View的内容保存为图像"><span class="nav-number">5.</span> <span class="nav-text">将View的内容保存为图像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分享"><span class="nav-number">6.</span> <span class="nav-text">分享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取控件尺寸"><span class="nav-number">7.</span> <span class="nav-text">获取控件尺寸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinearLayout不调用ondraw()"><span class="nav-number">8.</span> <span class="nav-text">LinearLayout不调用ondraw()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件分发"><span class="nav-number">9.</span> <span class="nav-text">事件分发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的一些距离"><span class="nav-number">10.</span> <span class="nav-text">View的一些距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取mListview-getLastVisiblePosition()返回-1"><span class="nav-number">11.</span> <span class="nav-text">获取mListview.getLastVisiblePosition()返回-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据包名启动App"><span class="nav-number">12.</span> <span class="nav-text">根据包名启动App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logcat_多个tag过滤"><span class="nav-number">13.</span> <span class="nav-text">logcat 多个tag过滤</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TextView添加成链接"><span class="nav-number">1.</span> <span class="nav-text">TextView添加成链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改变Frament"><span class="nav-number">2.</span> <span class="nav-text">改变Frament</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获得当前界面所用的xml文件的根view"><span class="nav-number">3.</span> <span class="nav-text">获得当前界面所用的xml文件的根view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除当前view"><span class="nav-number">4.</span> <span class="nav-text">删除当前view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将View的内容保存为图像"><span class="nav-number">5.</span> <span class="nav-text">将View的内容保存为图像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分享"><span class="nav-number">6.</span> <span class="nav-text">分享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取控件尺寸"><span class="nav-number">7.</span> <span class="nav-text">获取控件尺寸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinearLayout不调用ondraw()"><span class="nav-number">8.</span> <span class="nav-text">LinearLayout不调用ondraw()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件分发"><span class="nav-number">9.</span> <span class="nav-text">事件分发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的一些距离"><span class="nav-number">10.</span> <span class="nav-text">View的一些距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取mListview-getLastVisiblePosition()返回-1"><span class="nav-number">11.</span> <span class="nav-text">获取mListview.getLastVisiblePosition()返回-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据包名启动App"><span class="nav-number">12.</span> <span class="nav-text">根据包名启动App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logcat_多个tag过滤"><span class="nav-number">13.</span> <span class="nav-text">logcat 多个tag过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进入系统图库"><span class="nav-number">14.</span> <span class="nav-text">进入系统图库</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
