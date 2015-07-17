@@ -325,28 +325,13 @@
       
         
           <p>&emsp;&emsp;Palette的作用是从图像中提取突出的颜色，像有的应用会根据当前界面的不同改变某个控件的颜色使其更适合当前界面的风格。具体的应用我也忘记了，下面就简单的介绍一下Palette的用法。</p>
-<p>&emsp;&emsp;这是一个在v7的包中的帮助类，<a href="https://developer.android.com/reference/android/support/v7/graphics/Palette.html" target="_blank" rel="external">官方的文档</a>在这里，其实也没什么好介绍的，这就是使用起来很简单的类，当然我们不考虑它是怎么实现的，下面还是上代码吧。</p>
-<p>&emsp;&emsp;有两种方法去实例化一个Palette,同步方法：</p>
-<pre><code><span class="comment">// Synchronous</span>
-<span class="keyword">Palette</span> p = <span class="keyword">Palette</span>.from(bitmap).<span class="keyword">generate</span>();
-</code></pre><p>异步方法：</p>
-<pre><code> // Asynchronous
-Palette.from(bitmap<span class="function">)</span>.generate(new<span class="function"> PaletteAsyncListener(</span><span class="function">)</span> {
-<span class="keyword"> public</span> void<span class="function"> onGenerated(</span>Palette p<span class="function">)</span> {
-     // Use generated<span class="instruction"> instance
-</span> }
- }<span class="function">)</span>; 
-</code></pre><p> 异步方法是返回一个AsyncTask<bitmap, void,="" palette="">，在<code>onGenerated</code>中进行处理<code>Palette.Swatch vibrant = palette.getVibrantSwatch();</code>可以获取我们需要的颜色。在Palette中有这么些配置：</bitmap,></p>
-<ul>
-<li>Vibrant(充满活力的)</li>
-<li>Vibrant dark(充满活力的黑)</li>
-<li>Vibrant light(充满活力的亮)</li>
-<li>Muted(柔和的)</li>
-<li>Muted dark(柔和的黑)</li>
-<li>Muted lighr(柔和的亮)</li>
-</ul>
-<p>还是贴张图比较明显点。<img src="http://7xjlmz.com1.z0.glb.clouddn.com/palette.jpg" alt=""><br>在获取某种颜色的时候，也是可以获取与其对应的文字颜色<code>vibrant.getTitleTextColor()</code>使用这个方法就可以了。</p>
-
+<p>&emsp;&emsp;这是一个在v7的包中的帮助类，<a href="https://developer.android.com/reference/android/support/v7/graphics/Palette.html">官方的文档</a>在这里，其实也没什么好介绍的，这就是使用起来很简单的类，当然我们不考虑它是怎么实现的，下面还是上代码吧。</p>
+<p>&emsp;&emsp;有两种方法去实例化一个Palette,同步方法：
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/17/Palette浅谈/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
