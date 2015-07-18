@@ -348,6 +348,10 @@
        }
    })</span>;
 </code></pre><p> 我们可以看出，上面的代码中是随便写了一个属性的名称，我们只是取用了valueAnimator的值，这个值是个0-1的值，在设置的持续时间中变化。然后根据valueAnimator的值动态的去改变对象的属性，这样就可以使用ObjectAnimator来同时改变多个属性了。不过还是使用AnimatorSet比较方便。<a id="more"></a></p>
+<p> ————————————————我是分割线—————————————————————————————————————</p>
+<p> 这里更新一下关于ObjectAnimator的说明，要真正使ObjectAnimator对对象起作用，是要求这个对象有getxx()和setxxx()方法的。get方法其实是可选的，在</p>
+<pre><code>ObjectAnimator.<span class="function"><span class="title">ofFloat</span><span class="params">(mTestImage, <span class="string">"abc"</span>, <span class="number">1</span>f, <span class="number">0</span>f)</span></span>
+</code></pre><p>   这段代码中，设置了开始值为1f,如果不设置，就会去调用get方法去获取当前的状态。上面给的属性是”abc”，很明显imageview中没有这个属性，其实如果不设置属性的话，ObjectAnimator是可以执行的，不过没有任何的效果，这就是上面还要在onAnimationUpdate（）回调中手动去更新的原因。这里的使用方式和ValueAnimator相似，可以去下面查看一下ValueAnimator的使用。</p>
 <h3 id="PropertyValuesHolder">PropertyValuesHolder</h3><p>这个看名称就知道，这是用于储存数值的”容器”，使用方法如下：</p>
 <pre><code>PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat(<span class="string">"alpha"</span>, <span class="number">1.0f</span>, <span class="number">0f</span>, <span class="number">1.0f</span>);
    PropertyValuesHolder p2 = PropertyValuesHolder.ofFloat(<span class="string">"scaleX"</span>, <span class="number">1.0f</span>, <span class="number">0f</span>, <span class="number">1.0f</span>);
