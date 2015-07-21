@@ -80,15 +80,6 @@
       
     
         
-      <li class="mw-harlem_shake_me im_first menu-item  menu-item-categories">
-        <a href="/categories">
-          <i class="menu-item-icon icon-categories"></i> <br />
-          分类
-        </a>
-      </li>
-      
-    
-        
       <li class="mw-harlem_shake_me im_first menu-item  menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
@@ -106,9 +97,18 @@
       </li>
       
     
+        
+      <li class="mw-harlem_shake_me im_first menu-item  menu-item-about">
+        <a href="/about">
+          <i class="menu-item-icon icon-about"></i> <br />
+          关于
+        </a>
+      </li>
+      
+    
   <!--增加high一下-->
   
-  <li class="mw-harlem_shake_me im_first  menu-item menu-item-tags">
+  <li class="mw-harlem_shake_me im_first  menu-item menu-item-about">
     <a title="" href='javascript:(function() {
   function c() {
     var e = document.createElement("link");
@@ -423,6 +423,8 @@
 TextPaint tp = tv.getPaint<span class="params">()</span>; 
 
 tp.setFakeBoldText<span class="params">(<span class="literal">true</span>)</span>;
+</code></pre><h2 id="URL中文参数编码，解码">URL中文参数编码，解码</h2><pre><code>URLEncoder.<span class="function"><span class="title">encode</span><span class="params">(color_str, <span class="string">"UTF-8"</span>)</span></span><span class="comment">//编码</span>
+URLDecoder.<span class="function"><span class="title">decode</span><span class="params">(color_str,<span class="string">"UTF-8"</span>)</span></span> <span class="comment">//解码   </span>
 </code></pre>
       
     </div>
@@ -516,10 +518,10 @@ tp.setFakeBoldText<span class="params">(<span class="literal">true</span>)</span
           </div>
 
           <div class="site-state-item site-state-categories">
-            <a href="/categories">
+            
               <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">分类</span>
-              </a>
+              
           </div>
 
           <div class="site-state-item site-state-tags">
@@ -562,7 +564,7 @@ tp.setFakeBoldText<span class="params">(<span class="literal">true</span>)</span
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TextView添加成链接"><span class="nav-number">1.</span> <span class="nav-text">TextView添加成链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改变Frament"><span class="nav-number">2.</span> <span class="nav-text">改变Frament</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获得当前界面所用的xml文件的根view"><span class="nav-number">3.</span> <span class="nav-text">获得当前界面所用的xml文件的根view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除当前view"><span class="nav-number">4.</span> <span class="nav-text">删除当前view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将View的内容保存为图像"><span class="nav-number">5.</span> <span class="nav-text">将View的内容保存为图像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分享"><span class="nav-number">6.</span> <span class="nav-text">分享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取控件尺寸"><span class="nav-number">7.</span> <span class="nav-text">获取控件尺寸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinearLayout不调用ondraw()"><span class="nav-number">8.</span> <span class="nav-text">LinearLayout不调用ondraw()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件分发"><span class="nav-number">9.</span> <span class="nav-text">事件分发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的一些距离"><span class="nav-number">10.</span> <span class="nav-text">View的一些距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取mListview-getLastVisiblePosition()返回-1"><span class="nav-number">11.</span> <span class="nav-text">获取mListview.getLastVisiblePosition()返回-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据包名启动App"><span class="nav-number">12.</span> <span class="nav-text">根据包名启动App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logcat_多个tag过滤"><span class="nav-number">13.</span> <span class="nav-text">logcat 多个tag过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进入系统图库选择图片"><span class="nav-number">14.</span> <span class="nav-text">进入系统图库选择图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置字体粗体"><span class="nav-number">15.</span> <span class="nav-text">设置字体粗体</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TextView添加成链接"><span class="nav-number">1.</span> <span class="nav-text">TextView添加成链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改变Frament"><span class="nav-number">2.</span> <span class="nav-text">改变Frament</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获得当前界面所用的xml文件的根view"><span class="nav-number">3.</span> <span class="nav-text">获得当前界面所用的xml文件的根view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除当前view"><span class="nav-number">4.</span> <span class="nav-text">删除当前view</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将View的内容保存为图像"><span class="nav-number">5.</span> <span class="nav-text">将View的内容保存为图像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分享"><span class="nav-number">6.</span> <span class="nav-text">分享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取控件尺寸"><span class="nav-number">7.</span> <span class="nav-text">获取控件尺寸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinearLayout不调用ondraw()"><span class="nav-number">8.</span> <span class="nav-text">LinearLayout不调用ondraw()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件分发"><span class="nav-number">9.</span> <span class="nav-text">事件分发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的一些距离"><span class="nav-number">10.</span> <span class="nav-text">View的一些距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取mListview-getLastVisiblePosition()返回-1"><span class="nav-number">11.</span> <span class="nav-text">获取mListview.getLastVisiblePosition()返回-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据包名启动App"><span class="nav-number">12.</span> <span class="nav-text">根据包名启动App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logcat_多个tag过滤"><span class="nav-number">13.</span> <span class="nav-text">logcat 多个tag过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进入系统图库选择图片"><span class="nav-number">14.</span> <span class="nav-text">进入系统图库选择图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置字体粗体"><span class="nav-number">15.</span> <span class="nav-text">设置字体粗体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URL中文参数编码，解码"><span class="nav-number">16.</span> <span class="nav-text">URL中文参数编码，解码</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
