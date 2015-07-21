@@ -334,6 +334,21 @@
 <pre><code><span class="tag">&lt;<span class="title">string</span> <span class="attribute">name</span>=<span class="value">"app_github"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"https://github.com/openproject/AndroidDigest"</span>&gt;</span>干柴的Github<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">string</span>&gt;</span>
 </code></pre><p>在textview设置</p>
 <pre><code><span class="tag">about_us_githubpage</span><span class="class">.setMovementMethod</span>(<span class="tag">LinkMovementMethod</span><span class="class">.getInstance</span>());
+</code></pre><p>方法二：</p>
+<pre><code><span class="comment">//创建一个 SpannableString对象  </span>
+  SpannableString sp = new SpannableString<span class="params">(<span class="string">"以上为预计费用,详情请查看《服务价格》"</span>)</span>;   
+  <span class="comment">//设置超链接  </span>
+  sp.setSpan<span class="params">(new URLSpan<span class="params">(<span class="string">"http://www.baidu.com"</span>)</span>, <span class="number">13</span>, <span class="number">19</span>, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)</span>;  
+   <span class="comment">//设置高亮样式一  </span>
+  sp.setSpan<span class="params">(new BackgroundColorSpan<span class="params">(Color.RED)</span>, <span class="number">17</span> ,<span class="number">19</span>,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)</span>;   
+  <span class="comment">//设置高亮样式二  </span>
+  sp.setSpan<span class="params">(new ForegroundColorSpan<span class="params">(Color.YELLOW)</span>,<span class="number">20</span>,<span class="number">24</span>,Spannable.SPAN_EXCLUSIVE_INCLUSIVE)</span>;     
+  <span class="comment">//设置斜体  </span>
+  sp.setSpan<span class="params">(new StyleSpan<span class="params">(android.graphics.Typeface.BOLD_ITALIC)</span>, <span class="number">27</span>, <span class="number">29</span>, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)</span>;   
+  <span class="comment">//SpannableString对象设置给TextView  </span>
+  tv_lic.setText<span class="params">(sp)</span>;   
+  <span class="comment">//设置TextView可点击  </span>
+  tv_lic.setMovementMethod<span class="params">(LinkMovementMethod.getInstance<span class="params">()</span>)</span>;   
 </code></pre><h2 id="改变Frament">改变Frament</h2><pre><code>public void changeFrament<span class="params">(Fragment fragment, String fragmentTag)</span> {
 
     <span class="keyword">if</span> <span class="params">(fragment == currentFragment)</span> {
@@ -512,7 +527,7 @@ URLDecoder.<span class="function"><span class="title">decode</span><span class="
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -526,7 +541,7 @@ URLDecoder.<span class="function"><span class="title">decode</span><span class="
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
