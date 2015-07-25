@@ -22,7 +22,7 @@
 
 
 
-  <meta name="keywords" content="美剧," />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -45,7 +45,7 @@
 
 
 
-  <title> 冰与火之歌 // 70kg </title>
+  <title> RecycleView - part1 // 70kg </title>
 </head>
 
 <body>
@@ -287,7 +287,7 @@
           
           
             
-              冰与火之歌
+              RecycleView - part1
             
           
         </h1>
@@ -295,7 +295,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-07-21
+          发表于 2015-07-25
         </span>
 
         
@@ -304,8 +304,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/07/21/冰与火之歌/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/21/冰与火之歌/"></span>
+            <a href="/2015/07/25/RecycleView初探/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/25/RecycleView初探/"></span>
             </a>
           </span>
           
@@ -319,21 +319,34 @@
       
 
       
-        <h2 id="先絮叨一会">先絮叨一会</h2><p>&emsp;&emsp;昨天晚上一点刷完了《冰与火之歌》第五季，花了大概一个月的时间看完了五季，依然是意犹未尽。也不知道是从什么时候开始喜欢上了看美剧，现在基本上每天一集，看完神清气爽的。每天起的早了，也有更多的时间去做更多喜欢的事情。这篇就是随便写写自己的观后感，我也没什么思路，就是想到哪写到哪，也没指望谁会去看我写的这些碎碎念。先写一下关于《冰与火之歌》的，后面有时间再把前面看过的稍微写一下，算是留个纪念。目前刷完的美剧：</p>
+        <p>&emsp;&emsp;RecycleView其实已经出来很久了，而且被越来越广泛的用来替代ListView。RecycleView就像名字，是可回收的。在使用listview的时候，会去复用convertView和viewholder来实现优化效率。在RecycleView中是强制使用viewholder。它只关心回收和复用的工作而不去关心视图相关的工作。在使用listview中，视图，数据，回收等操作显得过于耦合，这就是为什么要去设计这样一个工具。</p>
+<p>&emsp;&emsp;在RecycleView中，是使用像”插件化”的方式剥离这些复杂的耦合。布局方面，只要去关心LayoutManager，想要item动画，关心ItemAnimator就可以了，这就使使用十分的灵活。</p>
+<p>&emsp;&emsp;这篇先概括的介绍一下如何去使用RecycleView。</p>
+<h3 id="在XML文件中定义">在XML文件中定义</h3><p>这个和使用一般的控件一样，没什么特别的，不贴代码了。</p>
+<h3 id="获取配置RecycleView">获取配置RecycleView</h3><p>这个也没什么好说的，就是像一般的findviewbyid()。这里还可以去设置recycleview的一些配置。</p>
+<pre><code>  mRecycleView.setLayoutManager<span class="params">(new LinearLayoutManager<span class="params">(this, LinearLayoutManager.VERTICAL, <span class="literal">false</span>)</span>)</span>;
+mRecycleView.setItemAnimator<span class="params">(new DefaultItemAnimator<span class="params">()</span>)</span>;
+mRecycleView.addItemDecoration<span class="params">(new DividerItemDecoration<span class="params">(this,DividerItemDecoration.VERTICAL_LIST)</span>)</span>;
+</code></pre><p> LayoutManager是设置布局方式，目前有<a id="more"></a>StaggeredGridLayoutManager瀑布流和默认的LinearLayoutManager。都可以设置水平或者垂直。当然也可以自定义自己的LayoutManager，这个以后再去介绍。setItemAnimator这个是用来设置item添加或者删除时候的动画，默认给了一个DefaultItemAnimator。addItemDecoration是给每个item添加偏移量、可以给item间添加间距或者高亮条目，添加其他修饰效果等等，这个可以添加很多个效果同时生效。</p>
+<h3 id="创建Adapter">创建Adapter</h3><p>RecycleView是继承自ViewGroup，不能再像使用listview时候使用baseadapter等adapter了，这里需要继承自RecyclerView.Adapter<vh>，还有传入一个ViewHolder，这个ViewHolder也要继承自RecyclerView.ViewHolder</vh></p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">MyViewHolder</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span> {</span>
+       <span class="type">TextView</span> tv;
+
+       public <span class="type">MyViewHolder</span>(<span class="type">View</span> itemView) {
+           <span class="keyword">super</span>(itemView);
+           tv = (<span class="type">TextView</span>) itemView.findViewById(<span class="type">R</span>.id.id_num);
+       }
+   }
+</code></pre><p> 像这样去创建adapter</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">MyRectcleAdapter</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">RecyclerView</span>.<span class="title">Adapter&lt;MyRectcleAdapter</span>.<span class="title">MyViewHolder&gt;</span></span>
+</code></pre><p> 还要去实现几个必须的方法：</p>
 <ul>
-<li>《末日孤舰》</li>
-<li>《生活大爆炸》</li>
-<li>《纸牌屋》</li>
-<li>《康斯坦丁》</li>
-<li>《破产姐妹》看了好像两季，不怎么喜欢</li>
-<li>。。。想起来再更新吧，也是刚开始看美剧<a id="more"></a></li>
+<li>构造方法，这个不用说</li>
+<li>getItemCount  这个返回也不用说了  和listview中一样</li>
+<li>onBindViewHolder  这个是绑定viewholder,就是在这里去处理一些view的赋值等等</li>
+<li>onCreateViewHolder 这个是创建viewholder这里将item的布局文件传进去</li>
 </ul>
-<h2 id="开始扯淡">开始扯淡</h2><h3 id="第一季《权力的游戏》">第一季《权力的游戏》</h3><p>&emsp;&emsp;第一季叫做《权力的游戏》，这一季主要就是进行剧情的铺垫(不是废话吗，这可是第一季)。从琼恩·艾林的死开始，这人是个首相，首相死了，没人能帮自己了，劳勃·拜拉席恩这个胖皇帝去找和他一起打天下的艾德史塔克去做自己的首相。这个史塔克大人呢，年轻的时候和胖皇帝一起推翻了mad king的统治，然后自己把皇帝的位置让给了劳勃，自己回自己的北境老家。现在又叫他去当首相，我们的史塔克大人是不想去的，毕竟老婆孩子热炕头舒服的不行，整个北境都是我的，现在让去整天勾心斗角的君临城，换谁谁也不想去。但是史塔克大人是个老好人，为了遵守之前吹的牛逼：你有什么困难尽管说，我来帮你。然后就跟着去了首都。谁知道这一去就是不复返啊。<br>&emsp;&emsp;世界可没有那么小，在介绍史塔克的同时，世界的其他地方还发生在更多的事情。韦赛里斯·坦格利安，也就是mad king的儿子，被劳勃和史塔克推翻之后就流亡到了狭海的另一边，去找一个多斯拉克的原始部落，希望可以和这个部落联姻，然后帮他再夺回王座。联姻还是很顺利的，这个坦格利安把他的妹妹，丹妮莉斯·坦格利安嫁给了部落老大，卓戈卡奥。结婚之后，这个坦格利安开始整天作死自大的嘟嘟囔囔要去夺回王座，卓戈卡奥刚开始还有点忍让他，但是人作死就停不下来，这个坦格利安看到这里的人好像不把他当回事，就绑架了他妹妹威胁部落老大去打仗，然后结果很明显，这个坦格利安死的相当惨，给了一个融化的铁王座从头浇下去。。<br>&emsp;&emsp;再来说说史塔克家族，有个长子叫罗柏·史塔克，大女儿珊莎·史塔克，小女儿艾莉亚·史塔克，小儿子布兰·史塔克还有个小儿子瑞肯·史塔克还有个私生子琼恩·（什么不懂）雪诺（记住这个名字，私生子可是大来头）。要讲下去，还得提到另外两个重要人物，王后瑟曦·兰尼斯特和詹姆·兰尼斯特，看名字就知道这两个人是一个家族的，而且是姐弟俩，但是。。他俩就是混在一起了。斯塔克家的小儿子布兰喜欢爬墙，结果看到了他俩在啪啪啪，就被王后从高墙上推了下去，摔成了残疾，不能走了，以后就靠一个就阿多的傻大个背着走，后面布兰的戏份很多，感觉是隐藏的Boss。说到史塔克家族，就不能不说史塔克大人的老婆：凯瑟琳·徒利·史塔克  这是贤妻良母类型的女人，能主内又能对外。后面再详细说她的事情。<br>&emsp;&emsp;还有个要着重提一下，就是Night watch，守夜人，职能就是守长城。都是由一些走投无路的人组成的，就像上梁山的那些人，其中不乏好汉。斯塔克的私生子snow就去参加了守夜人，后面会发生极其精彩的故事。</p>
-<hr>
-<h3 id="我特么发现要写的实在太多了，这么写不是个办法，不能一点点的去讲剧情，这玩意又复杂又难讲，这是写来扯淡的，不是用来启蒙的。今天先写到这，明天有时间好好想想应该怎么写。睡觉。。">我特么发现要写的实在太多了，这么写不是个办法，不能一点点的去讲剧情，这玩意又复杂又难讲，这是写来扯淡的，不是用来启蒙的。今天先写到这，明天有时间好好想想应该怎么写。睡觉。。</h3><hr>
-<p>我觉得吧  我写的再多也比不过这些人</p>
-<p><a href="http://www.zhihu.com/topic/19574449/top-answers" target="_blank" rel="external">知乎上面的回答</a></p>
-<p>以后肯定还是会写点自己的看法的，先占个坑吧。</p>
+<p>这样基本就完成了adapter，和listview有点差别，但是可控制的地方更多，当然要自己写的代码也多了。具体代码就不贴了，太长也没意思，给个地址  <a href="https://github.com/70kg/Android-Studio-Project/blob/master/app/src/main/java/com/com/mr_wrong/RecyclerView/MyRecycleViewActivity.java" target="_blank" rel="external">GitHub</a></p>
 
       
     </div>
@@ -342,7 +355,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/美剧/"> #美剧 </a>
+            <a href="/tags/Android/"> #Android </a>
           
         </div>
       
@@ -351,13 +364,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/25/RecycleView初探/">RecycleView - part1</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/17/Palette浅谈/">Palette浅谈</a>
+              <a href="/2015/07/21/冰与火之歌/">冰与火之歌</a>
             
           </div>
         </div>
@@ -373,8 +384,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/07/21/冰与火之歌/"
-               data-title="冰与火之歌" data-url="http://70kg.info/2015/07/21/冰与火之歌/">
+          <div class="ds-thread" data-thread-key="2015/07/25/RecycleView初探/"
+               data-title="RecycleView - part1" data-url="http://70kg.info/2015/07/25/RecycleView初探/">
           </div>
         
       </div>
@@ -473,7 +484,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先絮叨一会"><span class="nav-number">1.</span> <span class="nav-text">先絮叨一会</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始扯淡"><span class="nav-number">2.</span> <span class="nav-text">开始扯淡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一季《权力的游戏》"><span class="nav-number">2.1.</span> <span class="nav-text">第一季《权力的游戏》</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我特么发现要写的实在太多了，这么写不是个办法，不能一点点的去讲剧情，这玩意又复杂又难讲，这是写来扯淡的，不是用来启蒙的。今天先写到这，明天有时间好好想想应该怎么写。睡觉。。"><span class="nav-number">2.2.</span> <span class="nav-text">我特么发现要写的实在太多了，这么写不是个办法，不能一点点的去讲剧情，这玩意又复杂又难讲，这是写来扯淡的，不是用来启蒙的。今天先写到这，明天有时间好好想想应该怎么写。睡觉。。</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#在XML文件中定义"><span class="nav-number">1.</span> <span class="nav-text">在XML文件中定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取配置RecycleView"><span class="nav-number">2.</span> <span class="nav-text">获取配置RecycleView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Adapter"><span class="nav-number">3.</span> <span class="nav-text">创建Adapter</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
