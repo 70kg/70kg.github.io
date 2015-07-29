@@ -289,6 +289,104 @@
           
           
             
+              <a class="post-title-link" href="/2015/07/29/MarkDown语法/">
+                MarkDown语法
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-07-29
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/07/29/MarkDown语法/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/29/MarkDown语法/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <pre><code>整理一些markdown的简单用法
+</code></pre><ol>
+<li><p>删除线</p>
+<pre><code>~~这是一条删除线~~
+</code></pre></li>
+</ol>
+<p><del>这是一条删除线</del></p>
+<p> 2.空格</p>
+<pre><code>&amp;emsp<span class="comment">;  </span>
+</code></pre><p>&emsp; &emsp; 这好像不是markdown的语言，但是能用就好了</p>
+<p>3.分割线</p>
+<pre><code><span class="comment">---</span>
+</code></pre><hr>
+<p> 4.斜体文字</p>
+<pre><code><span class="keyword">*</span>斜体文本<span class="keyword">*</span>
+</code></pre><p> <em>斜体文本</em></p>
+<p>5.粗体文字</p>
+<pre><code><span class="keyword">*</span><span class="keyword">*</span>粗体文本<span class="keyword">*</span><span class="keyword">*</span>
+</code></pre><p><strong>粗体文本</strong></p>
+<p>6.图片</p>
+<pre><code>![<span class="link_label">文字描述</span>](<span class="link_url">链接</span>)
+</code></pre><p>7.超链接</p>
+<pre><code>[<span class="link_label">超链文字</span>](<span class="link_url">链接</span>)
+</code></pre><p>8.无序列表</p>
+<pre><code><span class="bullet">- </span>我
+</code></pre><ul>
+<li>我</li>
+</ul>
+<p>9.引用</p>
+<pre><code>&gt;引用文字
+</code></pre><blockquote>
+<p>引用文字，啦拉拉</p>
+</blockquote>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/07/26/Thinking in Java/">
                 Java
               </a>
@@ -325,7 +423,43 @@
       
         
           <p>这又是一篇占坑的。。。啦啦啦</p>
+<hr>
+<p> 7.29我来填坑啦啦</p>
+<hr>
+<p>写一些看书的笔记</p>
+<h3 id="JAVA堆栈和堆">JAVA堆栈和堆</h3><p>&emsp;&emsp;堆栈就是平时所说的栈，位于通用的ROM中，从堆栈指针从处理器那里获得直接支持。堆栈的指针向下移动，分配新的内存，向上移动，释放内存。在创建程序时，系统必须知道存储在盾战中所有的项目的确切生命周期，以便赏析移动堆栈的指针。这一约束限制了程序的灵活性，所以虽然某些JAVA数据存储在堆栈中—特别是对象引用，但是JAVA对象并不存储其中（<del>然而我并不怎么理解</del>。。）。<br>&emsp;&emsp;堆是一种通用的内存池，也是位于RAM中，用于存放所有的JAVA对象。堆对于栈的好处就是：编译器不需要知道存储的数据在堆里存货多长时间。当需要一个对象时，只需要去new，当执行这个代码会自动在堆内进行储存分配。但是用堆进行存储分配和清理可能比用栈分配需要更多的时间。</p>
+<h3 id="基本类型">基本类型</h3><p>基本类型是存储在堆里，不用new来创建变量，而是创建一个并非是引用的”自动”变量（<del>看不懂…555</del>）。基本类型具有包装器类，使得可以在堆中创建一个非基本类型，用来表示对应的基本类型。<br>可以这么用<code>int i = 5</code>也可以<code>Integer i = new Integer(5)</code>。在JAVA se5之后的自动包装功能能自动的将基本类型转换为包装器类型：<code>Character ch = &#39;x&#39;</code></p>
+<h3 id="基本成员默认值">基本成员默认值</h3><p>若类的某个成员是基本数据类型，即使没有初始化，JAVA也会确保它获得一个默认值。但是局部变量不会初始化。</p>
+<h3 id="赋值">赋值</h3><p>赋值操作的是一个对象的引用，看一个例子：</p>
+<pre><code><span class="keyword">class</span> <span class="title">Tank</span>{
+<span class="keyword">int</span> level;
+}
+  <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Assignment</span>{
+  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>)</span>{
+    Tank t1 = <span class="keyword">new</span> Tank();
+    Tank t2 = <span class="keyword">new</span> Tank();
 
+    t1.level = <span class="number">9</span>;
+    t2.level = <span class="number">21</span>;
+
+    System.<span class="keyword">out</span>.println(<span class="string">"原本的t1:"</span>+t1.level+<span class="string">"  原本的t2:"</span>+t2.level);
+
+    t1 = t2;
+
+    System.<span class="keyword">out</span>.println(<span class="string">"现在的t1:"</span>+t1.level+<span class="string">"  现在的t2:"</span>+t2.level);
+
+    t1.level = <span class="number">40</span>;
+
+    System.<span class="keyword">out</span>.println(<span class="string">"后来的t1:"</span>+t1.level+<span class="string">"  后来的t2:"</span>+t2.level);
+
+}
+</code></pre><p>}<br>看输出：</p>
+<pre><code>原本的<span class="tag">t1</span><span class="pseudo">:9</span>  原本的<span class="tag">t2</span><span class="pseudo">:21</span>
+现在的<span class="tag">t1</span><span class="pseudo">:21</span>  现在的<span class="tag">t2</span><span class="pseudo">:21</span>
+后来的<span class="tag">t1</span><span class="pseudo">:40</span>  后来的<span class="tag">t2</span><span class="pseudo">:40</span>
+</code></pre><p>正确的给t1赋值应该这样：</p>
+<pre><code>t1<span class="class">.level</span> = t2.level
+</code></pre>
         
       
     </div>
@@ -571,78 +705,6 @@ mRecycleView.addItemDecoration<span class="params">(new DividerItemDecoration<sp
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/07/13/自定义控件学习笔记/">
-                自定义控件学习笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-07-13
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/07/13/自定义控件学习笔记/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/13/自定义控件学习笔记/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h1 id="Canvas">Canvas</h1><h2 id="canvas简介">canvas简介</h2><p>&emsp;&emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，<code>Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
-        Canvas canvas = new Canvas(bitmap);</code>这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。</p>
-<h2 id="canvas的主要方法">canvas的主要方法</h2><p>&emsp;&emsp;canvas主要有几种方法，draw…这类方法是用来画一下东西的，clip…就是用来裁剪的，还有scale,translate，skew，rotate是用来进行画布的变换，还有saveXXX和restoreXXX构成的画布锁定和还原。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/13/自定义控件学习笔记/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -681,7 +743,7 @@ mRecycleView.addItemDecoration<span class="params">(new DividerItemDecoration<sp
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -695,7 +757,7 @@ mRecycleView.addItemDecoration<span class="params">(new DividerItemDecoration<sp
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
