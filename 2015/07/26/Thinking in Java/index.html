@@ -324,7 +324,7 @@
 <p> 7.29我来填坑啦啦</p>
 <hr>
 <p>写一些看书的笔记</p>
-<h2 id="第二章_一切都是对象">第二章 一切都是对象</h2><h3 id="JAVA堆栈和堆">JAVA堆栈和堆</h3><p>&emsp;&emsp;堆栈就是平时所说的栈，位于通用的ROM中，从堆栈指针从处理器那里获得直接支持。堆栈的指针向下移动，分配新的内存，向上移动，释放内存。在创建程序时，系统必须知道存储在盾战中所有的项目的确切生命周期，以便赏析移动堆栈的指针。这一约束限制了程序的灵活性，所以虽然某些JAVA数据存储在堆栈中—特别是对象引用，但是JAVA对象并不存储其中（<del>然而我并不怎么理解</del>。。）。<br>&emsp;&emsp;堆是一种通用的内存池，也是位于RAM中，用于存放所有的JAVA对象。堆对于栈的好处就是：编译器不需要知道存储的数据在堆里存货多长时间。当需要一个对象时，只需要去new，当执行这个代码会自动在堆内进行储存分配。但是用堆进行存储分配和清理可能比用栈分配需要更多的时间。</p>
+<h2 id="第二章_一切都是对象">第二章 一切都是对象</h2><h3 id="JAVA堆栈和堆">JAVA堆栈和堆</h3><p>&emsp;&emsp;堆栈就是平时所说的栈，位于通用的ROM中，从堆栈指针从处理器那里获得直接支持。堆栈的指针向下移动，分配新的内存，向上移动，释放内存。在创建程序时，系统必须知道存储在盾战中所有的项目的确切生命周期，以便赏析移动堆栈的指针。这一约束限制了程序的灵活性，所以虽然某些JAVA数据存储在堆栈中—特别是对象引用，但是JAVA对象并不存储其中（<del>然而我并不怎么理解</del>。。）。<br>&emsp;&emsp;堆是一种通用的内存池，也是位于RAM中，用于存放所有的JAVA对象。堆对于栈的好处就是：编译器不需要知道存储的数据在堆里存货多长时间。当需要一个对象时，只需要去new，当执行这个代码会自动在堆内进行储存分配。但是用堆进行存储分配和清理可能比用栈分配需要更多的时间。<br><a id="more"></a></p>
 <h3 id="基本类型">基本类型</h3><p>基本类型是存储在堆里，不用new来创建变量，而是创建一个并非是引用的”自动”变量（<del>看不懂…555</del>）。基本类型具有包装器类，使得可以在堆中创建一个非基本类型，用来表示对应的基本类型。<br>可以这么用<code>int i = 5</code>也可以<code>Integer i = new Integer(5)</code>。在JAVA se5之后的自动包装功能能自动的将基本类型转换为包装器类型：<code>Character ch = &#39;x&#39;</code></p>
 <h3 id="基本成员默认值">基本成员默认值</h3><p>若类的某个成员是基本数据类型，即使没有初始化，JAVA也会确保它获得一个默认值。但是局部变量不会初始化。</p>
 <h2 id="第三章_操作符">第三章 操作符</h2><h3 id="赋值">赋值</h3><p>赋值操作的是一个对象的引用，看一个例子：</p>
@@ -357,12 +357,12 @@
 </code></pre><p>正确的给t1赋值应该这样：</p>
 <pre><code>t1<span class="class">.level</span> = t2.level
 </code></pre><h3 id="自动递增和递减">自动递增和递减</h3><p>&emsp;&emsp;这个是我一直搞混的东西，总是弄混前缀和后缀的区别，现在写一下：</p>
-<pre><code><span class="keyword">int</span> i = <span class="number">1</span>;
-System.<span class="keyword">out</span>.println(<span class="string">"i:"</span>+i);
-System.<span class="keyword">out</span>.println(<span class="string">"i++ :"</span>+ i++);<span class="comment">//1</span>
-System.<span class="keyword">out</span>.println(<span class="string">"++i :"</span> + ++i);<span class="comment">//3</span>
-</code></pre><p>i++是先生成值后计算，也就是说在<code>i++</code>这里面的i是上一个状态的i,结果要在下一个状态才可以获取。前缀写法是先执行计算然后生成值，所以这里的i就等于三。</p>
-<h3 id="关系操作符">关系操作符</h3><p>&emsp;&emsp;关系操作符==和!=比较的是对象的引用，这个和在使用=进行对象赋值时一样，都是对象的引用而不是内部值。例子：</p>
+<pre><code>    <span class="keyword">int</span> i = <span class="number">1</span>;
+    System.<span class="keyword">out</span>.println(<span class="string">"i:"</span>+i);
+    System.<span class="keyword">out</span>.println(<span class="string">"i++ :"</span>+ i++);<span class="comment">//1</span>
+    System.<span class="keyword">out</span>.println(<span class="string">"++i :"</span> + ++i);<span class="comment">//3</span>
+i++是先生成值后计算，也就是说在<span class="string">`i++`</span>这里面的i是上一个状态的i,结果要在下一个状态才可以获取。前缀写法是先执行计算然后生成值，所以这里的i就等于三。
+</code></pre><h3 id="关系操作符">关系操作符</h3><p>&emsp;&emsp;关系操作符==和!=比较的是对象的引用，这个和在使用=进行对象赋值时一样，都是对象的引用而不是内部值。例子：</p>
 <pre><code><span class="built_in">Integer</span> n1 <span class="subst">=</span> <span class="literal">new</span> <span class="built_in">Integer</span>(<span class="number">1</span>);
 <span class="built_in">Integer</span> n2 <span class="subst">=</span> <span class="literal">new</span> <span class="built_in">Integer</span>(<span class="number">1</span>);
 System<span class="built_in">.</span>out<span class="built_in">.</span>println(n1 <span class="subst">==</span> n2);<span class="comment">//false</span>
@@ -381,8 +381,8 @@ System<span class="built_in">.</span>out<span class="built_in">.</span>println(n
 </code></pre><p>总结就是：想比较实际内容，用<code>equals()</code>，想比较引用，使用<code>==</code>。（<del>感觉一般也很少直接进行对象的比较吧</del>）。</p>
 <h3 id="指数计数法">指数计数法</h3><p>在JAVA中，看到1.39e^{-43}f这样的表达式，真正的意义是1.39*10^{-43}，这个历史原因我也懒得管，要使用e有现成的公式调用（<del>我还没在开发中用过e..</del>）。</p>
 <h3 id="截尾和舍入">截尾和舍入</h3><p>在将<code>float</code>和<code>double</code>转化为<code>int</code>的时候，默认是对该数字进行<strong>截尾</strong>，就是直接舍弃小数点后面的内容。要想得到舍入的结果，可以使用<code>Math.round()</code>方法；</p>
-<h2 id="第五章_初始化与清理">第五章 初始化与清理</h2><h2 id="区别重载方法">区别重载方法</h2><p>区别重载方法是靠方法的参数列表的不同来区分，甚至参数的顺序不同也可以区分，但是不建议这么做，太特么混乱了。</p>
-<h2 id="清理:终结处理和垃圾回收">清理:终结处理和垃圾回收</h2><p>JAVA主要要gc进行自动的垃圾回收，但是如果使用的对象不是new出来的，他获得了一块”特殊的”内存区域，由于垃圾回收器只知道回收那些由new分配的内存，所以它不知道如何去释放这块内存。为了对付这样的场景，JAVA允许在类中定义一个<code>finalize()</code>的方法，但是又不是像c++中的析构函数。（<del>特么编不下去了，我不懂啊，不写这玩意了</del>）。书上有三个要点还是写一下吧：</p>
+<h2 id="第五章_初始化与清理">第五章 初始化与清理</h2><h3 id="区别重载方法">区别重载方法</h3><p>区别重载方法是靠方法的参数列表的不同来区分，甚至参数的顺序不同也可以区分，但是不建议这么做，太特么混乱了。</p>
+<h3 id="清理:终结处理和垃圾回收">清理:终结处理和垃圾回收</h3><p>JAVA主要要gc进行自动的垃圾回收，但是如果使用的对象不是new出来的，他获得了一块”特殊的”内存区域，由于垃圾回收器只知道回收那些由new分配的内存，所以它不知道如何去释放这块内存。为了对付这样的场景，JAVA允许在类中定义一个<code>finalize()</code>的方法，但是又不是像c++中的析构函数。（<del>特么编不下去了，我不懂啊，不写这玩意了</del>）。书上有三个要点还是写一下吧：</p>
 <ol>
 <li>对象可能不被垃圾回收</li>
 <li>垃圾回收不等于析构</li>
@@ -562,7 +562,7 @@ House()
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章_一切都是对象"><span class="nav-number">1.</span> <span class="nav-text">第二章 一切都是对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA堆栈和堆"><span class="nav-number">1.1.</span> <span class="nav-text">JAVA堆栈和堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本类型"><span class="nav-number">1.2.</span> <span class="nav-text">基本类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本成员默认值"><span class="nav-number">1.3.</span> <span class="nav-text">基本成员默认值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章_操作符"><span class="nav-number">2.</span> <span class="nav-text">第三章 操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#赋值"><span class="nav-number">2.1.</span> <span class="nav-text">赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动递增和递减"><span class="nav-number">2.2.</span> <span class="nav-text">自动递增和递减</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系操作符"><span class="nav-number">2.3.</span> <span class="nav-text">关系操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指数计数法"><span class="nav-number">2.4.</span> <span class="nav-text">指数计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#截尾和舍入"><span class="nav-number">2.5.</span> <span class="nav-text">截尾和舍入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章_初始化与清理"><span class="nav-number">3.</span> <span class="nav-text">第五章 初始化与清理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区别重载方法"><span class="nav-number">4.</span> <span class="nav-text">区别重载方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清理:终结处理和垃圾回收"><span class="nav-number">5.</span> <span class="nav-text">清理:终结处理和垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造器初始化"><span class="nav-number">5.1.</span> <span class="nav-text">构造器初始化</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章_一切都是对象"><span class="nav-number">1.</span> <span class="nav-text">第二章 一切都是对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA堆栈和堆"><span class="nav-number">1.1.</span> <span class="nav-text">JAVA堆栈和堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本类型"><span class="nav-number">1.2.</span> <span class="nav-text">基本类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本成员默认值"><span class="nav-number">1.3.</span> <span class="nav-text">基本成员默认值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章_操作符"><span class="nav-number">2.</span> <span class="nav-text">第三章 操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#赋值"><span class="nav-number">2.1.</span> <span class="nav-text">赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动递增和递减"><span class="nav-number">2.2.</span> <span class="nav-text">自动递增和递减</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系操作符"><span class="nav-number">2.3.</span> <span class="nav-text">关系操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指数计数法"><span class="nav-number">2.4.</span> <span class="nav-text">指数计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#截尾和舍入"><span class="nav-number">2.5.</span> <span class="nav-text">截尾和舍入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章_初始化与清理"><span class="nav-number">3.</span> <span class="nav-text">第五章 初始化与清理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区别重载方法"><span class="nav-number">3.1.</span> <span class="nav-text">区别重载方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清理:终结处理和垃圾回收"><span class="nav-number">3.2.</span> <span class="nav-text">清理:终结处理和垃圾回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造器初始化"><span class="nav-number">3.3.</span> <span class="nav-text">构造器初始化</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
