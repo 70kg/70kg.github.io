@@ -22,7 +22,7 @@
 
 
 
-  <meta name="keywords" content="生活杂记," />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -45,7 +45,7 @@
 
 
 
-  <title> 2015.7.9 // 70kg </title>
+  <title> 单例模式 // 70kg </title>
 </head>
 
 <body>
@@ -287,7 +287,7 @@
           
           
             
-              2015.7.9
+              单例模式
             
           
         </h1>
@@ -295,7 +295,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-07-09
+          发表于 2015-08-02
         </span>
 
         
@@ -304,8 +304,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/07/09/2015-7-9/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/09/2015-7-9/"></span>
+            <a href="/2015/08/02/单例模式/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/02/单例模式/"></span>
             </a>
           </span>
           
@@ -319,14 +319,48 @@
       
 
       
-        <p>&emsp;&emsp;今天早上起来去跑步了，刚开始跑步真有点受不了，跑两圈基本上就累的不行了。先跑了两圈，然后就慢走了一圈，然后再跑了一圈，就结束了。因为这是第一天，跑太多之后的工作会没精力，而且我已经没有可以换的衣服了（逃。。）。跑太多衣服都湿透了我怎么去上班，唉，穷啊。<br>&emsp;&emsp;明天还是接着去跑步吧，如果不下雨的话，下雨了就起床写代码。说说写代码的事情，感觉自己写代码没什么目的性，就是瞎写，那现在就写个短期的计划吧：</p>
-<ul>
-<li>贝塞尔曲线控制</li>
-<li>爱哥博客实现一遍</li>
-<li>那个什么动画的源码分析</li>
-<li>再搞一搞ViewPager的切换动画</li>
-</ul>
-<p>&emsp;&emsp;目前就先搞搞动画，然后周末尽量去看看Thinking in Java 和设计模式，把看到的，学到的尽量都写下来，一方面可以锻炼自己的文笔，一方面也能加深一下记忆。挺好的<br>&emsp;&emsp;再来吐槽一下上海的天气吧，真的受不了这种天气，一直下雨，还不停，也下不大，就是稀稀拉拉的没个完。<br>&emsp;&emsp;先写到这吧，脖子真疼的受不了，唉。</p>
+        <p>&emsp;&emsp;开始学习设计模式，总是觉得自己的代码写的又烂又丑的，看着那些大神写的那么优美，所以设计模式开搞。<br>&emsp;&emsp;先从最简单的单例模式开始：</p>
+<h3 id="单例模式的特点：">单例模式的特点：</h3><ol>
+<li>单例类只能有一个实例</li>
+<li>单例类必须自己创建自己的唯一实例</li>
+<li>单例类必须给其他的对象提供这一单例</li>
+</ol>
+<p>单例的模式用在那些只需要单一实例的地方，像流行的第三方图片加载库UIL的初始化<code>ImageLoader imageLoader = ImageLoader.getInstance();</code> 加载图片的对象只有一个就够了，他会为我们分配资源等。下面来实现一下简单的单例模式。<br>&emsp;&emsp;这里说的单例模式暂时只说两种最常见的（<del>我菜还没使过那些高级用法</del>）：</p>
+<h3 id="饿汉模式">饿汉模式</h3><p>先看代码吧</p>
+<pre><code><span class="comment">/**
+* 饿汉式单例
+* 线程安全   类创建时就实例化一个对象
+* <span class="doctag">@author</span> Mr_Wrong
+*
+*/</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton2</span></span>{
+    <span class="function"><span class="keyword">private</span> <span class="title">Singleton2</span><span class="params">()</span></span>{}
+   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton2 Singleton = <span class="keyword">new</span> Singleton2();
+<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton2 <span class="title">getnInstance</span><span class="params">()</span></span>{
+    <span class="keyword">return</span> Singleton;
+  } 
+
+ }
+</code></pre><p>先重写默认的构造函数，将其设为private，确保外界没法直接new出一个对象，然后创建一个static，final的单例对象，这是静态且是常量，只会在类创建时创建一次新的对象。然后通过一个public的getInstance的方法暴露出去。这种单例模式是线程安全的（<del>我也不是很熟啊</del>）。因为这个是static的，在构造函数之前就会执行，所以不能创建代参数的单例。</p>
+<h3 id="懒汉模式">懒汉模式</h3><p>代码伺候：</p>
+<pre><code><span class="comment">/**
+* 懒汉式单例
+* 线程不安全  使用时才创建对象  当需要传递参数进去构造函数  使用
+* @author Mr_Wrong
+*
+*/</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Singleton1</span>{
+<span class="function"><span class="keyword">private</span> <span class="title">Singleton1</span>(<span class="params"></span>)</span>{};
+<span class="keyword">private</span> <span class="keyword">static</span> Singleton1 Singleton= <span class="keyword">null</span>;
+<span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> Singleton1 <span class="title">getInstance</span>(<span class="params"></span>)</span>{
+
+    <span class="keyword">if</span>(Singleton == <span class="keyword">null</span>){
+        Singleton = <span class="keyword">new</span> Singleton1();
+    }
+    <span class="keyword">return</span> Singleton;
+     }
+ }
+</code></pre><p>这种是线程不安全的，是在类创建的时候才执行初始化。（<del>我也不熟（逃）</del>）。<br>&emsp;&emsp;然后使用的时候就直接调用getInstance方法而不用去new一个出来了<code>Singleton1 singleton1 = Singleton1.getInstance();</code><br>这是设计模式中最简单了一个了，下期开始搞点别的了。</p>
 
       
     </div>
@@ -335,7 +369,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/生活杂记/"> #生活杂记 </a>
+            <a href="/tags/设计模式/"> #设计模式 </a>
           
         </div>
       
@@ -344,13 +378,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/13/自定义控件学习笔记/">自定义控件学习笔记</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/08/2015-7-8/">2015.7.8</a>
+              <a href="/2015/07/29/MarkDown语法/">MarkDown语法</a>
             
           </div>
         </div>
@@ -366,8 +398,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/07/09/2015-7-9/"
-               data-title="2015.7.9" data-url="http://70kg.info/2015/07/09/2015-7-9/">
+          <div class="ds-thread" data-thread-key="2015/08/02/单例模式/"
+               data-title="单例模式" data-url="http://70kg.info/2015/08/02/单例模式/">
           </div>
         
       </div>
@@ -466,7 +498,7 @@
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式的特点："><span class="nav-number">1.</span> <span class="nav-text">单例模式的特点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#饿汉模式"><span class="nav-number">2.</span> <span class="nav-text">饿汉模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懒汉模式"><span class="nav-number">3.</span> <span class="nav-text">懒汉模式</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
