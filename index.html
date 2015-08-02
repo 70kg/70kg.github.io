@@ -330,43 +330,12 @@
 <li>单例类必须自己创建自己的唯一实例</li>
 <li>单例类必须给其他的对象提供这一单例</li>
 </ol>
-<p>单例的模式用在那些只需要单一实例的地方，像流行的第三方图片加载库UIL的初始化<code>ImageLoader imageLoader = ImageLoader.getInstance();</code> 加载图片的对象只有一个就够了，他会为我们分配资源等。下面来实现一下简单的单例模式。<br>&emsp;&emsp;这里说的单例模式暂时只说两种最常见的（<del>我菜还没使过那些高级用法</del>）：</p>
-<h3 id="饿汉模式">饿汉模式</h3><p>先看代码吧</p>
-<pre><code><span class="comment">/**
-* 饿汉式单例
-* 线程安全   类创建时就实例化一个对象
-* <span class="doctag">@author</span> Mr_Wrong
-*
-*/</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton2</span></span>{
-    <span class="function"><span class="keyword">private</span> <span class="title">Singleton2</span><span class="params">()</span></span>{}
-   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton2 Singleton = <span class="keyword">new</span> Singleton2();
-<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton2 <span class="title">getnInstance</span><span class="params">()</span></span>{
-    <span class="keyword">return</span> Singleton;
-  } 
-
- }
-</code></pre><p>先重写默认的构造函数，将其设为private，确保外界没法直接new出一个对象，然后创建一个static，final的单例对象，这是静态且是常量，只会在类创建时创建一次新的对象。然后通过一个public的getInstance的方法暴露出去。这种单例模式是线程安全的（<del>我也不是很熟啊</del>）。因为这个是static的，在构造函数之前就会执行，所以不能创建代参数的单例。</p>
-<h3 id="懒汉模式">懒汉模式</h3><p>代码伺候：</p>
-<pre><code><span class="comment">/**
-* 懒汉式单例
-* 线程不安全  使用时才创建对象  当需要传递参数进去构造函数  使用
-* @author Mr_Wrong
-*
-*/</span>
-<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Singleton1</span>{
-<span class="function"><span class="keyword">private</span> <span class="title">Singleton1</span>(<span class="params"></span>)</span>{};
-<span class="keyword">private</span> <span class="keyword">static</span> Singleton1 Singleton= <span class="keyword">null</span>;
-<span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> Singleton1 <span class="title">getInstance</span>(<span class="params"></span>)</span>{
-
-    <span class="keyword">if</span>(Singleton == <span class="keyword">null</span>){
-        Singleton = <span class="keyword">new</span> Singleton1();
-    }
-    <span class="keyword">return</span> Singleton;
-     }
- }
-</code></pre><p>这种是线程不安全的，是在类创建的时候才执行初始化。（<del>我也不熟（逃）</del>）。<br>&emsp;&emsp;然后使用的时候就直接调用getInstance方法而不用去new一个出来了<code>Singleton1 singleton1 = Singleton1.getInstance();</code><br>这是设计模式中最简单了一个了，下期开始搞点别的了。</p>
-
+<p>单例的模式用在那些只需要单一实例的地方，像流行的第三方图片加载库UIL的初始化<code>ImageLoader imageLoader = ImageLoader.getInstance();</code> 加载图片的对象只有一个就够了，他会为我们分配资源等。下面来实现一下简单的单例模式。<br>&emsp;&emsp;这里说的单例模式暂时只说两种最常见的（<del>我菜还没使过那些高级用法</del>）：
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/02/单例模式/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>

@@ -325,7 +325,7 @@
 <li>单例类必须自己创建自己的唯一实例</li>
 <li>单例类必须给其他的对象提供这一单例</li>
 </ol>
-<p>单例的模式用在那些只需要单一实例的地方，像流行的第三方图片加载库UIL的初始化<code>ImageLoader imageLoader = ImageLoader.getInstance();</code> 加载图片的对象只有一个就够了，他会为我们分配资源等。下面来实现一下简单的单例模式。<br>&emsp;&emsp;这里说的单例模式暂时只说两种最常见的（<del>我菜还没使过那些高级用法</del>）：</p>
+<p>单例的模式用在那些只需要单一实例的地方，像流行的第三方图片加载库UIL的初始化<code>ImageLoader imageLoader = ImageLoader.getInstance();</code> 加载图片的对象只有一个就够了，他会为我们分配资源等。下面来实现一下简单的单例模式。<br>&emsp;&emsp;这里说的单例模式暂时只说两种最常见的（<del>我菜还没使过那些高级用法</del>）：<a id="more"></a></p>
 <h3 id="饿汉模式">饿汉模式</h3><p>先看代码吧</p>
 <pre><code><span class="comment">/**
 * 饿汉式单例
