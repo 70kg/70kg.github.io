@@ -22,7 +22,7 @@
 
 
 
-  <meta name="keywords" content="Hexo," />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -45,7 +45,7 @@
 
 
 
-  <title> 使用Hexo建站的那些坑 // 70kg </title>
+  <title> 代理模式 // 70kg </title>
 </head>
 
 <body>
@@ -287,7 +287,7 @@
           
           
             
-              使用Hexo建站的那些坑
+              代理模式
             
           
         </h1>
@@ -295,28 +295,17 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-14
+          发表于 2015-08-04
         </span>
 
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Hexo/">Hexo</a>
-
-              
-              
-
-            
-          </span>
         
 
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/14/使用Hexo建站的那些坑/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/14/使用Hexo建站的那些坑/"></span>
+            <a href="/2015/08/04/代理模式/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/04/代理模式/"></span>
             </a>
           </span>
           
@@ -330,12 +319,109 @@
       
 
       
-        <p>&emsp;&emsp;这段时间学习使用Hexo搭建这个博客，从一个什么都不懂的小白倒腾了半天弄出了这个博客，过程中遇到了很多坑，写下来不然过段时间就忘了，毕竟好记性不如烂笔头。<br>&emsp;&emsp;首先先感谢一下网上的那些教程，先贴一下他们的链接吧，没有他们就没有今天我的这个网站（好感人。。55）。<br><a href="http://zipperary.com/categories/hexo/" target="_blank" rel="external">http://zipperary.com/categories/hexo/</a><br><a href="http://cnfeat.com/2014/05/10/2014-05-11-how-to-build-a-blog" target="_blank" rel="external">http://cnfeat.com/2014/05/10/2014-05-11-how-to-build-a-blog</a><br><a href="http://ibruce.info/2013/11/22/hexo-your-blog/" target="_blank" rel="external">http://ibruce.info/2013/11/22/hexo-your-blog/</a><br>&emsp;&emsp;我的环境的Mac，win的环境还没配置过，下面说一下我遇到的那些坑吧<a id="more"></a></p>
-<h3 id="安装hexo出错">安装hexo出错</h3><p>这步出现在使用nmp安装hexo的时候。具体的报错也忘记了，也懒得再去重现一遍。这时你可以尝试使用<code>sudo npm install --unsafe-perm --verbose -g hexo</code>在<code>sudo</code>下进行安装。</p>
-<h3 id="添加npm依赖包">添加npm依赖包</h3><p>这步是在使用npm添加依赖包出现错误，你也可以尝试在<code>sudo</code>下进行此命令，<code>sudo npm install</code></p>
-<h3 id="ERROR_Deployer_not_found:_git">ERROR Deployer not found: git</h3><p>出现这个错误具体在哪我也忘了，这也说明了记录下来的重要性。当时只是简单的mark了一下错误的解决办法。如果你遇到了这个错误，尝试使用这个命令<code>sudo npm install hexo-deployer-git --save</code></p>
-<p>&emsp;&emsp;好了，这就是我遇到的那些坑，我还在学习的路上，以后肯定还是会遇到更多的坑，也会努力从不同的坑中爬出来。我也是使用OSX系统没多久，以前在win下也没怎么使用过命令行，现在发现命令行还是很方便的，开始喜欢上了。</p>
-<p>&emsp;&emsp;还有个问题，托管在GitHub上之后，每次提交就会删掉CNAME文件，我还得自己手动去添加，很是麻烦，放在source下面又会生成html文件，如果有人碰巧看到并且知道怎么解决麻烦告知我一下，感谢！</p>
+        <p>&emsp;&emsp;今天来写一写代理模式，代理模式的主要作用是为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不想或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。其实就是我不想直接去接触你，但是我可以控制你。<br>&emsp;&emsp;举个例子，一个人想去追求女生，但是他又不好意思自己去送礼物，就叫一个人代理他去送。但是礼物真正是这个人送的，不是代理人送的。（<del>好吧，有点复杂</del>）。看代码吧。</p>
+<h3 id="一个共同的接口">一个共同的接口</h3><pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">SendGift</span> {
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendFlower</span>(<span class="params"></span>)</span>;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendMoney</span>(<span class="params"></span>) </span>;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendDurex</span>(<span class="params"></span>)</span>;
+  }
+</code></pre><p>这个接口定义了送礼物的行为。<a id="more"></a></p>
+<h3 id="代理类">代理类</h3><pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">SendGift</span></span>{
+Pursuit p ;
+
+Proxy(){
+}
+Proxy(Pursuit p){
+    <span class="keyword">this</span>.p = p;
+}
+
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendFlower</span><span class="params">()</span> </span>{
+    p.SendFlower();        
+}
+
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendMoney</span><span class="params">()</span> </span>{
+    p.SendMoney();        
+}
+
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendDurex</span><span class="params">()</span> </span>{
+    p.SendDurex();        
+}
+}
+</code></pre><p>代理类实现这个接口，说明我可以代理这类的要求，我可以代理别人送这些礼物。</p>
+<h3 id="实际的类">实际的类</h3><pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Pursuit</span> <span class="title">implements</span> <span class="title">SendGift</span>{
+Girl mm;
+Pursuit(Girl mm){
+    <span class="keyword">this</span>.mm = mm;
+}
+String name;
+
+<span class="function"><span class="keyword">public</span> String <span class="title">getName</span>(<span class="params"></span>) </span>{
+    <span class="keyword">return</span> name;
+}
+
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span>(<span class="params">String name</span>) </span>{
+    <span class="keyword">this</span>.name = name;
+}
+
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendFlower</span>(<span class="params"></span>) </span>{
+    System.<span class="keyword">out</span>.println(mm.getName()+<span class="string">","</span>+<span class="keyword">this</span>.getName()+<span class="string">"送你花,你才"</span>+mm.getAge()+<span class="string">"岁"</span>);        
+}
+
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendMoney</span>(<span class="params"></span>) </span>{
+    System.<span class="keyword">out</span>.println(mm.getName()+<span class="string">"送你钱,你才"</span>+mm.getAge()+<span class="string">"岁"</span>);        
+
+}
+
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendDurex</span>(<span class="params"></span>) </span>{
+    System.<span class="keyword">out</span>.println(mm.getName()+<span class="string">"送你Durex,你才"</span>+mm.getAge()+<span class="string">"岁"</span>);        
+
+}
+
+ }
+</code></pre><p>这是追求者类，也是实现了相同的接口，说明他可以送这些礼物。在构造函数中传进来一个girl，说明他想去追求这个女孩。</p>
+<h3 id="客户端类">客户端类</h3><pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Main</span> {
+<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>{
+    Girl girl = <span class="keyword">new</span> Girl();
+    girl.setAge(<span class="number">20</span>);
+    girl.setName(<span class="string">"肥儿"</span>);
+
+    <span class="comment">//一般的追求者送花</span>
+    Pursuit pursuit = <span class="keyword">new</span> Pursuit(girl);
+    pursuit.setName(<span class="string">"wp"</span>);
+    Proxy proxy = <span class="keyword">new</span> Proxy(pursuit);
+    proxy.SendFlower();
+    }
+    }
+</code></pre><h3 id="结果">结果</h3><pre><code>肥儿,<span class="keyword">wp</span>送你花,你才<span class="number">20</span>岁
+</code></pre><p>这里可以看出，真实的送礼物的行为是追求者发出的，代理类只是代理他去和girl联系，然后送出礼物。</p>
+<h3 id="go_on">go on</h3><p> 一个代理类的可代理行为受到了他实现的接口的限制，他不能随便的去代理。如果想去代理别的行为，可以再实现别的接口。例如想去代理个学生追求者。学生追求者会去送作业，只有实现了这个接口就可以了：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">SendGift</span>,<span class="title">StudentSendGift</span></span>{
+
+<span class="comment">//---省略上面的</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendHomework</span><span class="params">(Student s)</span> </span>{
+    s.SendHomework(s);        
+}
+
+}
+</code></pre><p>这个学生追求者也是追求者，继承自追求者，实现自己追求的方式：</p>
+<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Pursuit</span> <span class="title">implements</span> <span class="title">StudentSendGift</span>{</span>
+<span class="type">Girl</span> mm;
+<span class="type">Student</span>(<span class="type">Girl</span> mm) {
+    <span class="keyword">super</span>(mm);
+    <span class="keyword">this</span>.mm = mm;    
+}
+public void <span class="type">SendHomework</span>(<span class="type">Student</span> s) {
+    <span class="type">System</span>.out.println(mm.getName()+<span class="string">","</span>+<span class="keyword">this</span>.getName()+<span class="string">"送你作业,你才"</span>+mm.getAge()+<span class="string">"岁"</span>);        
+
+}
+}
+</code></pre><p>然后就可以去追求啦</p>
+<pre><code><span class="comment">//学生追求者送作业</span>
+    Student studentpursuit = <span class="keyword">new</span> Student(girl);
+    studentpursuit.setName(<span class="string">"sb"</span>);
+    <span class="built_in">Proxy</span> proxy1 = <span class="keyword">new</span> <span class="built_in">Proxy</span>();
+    proxy1.SendHomework(studentpursuit);
+</code></pre><h3 id="最后">最后</h3><p>JAVA还有动态的代理一说，这个要到后面和反射一起说比较好。这玩意我还没研究过。</p>
 
       
     </div>
@@ -344,7 +430,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Hexo/"> #Hexo </a>
+            <a href="/tags/设计模式/"> #设计模式 </a>
           
         </div>
       
@@ -353,13 +439,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/15/Tips/">Android Tips</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/11/Android字体浅谈/">Android字体浅谈</a>
+              <a href="/2015/08/02/单例模式/">单例模式</a>
             
           </div>
         </div>
@@ -375,8 +459,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/14/使用Hexo建站的那些坑/"
-               data-title="使用Hexo建站的那些坑" data-url="http://70kg.info/2015/06/14/使用Hexo建站的那些坑/">
+          <div class="ds-thread" data-thread-key="2015/08/04/代理模式/"
+               data-title="代理模式" data-url="http://70kg.info/2015/08/04/代理模式/">
           </div>
         
       </div>
@@ -475,7 +559,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装hexo出错"><span class="nav-number">1.</span> <span class="nav-text">安装hexo出错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加npm依赖包"><span class="nav-number">2.</span> <span class="nav-text">添加npm依赖包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ERROR_Deployer_not_found:_git"><span class="nav-number">3.</span> <span class="nav-text">ERROR Deployer not found: git</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个共同的接口"><span class="nav-number">1.</span> <span class="nav-text">一个共同的接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理类"><span class="nav-number">2.</span> <span class="nav-text">代理类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际的类"><span class="nav-number">3.</span> <span class="nav-text">实际的类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端类"><span class="nav-number">4.</span> <span class="nav-text">客户端类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果"><span class="nav-number">5.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go_on"><span class="nav-number">6.</span> <span class="nav-text">go on</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后"><span class="nav-number">7.</span> <span class="nav-text">最后</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
