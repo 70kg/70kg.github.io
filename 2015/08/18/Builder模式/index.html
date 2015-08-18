@@ -45,7 +45,7 @@
 
 
 
-  <title> 代理模式 // 70kg </title>
+  <title> Builder模式 // 70kg </title>
 </head>
 
 <body>
@@ -287,7 +287,7 @@
           
           
             
-              代理模式
+              Builder模式
             
           
         </h1>
@@ -295,7 +295,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-08-04
+          发表于 2015-08-18
         </span>
 
         
@@ -304,8 +304,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/08/04/代理模式/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/04/代理模式/"></span>
+            <a href="/2015/08/18/Builder模式/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/18/Builder模式/"></span>
             </a>
           </span>
           
@@ -319,109 +319,69 @@
       
 
       
-        <p>&emsp;&emsp;今天来写一写代理模式，代理模式的主要作用是为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不想或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。其实就是我不想直接去接触你，但是我可以控制你。<br>&emsp;&emsp;举个例子，一个人想去追求女生，但是他又不好意思自己去送礼物，就叫一个人代理他去送。但是礼物真正是这个人送的，不是代理人送的。（<del>好吧，有点复杂</del>）。看代码吧。</p>
-<h3 id="一个共同的接口">一个共同的接口</h3><pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">SendGift</span> {
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendFlower</span>(<span class="params"></span>)</span>;
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendMoney</span>(<span class="params"></span>) </span>;
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendDurex</span>(<span class="params"></span>)</span>;
-  }
-</code></pre><p>这个接口定义了送礼物的行为。<a id="more"></a></p>
-<h3 id="代理类">代理类</h3><pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">SendGift</span></span>{
-Pursuit p ;
+        <h3 id="扯淡">扯淡</h3><p>&emsp;&emsp;隔了好久，我又来扯设计模式了，今天扯扯Builder模式。这个是很久之前就想写的模式，最常见到的就是在使用Dialog的时候</p>
+<pre><code>AlertDialog.Builder builder = new Builder<span class="params">(this)</span>;
+builder.setTitle<span class="params">(<span class="string">""</span>)</span>.setIcon<span class="params">(R.drawable.ic_launcher)</span>.show<span class="params">()</span>;
+</code></pre><p>今天要说的就是这样的类型，网上还有很多正儿八经的Builder模式，我看了半天也是云里雾里的（<del>就是菜啊</del>）。这个还是很实用的。<a id="more"></a></p>
+<h3 id="用处">用处</h3><p>&emsp;&emsp;这个模式一般都用在构建复杂的对象上，像上面的Dialog就是个很好的例子。有很多属性需要去设置，但是如果使用构造函数的话，要重写那么多的构造函数（<del>要死人的</del>）。使用了Builder模式就简单很多，可以选择我们需要的属性进行赋值。</p>
+<h3 id="开始上代码">开始上代码</h3><p>&emsp;&emsp;接下来就是代码时间了，我们来创建一个常见的student类（<del>学生又中枪</del>）。这个学生呢，ID是必须的，姓名，年龄什么的可选。要创建一个学生对象，当然可以new一个。但是构造函数就要写很多（<del>我真是啰嗦</del>）。好吧，看吧。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Student</span> {
+<span class="keyword">private</span> <span class="keyword">int</span> id;<span class="comment">//必须填写的</span>
+<span class="keyword">private</span> String name;
+<span class="keyword">private</span> String address;
 
-Proxy(){
-}
-Proxy(Pursuit p){
-    <span class="keyword">this</span>.p = p;
-}
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Builder</span>{
+    <span class="keyword">private</span> <span class="keyword">int</span> id;<span class="comment">//必须填写的</span>
+    <span class="keyword">private</span> String name;
+    <span class="keyword">private</span> String address;
 
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendFlower</span><span class="params">()</span> </span>{
-    p.SendFlower();        
-}
+    <span class="comment">//builder的构造，必须传ID</span>
+    <span class="function"><span class="keyword">public</span> <span class="title">Builder</span>(<span class="params"><span class="keyword">int</span> id</span>)</span>{
+        <span class="keyword">this</span>.id = id;
+    }
 
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendMoney</span><span class="params">()</span> </span>{
-    p.SendMoney();        
-}
+    <span class="function"><span class="keyword">public</span> Builder <span class="title">setname</span>(<span class="params">String name</span>)</span>{
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+    <span class="function"><span class="keyword">public</span> Builder <span class="title">setaddress</span>(<span class="params">String address</span>)</span>{
+        <span class="keyword">this</span>.address = address;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
 
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendDurex</span><span class="params">()</span> </span>{
-    p.SendDurex();        
+    <span class="function"><span class="keyword">public</span> Student <span class="title">build</span>(<span class="params"></span>)</span>{
+        <span class="keyword">return</span> <span class="keyword">new</span> Student(<span class="keyword">this</span>);
+    }
+
 }
+<span class="comment">//私有化构造函数</span>
+<span class="function"><span class="keyword">private</span> <span class="title">Student</span>(<span class="params">Builder builder</span>) </span>{
+<span class="comment">//通过赋值这种方法来检测传入的值得正确性 不正确会抛出异常  （主要是类型吧）</span>
+     <span class="keyword">this</span>.id = builder.id;
+     <span class="keyword">this</span>.name= builder.name;
+     <span class="keyword">this</span>.address = builder.address;
+ }
+<span class="comment">//供外部获取的</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span>(<span class="params"></span>) </span>{
+    <span class="keyword">return</span> id;
 }
-</code></pre><p>代理类实现这个接口，说明我可以代理这类的要求，我可以代理别人送这些礼物。</p>
-<h3 id="实际的类">实际的类</h3><pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Pursuit</span> <span class="title">implements</span> <span class="title">SendGift</span>{
-Girl mm;
-Pursuit(Girl mm){
-    <span class="keyword">this</span>.mm = mm;
-}
-String name;
 
 <span class="function"><span class="keyword">public</span> String <span class="title">getName</span>(<span class="params"></span>) </span>{
     <span class="keyword">return</span> name;
 }
 
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span>(<span class="params">String name</span>) </span>{
-    <span class="keyword">this</span>.name = name;
-}
-
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendFlower</span>(<span class="params"></span>) </span>{
-    System.<span class="keyword">out</span>.println(mm.getName()+<span class="string">","</span>+<span class="keyword">this</span>.getName()+<span class="string">"送你花,你才"</span>+mm.getAge()+<span class="string">"岁"</span>);        
-}
-
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendMoney</span>(<span class="params"></span>) </span>{
-    System.<span class="keyword">out</span>.println(mm.getName()+<span class="string">"送你钱,你才"</span>+mm.getAge()+<span class="string">"岁"</span>);        
-
-}
-
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendDurex</span>(<span class="params"></span>) </span>{
-    System.<span class="keyword">out</span>.println(mm.getName()+<span class="string">"送你Durex,你才"</span>+mm.getAge()+<span class="string">"岁"</span>);        
-
-}
-
- }
-</code></pre><p>这是追求者类，也是实现了相同的接口，说明他可以送这些礼物。在构造函数中传进来一个girl，说明他想去追求这个女孩。</p>
-<h3 id="客户端类">客户端类</h3><pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Main</span> {
-<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>{
-    Girl girl = <span class="keyword">new</span> Girl();
-    girl.setAge(<span class="number">20</span>);
-    girl.setName(<span class="string">"肥儿"</span>);
-
-    <span class="comment">//一般的追求者送花</span>
-    Pursuit pursuit = <span class="keyword">new</span> Pursuit(girl);
-    pursuit.setName(<span class="string">"wp"</span>);
-    Proxy proxy = <span class="keyword">new</span> Proxy(pursuit);
-    proxy.SendFlower();
-    }
-    }
-</code></pre><h3 id="结果">结果</h3><pre><code>肥儿,<span class="keyword">wp</span>送你花,你才<span class="number">20</span>岁
-</code></pre><p>这里可以看出，真实的送礼物的行为是追求者发出的，代理类只是代理他去和girl联系，然后送出礼物。</p>
-<h3 id="go_on">go on</h3><p> 一个代理类的可代理行为受到了他实现的接口的限制，他不能随便的去代理。如果想去代理别的行为，可以再实现别的接口。例如想去代理个学生追求者。学生追求者会去送作业，只有实现了这个接口就可以了：</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">SendGift</span>,<span class="title">StudentSendGift</span></span>{
-
-<span class="comment">//---省略上面的</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendHomework</span><span class="params">(Student s)</span> </span>{
-    s.SendHomework(s);        
+<span class="function"><span class="keyword">public</span> String <span class="title">getAddress</span>(<span class="params"></span>) </span>{
+    <span class="keyword">return</span> address;
 }
 
 }
-</code></pre><p>这个学生追求者也是追求者，继承自追求者，实现自己追求的方式：</p>
-<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Pursuit</span> <span class="title">implements</span> <span class="title">StudentSendGift</span>{</span>
-<span class="type">Girl</span> mm;
-<span class="type">Student</span>(<span class="type">Girl</span> mm) {
-    <span class="keyword">super</span>(mm);
-    <span class="keyword">this</span>.mm = mm;    
-}
-public void <span class="type">SendHomework</span>(<span class="type">Student</span> s) {
-    <span class="type">System</span>.out.println(mm.getName()+<span class="string">","</span>+<span class="keyword">this</span>.getName()+<span class="string">"送你作业,你才"</span>+mm.getAge()+<span class="string">"岁"</span>);        
+</code></pre><p>然后就可以愉快的调用啦</p>
+<pre><code>Student s = new Student.Builder<span class="params">(<span class="number">1</span>)</span>.setaddress<span class="params">(<span class="string">"山东省"</span>)</span>.setname<span class="params">(<span class="string">"70kg"</span>)</span>.build<span class="params">()</span>;
+System.out.println<span class="params">(<span class="string">"address:"</span>+s.getAddress<span class="params">()</span>+<span class="string">"   name:"</span>+s.getName<span class="params">()</span>+<span class="string">"   id:"</span>+s.getId<span class="params">()</span>)</span>;
 
-}
-}
-</code></pre><p>然后就可以去追求啦</p>
-<pre><code><span class="comment">//学生追求者送作业</span>
-    Student studentpursuit = <span class="keyword">new</span> Student(girl);
-    studentpursuit.setName(<span class="string">"sb"</span>);
-    <span class="built_in">Proxy</span> proxy1 = <span class="keyword">new</span> <span class="built_in">Proxy</span>();
-    proxy1.SendHomework(studentpursuit);
-</code></pre><h3 id="最后">最后</h3><p>JAVA还有动态的代理一说，这个要到后面和反射一起说比较好。这玩意我还没研究过。</p>
+    <span class="comment">//输出</span>
+    address:山东省   name:<span class="number">70</span>kg   id:<span class="number">1</span>
+</code></pre><p>看，就build好了，最后记得去调用build方法去真正创建student对象，在Dialog里面的show也是类似，Toast好像也是这个效果，我去查查。（<del>toast好像不是这么玩的。。。。</del>)</p>
 
       
     </div>
@@ -439,13 +399,11 @@ public void <span class="type">SendHomework</span>(<span class="type">Student</s
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/08/16/2015-08-16/">2015-08-16</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/02/单例模式/">单例模式</a>
+              <a href="/2015/08/16/2015-08-16/">2015-08-16</a>
             
           </div>
         </div>
@@ -461,8 +419,8 @@ public void <span class="type">SendHomework</span>(<span class="type">Student</s
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/08/04/代理模式/"
-               data-title="代理模式" data-url="http://70kg.info/2015/08/04/代理模式/">
+          <div class="ds-thread" data-thread-key="2015/08/18/Builder模式/"
+               data-title="Builder模式" data-url="http://70kg.info/2015/08/18/Builder模式/">
           </div>
         
       </div>
@@ -561,7 +519,7 @@ public void <span class="type">SendHomework</span>(<span class="type">Student</s
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个共同的接口"><span class="nav-number">1.</span> <span class="nav-text">一个共同的接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理类"><span class="nav-number">2.</span> <span class="nav-text">代理类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际的类"><span class="nav-number">3.</span> <span class="nav-text">实际的类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端类"><span class="nav-number">4.</span> <span class="nav-text">客户端类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果"><span class="nav-number">5.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go_on"><span class="nav-number">6.</span> <span class="nav-text">go on</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后"><span class="nav-number">7.</span> <span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#扯淡"><span class="nav-number">1.</span> <span class="nav-text">扯淡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用处"><span class="nav-number">2.</span> <span class="nav-text">用处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始上代码"><span class="nav-number">3.</span> <span class="nav-text">开始上代码</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
