@@ -500,7 +500,55 @@ RoundGlyph.RoundGlyph(): 5
 }
 </code></pre><p>&emsp;&emsp;接口最吸引人的地方是允许同一个接口具有多个不同的实现。一个类 可以实现多个接口就可以实现向上转型为多个基类型<br>&emsp;&emsp;有接口，肯定就会想到工厂模式，这也会在设计模式系列中写到（<del>但愿我不拖更555</del>）。</p>
 <h3 id="抽象类与接口">抽象类与接口</h3><p>（<del>不负责任总结</del>）<br>让抽象类去实现接口 不需要实现全部的方法 可以只实现一部分  然后剩下的子类去实现 子类必须实现抽象类中的抽象方法<br>感觉抽象类可以作为普通类的一个缓冲   接口是完全的抽象  当只需要具有接口的部分特性  可以使用抽象类<br>一个类实现了一个接口  就可以把这个类当做接口的实例穿进去</p>
+<h2 id="第十章_内部类">第十章 内部类</h2><ul>
+<li>内部类就是将一个类的定义放在另一个类的内部。内部类和组合是不一样的概念。</li>
+<li>内部类可以访问到外围对象的所有成员而不需要任何的特殊条件，此外，内部类还拥有外部类的所有元素的访问权。</li>
+<li>在内部类中生成对外部类的引用，可以使用<code>Outside.this</code></li>
+<li>创建内部类的对象 <code>Out.Inner in = out.new Inner();</code></li>
+<li>在拥有外部类对象之前是不可能创建内部类的对象的，除非是嵌套类（静态内部类）</li>
+<li>将内部类向上转型为基类型，尤其是转型为一个接口时候，内部类就很有用了</li>
+</ul>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main3</span> </span>{
+<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
+    RelaMain main = <span class="keyword">new</span> RelaMain();
+    Contents c = main.contents();
+    Destination d = main.destination(<span class="string">"laal"</span>);
 
+    RelaMain.PDestination pd = main.new PDestination(<span class="string">"hahah"</span>);
+    <span class="comment">//RelaMain.PContents pc = main.new PContents();访问不到  因为是private的</span>
+}
+
+ }
+<span class="class"><span class="keyword">class</span> <span class="title">RelaMain</span></span>{
+<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">PContents</span> <span class="keyword">implements</span> <span class="title">Contents</span></span>{
+    <span class="keyword">private</span> <span class="keyword">int</span> i  = <span class="number">1</span>;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">value</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> i;
+    }
+}
+<span class="keyword">protected</span> <span class="class"><span class="keyword">class</span> <span class="title">PDestination</span> <span class="keyword">implements</span> <span class="title">Destination</span></span>{
+    <span class="keyword">private</span> String label;
+    PDestination(String whereto){
+        <span class="keyword">this</span>.label = whereto;
+    }
+    <span class="function"><span class="keyword">public</span> String <span class="title">readLabel</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> label;
+    }
+}
+<span class="function"><span class="keyword">public</span> Destination <span class="title">destination</span><span class="params">(String label)</span></span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> PDestination(label);
+}
+<span class="function"><span class="keyword">public</span> Contents <span class="title">contents</span><span class="params">()</span></span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> PContents();
+}
+ }
+<span class="class"><span class="keyword">interface</span> <span class="title">Destination</span></span>{
+<span class="function">String <span class="title">readLabel</span><span class="params">()</span></span>;
+ }
+<span class="class"><span class="keyword">interface</span> <span class="title">Contents</span></span>{
+<span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;
+}
+</code></pre>
       
     </div>
 
@@ -639,7 +687,7 @@ RoundGlyph.RoundGlyph(): 5
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章_一切都是对象"><span class="nav-number">1.</span> <span class="nav-text">第二章 一切都是对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA堆栈和堆"><span class="nav-number">1.1.</span> <span class="nav-text">JAVA堆栈和堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本类型"><span class="nav-number">1.2.</span> <span class="nav-text">基本类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本成员默认值"><span class="nav-number">1.3.</span> <span class="nav-text">基本成员默认值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章_操作符"><span class="nav-number">2.</span> <span class="nav-text">第三章 操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#赋值"><span class="nav-number">2.1.</span> <span class="nav-text">赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动递增和递减"><span class="nav-number">2.2.</span> <span class="nav-text">自动递增和递减</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系操作符"><span class="nav-number">2.3.</span> <span class="nav-text">关系操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指数计数法"><span class="nav-number">2.4.</span> <span class="nav-text">指数计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#截尾和舍入"><span class="nav-number">2.5.</span> <span class="nav-text">截尾和舍入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章_初始化与清理"><span class="nav-number">3.</span> <span class="nav-text">第五章 初始化与清理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区别重载方法"><span class="nav-number">3.1.</span> <span class="nav-text">区别重载方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清理:终结处理和垃圾回收"><span class="nav-number">3.2.</span> <span class="nav-text">清理:终结处理和垃圾回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造器初始化"><span class="nav-number">3.3.</span> <span class="nav-text">构造器初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第七章_复用类"><span class="nav-number">4.</span> <span class="nav-text">第七章 复用类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组合和继承"><span class="nav-number">4.1.</span> <span class="nav-text">组合和继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final"><span class="nav-number">4.2.</span> <span class="nav-text">final</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第八章_多态"><span class="nav-number">5.</span> <span class="nav-text">第八章 多态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#域和静态方法"><span class="nav-number">5.1.</span> <span class="nav-text">域和静态方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数和方法"><span class="nav-number">5.2.</span> <span class="nav-text">构造函数和方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数内部的多态方法的行为"><span class="nav-number">5.3.</span> <span class="nav-text">构造函数内部的多态方法的行为</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第九章_接口"><span class="nav-number">6.</span> <span class="nav-text">第九章 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象类与接口"><span class="nav-number">6.1.</span> <span class="nav-text">抽象类与接口</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章_一切都是对象"><span class="nav-number">1.</span> <span class="nav-text">第二章 一切都是对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA堆栈和堆"><span class="nav-number">1.1.</span> <span class="nav-text">JAVA堆栈和堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本类型"><span class="nav-number">1.2.</span> <span class="nav-text">基本类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本成员默认值"><span class="nav-number">1.3.</span> <span class="nav-text">基本成员默认值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章_操作符"><span class="nav-number">2.</span> <span class="nav-text">第三章 操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#赋值"><span class="nav-number">2.1.</span> <span class="nav-text">赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动递增和递减"><span class="nav-number">2.2.</span> <span class="nav-text">自动递增和递减</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系操作符"><span class="nav-number">2.3.</span> <span class="nav-text">关系操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指数计数法"><span class="nav-number">2.4.</span> <span class="nav-text">指数计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#截尾和舍入"><span class="nav-number">2.5.</span> <span class="nav-text">截尾和舍入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章_初始化与清理"><span class="nav-number">3.</span> <span class="nav-text">第五章 初始化与清理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区别重载方法"><span class="nav-number">3.1.</span> <span class="nav-text">区别重载方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清理:终结处理和垃圾回收"><span class="nav-number">3.2.</span> <span class="nav-text">清理:终结处理和垃圾回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造器初始化"><span class="nav-number">3.3.</span> <span class="nav-text">构造器初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第七章_复用类"><span class="nav-number">4.</span> <span class="nav-text">第七章 复用类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组合和继承"><span class="nav-number">4.1.</span> <span class="nav-text">组合和继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final"><span class="nav-number">4.2.</span> <span class="nav-text">final</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第八章_多态"><span class="nav-number">5.</span> <span class="nav-text">第八章 多态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#域和静态方法"><span class="nav-number">5.1.</span> <span class="nav-text">域和静态方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数和方法"><span class="nav-number">5.2.</span> <span class="nav-text">构造函数和方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数内部的多态方法的行为"><span class="nav-number">5.3.</span> <span class="nav-text">构造函数内部的多态方法的行为</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第九章_接口"><span class="nav-number">6.</span> <span class="nav-text">第九章 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象类与接口"><span class="nav-number">6.1.</span> <span class="nav-text">抽象类与接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十章_内部类"><span class="nav-number">7.</span> <span class="nav-text">第十章 内部类</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
