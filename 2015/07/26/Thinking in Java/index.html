@@ -350,7 +350,8 @@
     System.<span class="keyword">out</span>.println(<span class="string">"后来的t1:"</span>+t1.level+<span class="string">"  后来的t2:"</span>+t2.level);
 
 }
-</code></pre><p>}<br>看输出：</p>
+}
+</code></pre><p>看输出：</p>
 <pre><code>原本的<span class="tag">t1</span><span class="pseudo">:9</span>  原本的<span class="tag">t2</span><span class="pseudo">:21</span>
 现在的<span class="tag">t1</span><span class="pseudo">:21</span>  现在的<span class="tag">t2</span><span class="pseudo">:21</span>
 后来的<span class="tag">t1</span><span class="pseudo">:40</span>  后来的<span class="tag">t2</span><span class="pseudo">:40</span>
@@ -391,51 +392,48 @@ System<span class="built_in">.</span>out<span class="built_in">.</span>println(n
 <p>ps:书上还有很多关于如何使用<code>finalize()</code>和JAVA是如何进行垃圾回收的的东西，我对gc没点了解，暂时不看了。。</p>
 <h3 id="构造器初始化">构造器初始化</h3><p>可以使用构造器进行初始化。在运行时刻，可以调用方法或者进行某些动作来确定初值。但是：<strong>无法阻止自动初始化的进行，它将在构造器被调用之前发生</strong>。比如：</p>
 <pre><code><span class="class"><span class="keyword">class</span> <span class="title">Counter</span></span>{
-    <span class="keyword">int</span> i;
-    Counter(){
-        i = <span class="number">7</span>;
-    }
+<span class="keyword">int</span> i;
+Counter(){
+i = <span class="number">7</span>;
+  }
 }
 </code></pre><p>这里的i先被置为0，然后变成7。<br>在类的内部，定义变量的顺序决定了初始化的顺序，即使变量定义散步在方法之间，<strong>它们仍然会在任何方法(包括构造器)被调用之前得到初始化</strong></p>
-<pre><code><span class="keyword">class</span> <span class="keyword">Window</span>{
-    <span class="keyword">Window</span>(int i){
-        System.<span class="keyword">out</span>.println(<span class="string">"window:"</span>+i);
+<pre><code>    <span class="keyword">class</span> <span class="keyword">Window</span>{
+        <span class="keyword">Window</span>(int i){
+            System.<span class="keyword">out</span>.println(<span class="string">"window:"</span>+i);
+        }    
     }
-}
-<span class="keyword">class</span> House{
-    <span class="keyword">Window</span> w1 = new <span class="keyword">Window</span>(1);
-    House(){
+       <span class="keyword">class</span> House{
+        <span class="keyword">Window</span> w1 = new <span class="keyword">Window</span>(1);
+        House(){
         System.<span class="keyword">out</span>.println(<span class="string">"House()"</span>);
         w3 = new <span class="keyword">Window</span>(33);
-    }
-    <span class="keyword">Window</span> w2 = new <span class="keyword">Window</span>(2);
-
-    void <span class="literal">f</span>(){System.<span class="keyword">out</span>.println(<span class="string">"f()"</span>);}
-    <span class="keyword">Window</span> w3 = new <span class="keyword">Window</span>(3);
-}
+        }
+        <span class="keyword">Window</span> w2 = new <span class="keyword">Window</span>(2);
+        void <span class="literal">f</span>(){System.<span class="keyword">out</span>.println(<span class="string">"f()"</span>);}
+        <span class="keyword">Window</span> w3 = new <span class="keyword">Window</span>(3);
+        }
 
 House <span class="keyword">h</span>= new House();
 <span class="keyword">h</span>.<span class="literal">f</span>();
-<span class="comment">//---------结果--------</span>
-<span class="keyword">window</span>:1
-<span class="keyword">window</span>:2
-<span class="keyword">window</span>:3
-House()
-<span class="keyword">window</span>:33
-<span class="literal">f</span>()
+    <span class="comment">//---------结果--------</span>
+    <span class="keyword">window</span>:1
+    <span class="keyword">window</span>:2
+    <span class="keyword">window</span>:3
+    House()
+    <span class="keyword">window</span>:33
+    <span class="literal">f</span>()
 </code></pre><h2 id="第七章_复用类">第七章 复用类</h2><h3 id="组合和继承">组合和继承</h3><p>&emsp;&emsp;组合和继承都允许在新的类中放置子对象，组合是显示的这么做，继承是隐式的做。组合技术通常用于想在新类中使用现有类的功能而非它的接口这种情形，即新类中嵌入某个对象，让其实现所需要的功能，但新类的用户看到的只是为新类所定义的接口，而非所嵌入对象的接口，让其实现所需要的功能，需要在新类中嵌入一个现有类的private对象。<br>&emsp;&emsp;判断应该使用继承还是组合，就是是否需要从新类向上转型。如果需要，继承是必须的。</p>
-<h3 id="final">final</h3><ul>
-<li><p>final的数据</p>
-<p>一个永不改变的编译时常量。<br>一个运行时被初始化的值，不希望被改变。</p>
-</li>
-</ul>
+<h3 id="final">final</h3><ol>
+<li>final的数据<br>一个永不改变的编译时常量。<br>一个运行时被初始化的值，不希望被改变。</li>
+</ol>
 <p>final修饰的是基本类型时数值保持不变，但是final修饰的是一个对象时，是对引用保持不变，但是对象又是可以修改的，所以用final修饰对象作用不大。</p>
 <p>&emsp;&emsp;空白final<br>空白final是指声明为final但是又没有给定初始值的域。这样当我们使用不同的构造函数创建不同的类时，就可以根据对象的不同有所不同，但是又保持不变。但是必须在每个域的定义处或者每个构造函数处对final赋值。</p>
-<ul>
+<ol>
 <li><p>final方法</p>
 <p>把方法锁定，以防任何继承类修改它的含义<br>确保在继承中使方法的行为保持不变。（<del>子类对父类的方法只能看不能摸</del>）<br>类中的所有的private方法都隐式的指定为final</p>
 </li>
-</ul>
+</ol>
 <h2 id="第八章_多态">第八章 多态</h2><p>&emsp;&emsp;多态是继 数据抽象 和 继承 之后的第三种基本类型。”封装”通过合并特性和行为来创建新的数据类型。多态的作用消除<strong>类型</strong>之间的耦合关系。</p>
 <h3 id="域和静态方法">域和静态方法</h3><p>只有普通的方法的调用是多态的，成员变量没有多态。（通过get和set方法去调用，而不是直接访问成员）。<br>如果方法是静态的，也没有多态性。（一般的工具类中的静态方法，子类没法重写）。</p>
 <h3 id="构造函数和方法">构造函数和方法</h3><p>构造函数不具有多态性，实际上他们是隐式的static方法。<br>复杂对象的构造方法调用顺序：</p>
@@ -484,7 +482,7 @@ RoundGlyph.RoundGlyph(): 5
 <li>调用子类的构造函数</li>
 </ol>
 <p>因此要避免在构造函数内调用可能会重写的方法，安全的做法是调用final的方法。</p>
-<h2 id="第九章_接口">第九章 接口</h2><p>&emsp;&emsp;接口表示：所有实现了该特定接口的类看起来都像这样。接口被用来创建类与类之间的协议。接口不仅仅是一个极度抽象的类，因为他允许人们通过创建一个能够向上转型为多种基类的类型，来实现某种类似多重继承变种的特性。<br>&emsp;&emsp;如果接口不添加public修饰，那么他默认是包访问权限。<br>&emsp;&emsp;这里还有对策略模式和适配器模式的介绍，这里对会在设计模式系列里面介绍。<br>&emsp;&emsp;使用接口的核心原因：为了能够向上转型为多个基类型。第二：防止创建该类的对象，并确保这仅仅是建立一个接口。<br>&emsp;&emsp;可以通过对接口的继承来进行接口的拓展，而且接口可以多重继承。    </p>
+<h2 id="第九章_接口">第九章 接口</h2><p>&emsp;&emsp;接口表示：所有实现了该特定接口的类看起来都像这样。接口被用来创建类与类之间的协议。接口不仅仅是一个极度抽象的类，因为他允许人们通过创建一个能够向上转型为多种基类的类型，来实现某种类似多重继承变种的特性。<br>&emsp;&emsp;如果接口不添加public修饰，那么他默认是包访问权限。<br>&emsp;&emsp;这里还有对策略模式和适配器模式的介绍，这里对会在设计模式系列里面介绍。<br>&emsp;&emsp;使用接口的核心原因：为了能够向上转型为多个基类型。第二：防止创建该类的对象，并确保这仅仅是建立一个接口。<br>&emsp;&emsp;可以通过对接口的继承来进行接口的拓展，而且接口可以多重继承。</p>
 <pre><code><span class="class"><span class="keyword">interface</span> <span class="title">Monster</span></span>{
 <span class="function"><span class="keyword">void</span> <span class="title">menace</span><span class="params">()</span></span>;
 }
@@ -509,44 +507,107 @@ RoundGlyph.RoundGlyph(): 5
 <li>将内部类向上转型为基类型，尤其是转型为一个接口时候，内部类就很有用了</li>
 </ul>
 <pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main3</span> </span>{
-<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
-    RelaMain main = <span class="keyword">new</span> RelaMain();
-    Contents c = main.contents();
-    Destination d = main.destination(<span class="string">"laal"</span>);
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
+        RelaMain main = <span class="keyword">new</span> RelaMain();
+        Contents c = main.contents();
+        Destination d = main.destination(<span class="string">"laal"</span>);
 
-    RelaMain.PDestination pd = main.new PDestination(<span class="string">"hahah"</span>);
-    <span class="comment">//RelaMain.PContents pc = main.new PContents();访问不到  因为是private的</span>
+        RelaMain.PDestination pd = main.new PDestination(<span class="string">"hahah"</span>);
+        <span class="comment">//RelaMain.PContents pc = main.new PContents();访问不到  因为是private的</span>
+    }
+
 }
-
- }
 <span class="class"><span class="keyword">class</span> <span class="title">RelaMain</span></span>{
-<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">PContents</span> <span class="keyword">implements</span> <span class="title">Contents</span></span>{
-    <span class="keyword">private</span> <span class="keyword">int</span> i  = <span class="number">1</span>;
-    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">value</span><span class="params">()</span> </span>{
-        <span class="keyword">return</span> i;
+    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">PContents</span> <span class="keyword">implements</span> <span class="title">Contents</span></span>{
+        <span class="keyword">private</span> <span class="keyword">int</span> i  = <span class="number">1</span>;
+        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">value</span><span class="params">()</span> </span>{
+            <span class="keyword">return</span> i;
+        }
+    }
+    <span class="keyword">protected</span> <span class="class"><span class="keyword">class</span> <span class="title">PDestination</span> <span class="keyword">implements</span> <span class="title">Destination</span></span>{
+        <span class="keyword">private</span> String label;
+        PDestination(String whereto){
+            <span class="keyword">this</span>.label = whereto;
+        }
+        <span class="function"><span class="keyword">public</span> String <span class="title">readLabel</span><span class="params">()</span> </span>{
+            <span class="keyword">return</span> label;
+        }
+    }
+    <span class="function"><span class="keyword">public</span> Destination <span class="title">destination</span><span class="params">(String label)</span></span>{
+        <span class="keyword">return</span> <span class="keyword">new</span> PDestination(label);
+    }
+    <span class="function"><span class="keyword">public</span> Contents <span class="title">contents</span><span class="params">()</span></span>{
+        <span class="keyword">return</span> <span class="keyword">new</span> PContents();
     }
 }
-<span class="keyword">protected</span> <span class="class"><span class="keyword">class</span> <span class="title">PDestination</span> <span class="keyword">implements</span> <span class="title">Destination</span></span>{
-    <span class="keyword">private</span> String label;
-    PDestination(String whereto){
-        <span class="keyword">this</span>.label = whereto;
-    }
-    <span class="function"><span class="keyword">public</span> String <span class="title">readLabel</span><span class="params">()</span> </span>{
-        <span class="keyword">return</span> label;
-    }
-}
-<span class="function"><span class="keyword">public</span> Destination <span class="title">destination</span><span class="params">(String label)</span></span>{
-    <span class="keyword">return</span> <span class="keyword">new</span> PDestination(label);
-}
-<span class="function"><span class="keyword">public</span> Contents <span class="title">contents</span><span class="params">()</span></span>{
-    <span class="keyword">return</span> <span class="keyword">new</span> PContents();
-}
- }
 <span class="class"><span class="keyword">interface</span> <span class="title">Destination</span></span>{
-<span class="function">String <span class="title">readLabel</span><span class="params">()</span></span>;
- }
+    <span class="function">String <span class="title">readLabel</span><span class="params">()</span></span>;
+}
 <span class="class"><span class="keyword">interface</span> <span class="title">Contents</span></span>{
-<span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;
+    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;
+}
+</code></pre><ul>
+<li><p>可以在方法里面或者任意的作用域内定义内部类：<br>1：实现某类型的接口，于是可以创建并返回对其的引用；<br>2：创建一个类来辅助你的解决方案，又不希望这个类是公共可用的。</p>
+</li>
+<li><p>匿名内部类和工厂方法</p>
+</li>
+</ul>
+<pre><code><span class="keyword">interface</span> <span class="title">Service</span>{
+    <span class="function"><span class="keyword">void</span> <span class="title">method1</span>(<span class="params"></span>)</span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">method2</span>(<span class="params"></span>)</span>;
+}
+<span class="keyword">interface</span> <span class="title">ServiceFactory</span>{<span class="comment">//抽象工厂接口 用于返回工厂产品</span>
+    <span class="function">Service <span class="title">getService</span>(<span class="params"></span>)</span>;
+}
+
+<span class="keyword">class</span> <span class="title">Implementation1</span> <span class="title">implements</span> <span class="title">Service</span>{
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span>(<span class="params"></span>) </span>{
+        System.<span class="keyword">out</span>.println(<span class="string">"Implementation1.method1"</span>);
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method2</span>(<span class="params"></span>) </span>{
+        System.<span class="keyword">out</span>.println(<span class="string">"Implementation1.method2"</span>);
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> ServiceFactory factory = <span class="keyword">new</span> ServiceFactory() {
+
+        <span class="function"><span class="keyword">public</span> Service <span class="title">getService</span>(<span class="params"></span>) </span>{
+            <span class="keyword">return</span> <span class="keyword">new</span> Implementation1();
+        }
+    };
+
+}
+
+<span class="keyword">class</span> <span class="title">Implementation2</span> <span class="title">implements</span> <span class="title">Service</span>{
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span>(<span class="params"></span>) </span>{
+        System.<span class="keyword">out</span>.println(<span class="string">"Implementation2.method1"</span>);
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method2</span>(<span class="params"></span>) </span>{
+        System.<span class="keyword">out</span>.println(<span class="string">"Implementation2.method1"</span>);
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> ServiceFactory factory = <span class="keyword">new</span> ServiceFactory() {
+
+        <span class="function"><span class="keyword">public</span> Service <span class="title">getService</span>(<span class="params"></span>) </span>{
+            <span class="keyword">return</span> <span class="keyword">new</span> Implementation2();
+        }
+    };
+
+}
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Main2</span> {
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">serviceConsumer</span>(<span class="params">ServiceFactory factory</span>)</span>{
+        Service s = factory.getService();
+        s.method1();
+        s.method2();
+
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>{
+
+        serviceConsumer(Implementation1.factory);
+        serviceConsumer(Implementation2.factory);
+    }
 }
 </code></pre>
       
