@@ -338,54 +338,19 @@
 <h3 id="基本类型">基本类型</h3><p>基本类型是存储在堆里，不用new来创建变量，而是创建一个并非是引用的”自动”变量（<del>看不懂…555</del>）。基本类型具有包装器类，使得可以在堆中创建一个非基本类型，用来表示对应的基本类型。<br>可以这么用<code>int i = 5</code>也可以<code>Integer i = new Integer(5)</code>。在JAVA se5之后的自动包装功能能自动的将基本类型转换为包装器类型：<code>Character ch = &#39;x&#39;</code></p>
 <h3 id="基本成员默认值">基本成员默认值</h3><p>若类的某个成员是基本数据类型，即使没有初始化，JAVA也会确保它获得一个默认值。但是局部变量不会初始化。</p>
 <h2 id="第三章_操作符">第三章 操作符</h2><h3 id="赋值">赋值</h3><p>赋值操作的是一个对象的引用，看一个例子：</p>
-<pre><code><span class="keyword">class</span> <span class="title">Tank</span>{
-<span class="keyword">int</span> level;
-}
-  <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Assignment</span>{
-  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>)</span>{
-    Tank t1 = <span class="keyword">new</span> Tank();
-    Tank t2 = <span class="keyword">new</span> Tank();
-
-    t1.level = <span class="number">9</span>;
-    t2.level = <span class="number">21</span>;
-
-    System.<span class="keyword">out</span>.println(<span class="string">"原本的t1:"</span>+t1.level+<span class="string">"  原本的t2:"</span>+t2.level);
-
-    t1 = t2;
-
-    System.<span class="keyword">out</span>.println(<span class="string">"现在的t1:"</span>+t1.level+<span class="string">"  现在的t2:"</span>+t2.level);
-
-    t1.level = <span class="number">40</span>;
-
-    System.<span class="keyword">out</span>.println(<span class="string">"后来的t1:"</span>+t1.level+<span class="string">"  后来的t2:"</span>+t2.level);
-
-}
-}
-</code></pre><p>看输出：</p>
-<pre><code>原本的<span class="tag">t1</span><span class="pseudo">:9</span>  原本的<span class="tag">t2</span><span class="pseudo">:21</span>
-现在的<span class="tag">t1</span><span class="pseudo">:21</span>  现在的<span class="tag">t2</span><span class="pseudo">:21</span>
-后来的<span class="tag">t1</span><span class="pseudo">:40</span>  后来的<span class="tag">t2</span><span class="pseudo">:40</span>
-</code></pre><p>正确的给t1赋值应该这样：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">class</span> <span class="title">Tank</span>&#123;</span><br><span class="line"><span class="keyword">int</span> level;</span><br><span class="line">   &#125;</span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Assignment</span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>)</span>&#123;</span><br><span class="line">	Tank t1 = <span class="keyword">new</span> Tank();</span><br><span class="line">	Tank t2 = <span class="keyword">new</span> Tank();</span><br><span class="line"></span><br><span class="line">	t1.level = <span class="number">9</span>;</span><br><span class="line">	t2.level = <span class="number">21</span>;</span><br><span class="line"></span><br><span class="line">	System.<span class="keyword">out</span>.println(<span class="string">"原本的t1:"</span>+t1.level+<span class="string">"  原本的t2:"</span>+t2.level);</span><br><span class="line"></span><br><span class="line">	t1 = t2;</span><br><span class="line"></span><br><span class="line">	System.<span class="keyword">out</span>.println(<span class="string">"现在的t1:"</span>+t1.level+<span class="string">"  现在的t2:"</span>+t2.level);</span><br><span class="line"></span><br><span class="line">	t1.level = <span class="number">40</span>;</span><br><span class="line">	</span><br><span class="line">	System.<span class="keyword">out</span>.println(<span class="string">"后来的t1:"</span>+t1.level+<span class="string">"  后来的t2:"</span>+t2.level);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>看输出：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">原本的<span class="tag">t1</span><span class="pseudo">:9</span>  原本的<span class="tag">t2</span><span class="pseudo">:21</span></span><br><span class="line">现在的<span class="tag">t1</span><span class="pseudo">:21</span>  现在的<span class="tag">t2</span><span class="pseudo">:21</span></span><br><span class="line">后来的<span class="tag">t1</span><span class="pseudo">:40</span>  后来的<span class="tag">t2</span><span class="pseudo">:40</span></span><br></pre></td></tr></table></figure>
+<p>正确的给t1赋值应该这样：</p>
 <pre><code>t1<span class="class">.level</span> = t2.level
 </code></pre><h3 id="自动递增和递减">自动递增和递减</h3><p>&emsp;&emsp;这个是我一直搞混的东西，总是弄混前缀和后缀的区别，现在写一下：</p>
-<pre><code>    <span class="keyword">int</span> i = <span class="number">1</span>;
-    System.<span class="keyword">out</span>.println(<span class="string">"i:"</span>+i);
-    System.<span class="keyword">out</span>.println(<span class="string">"i++ :"</span>+ i++);<span class="comment">//1</span>
-    System.<span class="keyword">out</span>.println(<span class="string">"++i :"</span> + ++i);<span class="comment">//3</span>
-i++是先生成值后计算，也就是说在<span class="string">`i++`</span>这里面的i是上一个状态的i,结果要在下一个状态才可以获取。前缀写法是先执行计算然后生成值，所以这里的i就等于三。
-</code></pre><h3 id="关系操作符">关系操作符</h3><p>&emsp;&emsp;关系操作符==和!=比较的是对象的引用，这个和在使用=进行对象赋值时一样，都是对象的引用而不是内部值。例子：</p>
-<pre><code><span class="built_in">Integer</span> n1 <span class="subst">=</span> <span class="literal">new</span> <span class="built_in">Integer</span>(<span class="number">1</span>);
-<span class="built_in">Integer</span> n2 <span class="subst">=</span> <span class="literal">new</span> <span class="built_in">Integer</span>(<span class="number">1</span>);
-System<span class="built_in">.</span>out<span class="built_in">.</span>println(n1 <span class="subst">==</span> n2);<span class="comment">//false</span>
-System<span class="built_in">.</span>out<span class="built_in">.</span>println(n1 <span class="subst">!=</span>n2);<span class="comment">//true</span>
-</code></pre><p>要是想比较实际内容，可以使用所有对象都适用的方法<code>equals()</code> 。但是这个方法不适用于基本类型，基本类型直接使用<code>==</code>和<code>!=</code>即可。但是在自己创建的类中，还要注意<code>euqals()</code>的坑：</p>
-<pre><code><span class="keyword">class</span> <span class="keyword">Value</span>{
-        <span class="built_in">int</span> i;
-    }
-    <span class="keyword">Value</span> v1 = new <span class="keyword">Value</span>();
-    <span class="keyword">Value</span> v2 = new <span class="keyword">Value</span>();
-    System.<span class="type">out</span>.println(v1.equals(v2));//false
-</code></pre><p>这是为啥？因为JAVA的设计者把对关系比较的权利完全给了类的设计者，因为<code>equasl()</code>方法对所有的对象都可以使用，所以他直接是卸载<code>Object</code>类里面。要想实现我们希望的功能，就要在自己的类中覆盖这个方法。这个方法的默认是返回对引用的比较。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">System.<span class="keyword">out</span>.println(<span class="string">"i:"</span>+i);</span><br><span class="line">System.<span class="keyword">out</span>.println(<span class="string">"i++ :"</span>+ i++);<span class="comment">//1</span></span><br><span class="line">System.<span class="keyword">out</span>.println(<span class="string">"++i :"</span> + ++i);<span class="comment">//3</span></span><br></pre></td></tr></table></figure>
+<p> i++是先生成值后计算，也就是说在<code>i++</code>这里面的i是上一个状态的i,结果要在下一个状态才可以获取。前缀写法是先执行计算然后生成值，所以这里的i就等于三。</p>
+<h3 id="关系操作符">关系操作符</h3><p>&emsp;&emsp;关系操作符==和!=比较的是对象的引用，这个和在使用=进行对象赋值时一样，都是对象的引用而不是内部值。例子：</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Integer</span> n1 <span class="subst">=</span> <span class="literal">new</span> <span class="built_in">Integer</span>(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">Integer</span> n2 <span class="subst">=</span> <span class="literal">new</span> <span class="built_in">Integer</span>(<span class="number">1</span>);</span><br><span class="line">System<span class="built_in">.</span>out<span class="built_in">.</span>println(n1 <span class="subst">==</span> n2);<span class="comment">//false</span></span><br><span class="line">System<span class="built_in">.</span>out<span class="built_in">.</span>println(n1 <span class="subst">!=</span>n2);<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>要是想比较实际内容，可以使用所有对象都适用的方法<code>equals()</code> 。但是这个方法不适用于基本类型，基本类型直接使用<code>==</code>和<code>!=</code>即可。但是在自己创建的类中，还要注意<code>euqals()</code>的坑：</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="keyword">Value</span>&#123;</span><br><span class="line">			<span class="built_in">int</span> i;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">Value</span> v1 = new <span class="keyword">Value</span>();</span><br><span class="line">		<span class="keyword">Value</span> v2 = new <span class="keyword">Value</span>();</span><br><span class="line">		System.<span class="type">out</span>.println(v1.equals(v2));//false</span><br></pre></td></tr></table></figure>
+<p>这是为啥？因为JAVA的设计者把对关系比较的权利完全给了类的设计者，因为<code>equasl()</code>方法对所有的对象都可以使用，所以他直接是卸载<code>Object</code>类里面。要想实现我们希望的功能，就要在自己的类中覆盖这个方法。这个方法的默认是返回对引用的比较。</p>
 <pre><code> <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>{
     <span class="keyword">return</span> (<span class="keyword">this</span> == obj);
 }
@@ -720,7 +685,7 @@ RoundGlyph.RoundGlyph(): 5
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

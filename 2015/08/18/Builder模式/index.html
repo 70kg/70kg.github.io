@@ -335,63 +335,10 @@ builder.setTitle<span class="params">(<span class="string">""</span>)</span>.set
 </code></pre><p>今天要说的就是这样的类型，网上还有很多正儿八经的Builder模式，我看了半天也是云里雾里的（<del>就是菜啊</del>）。这个还是很实用的。<a id="more"></a></p>
 <h3 id="用处">用处</h3><p>&emsp;&emsp;这个模式一般都用在构建复杂的对象上，像上面的Dialog就是个很好的例子。有很多属性需要去设置，但是如果使用构造函数的话，要重写那么多的构造函数（<del>要死人的</del>）。使用了Builder模式就简单很多，可以选择我们需要的属性进行赋值。</p>
 <h3 id="开始上代码">开始上代码</h3><p>&emsp;&emsp;接下来就是代码时间了，我们来创建一个常见的student类（<del>学生又中枪</del>）。这个学生呢，ID是必须的，姓名，年龄什么的可选。要创建一个学生对象，当然可以new一个。但是构造函数就要写很多（<del>我真是啰嗦</del>）。好吧，看吧。</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Student</span> {
-<span class="keyword">private</span> <span class="keyword">int</span> id;<span class="comment">//必须填写的</span>
-<span class="keyword">private</span> String name;
-<span class="keyword">private</span> String address;
-
-<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Builder</span>{
-    <span class="keyword">private</span> <span class="keyword">int</span> id;<span class="comment">//必须填写的</span>
-    <span class="keyword">private</span> String name;
-    <span class="keyword">private</span> String address;
-
-    <span class="comment">//builder的构造，必须传ID</span>
-    <span class="function"><span class="keyword">public</span> <span class="title">Builder</span>(<span class="params"><span class="keyword">int</span> id</span>)</span>{
-        <span class="keyword">this</span>.id = id;
-    }
-
-    <span class="function"><span class="keyword">public</span> Builder <span class="title">setname</span>(<span class="params">String name</span>)</span>{
-        <span class="keyword">this</span>.name = name;
-        <span class="keyword">return</span> <span class="keyword">this</span>;
-    }
-    <span class="function"><span class="keyword">public</span> Builder <span class="title">setaddress</span>(<span class="params">String address</span>)</span>{
-        <span class="keyword">this</span>.address = address;
-        <span class="keyword">return</span> <span class="keyword">this</span>;
-    }
-
-    <span class="function"><span class="keyword">public</span> Student <span class="title">build</span>(<span class="params"></span>)</span>{
-        <span class="keyword">return</span> <span class="keyword">new</span> Student(<span class="keyword">this</span>);
-    }
-
-}
-<span class="comment">//私有化构造函数</span>
-<span class="function"><span class="keyword">private</span> <span class="title">Student</span>(<span class="params">Builder builder</span>) </span>{
-<span class="comment">//通过赋值这种方法来检测传入的值得正确性 不正确会抛出异常  （主要是类型吧）</span>
-     <span class="keyword">this</span>.id = builder.id;
-     <span class="keyword">this</span>.name= builder.name;
-     <span class="keyword">this</span>.address = builder.address;
- }
-<span class="comment">//供外部获取的</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span>(<span class="params"></span>) </span>{
-    <span class="keyword">return</span> id;
-}
-
-<span class="function"><span class="keyword">public</span> String <span class="title">getName</span>(<span class="params"></span>) </span>{
-    <span class="keyword">return</span> name;
-}
-
-<span class="function"><span class="keyword">public</span> String <span class="title">getAddress</span>(<span class="params"></span>) </span>{
-    <span class="keyword">return</span> address;
-}
-
-}
-</code></pre><p>然后就可以愉快的调用啦</p>
-<pre><code>Student s = new Student.Builder<span class="params">(<span class="number">1</span>)</span>.setaddress<span class="params">(<span class="string">"山东省"</span>)</span>.setname<span class="params">(<span class="string">"70kg"</span>)</span>.build<span class="params">()</span>;
-System.out.println<span class="params">(<span class="string">"address:"</span>+s.getAddress<span class="params">()</span>+<span class="string">"   name:"</span>+s.getName<span class="params">()</span>+<span class="string">"   id:"</span>+s.getId<span class="params">()</span>)</span>;
-
-    <span class="comment">//输出</span>
-    address:山东省   name:<span class="number">70</span>kg   id:<span class="number">1</span>
-</code></pre><p>看，就build好了，最后记得去调用build方法去真正创建student对象，在Dialog里面的show也是类似，Toast好像也是这个效果，我去查查。（<del>toast好像不是这么玩的。。。。</del>)</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Student</span> &#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;<span class="comment">//必须填写的</span></span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> String address;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Builder</span>&#123;</span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">int</span> id;<span class="comment">//必须填写的</span></span><br><span class="line">		<span class="keyword">private</span> String name;</span><br><span class="line">		<span class="keyword">private</span> String address;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//builder的构造，必须传ID</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">Builder</span>(<span class="params"><span class="keyword">int</span> id</span>)</span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.id = id;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">public</span> Builder <span class="title">setname</span>(<span class="params">String name</span>)</span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.name = name;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> Builder <span class="title">setaddress</span>(<span class="params">String address</span>)</span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.address = address;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">public</span> Student <span class="title">build</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> Student(<span class="keyword">this</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//私有化构造函数</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Student</span>(<span class="params">Builder builder</span>) </span>&#123;</span><br><span class="line">	<span class="comment">//通过赋值这种方法来检测传入的值得正确性 不正确会抛出异常  （主要是类型吧）</span></span><br><span class="line">		 <span class="keyword">this</span>.id = builder.id;</span><br><span class="line">		 <span class="keyword">this</span>.name= builder.name;</span><br><span class="line">		 <span class="keyword">this</span>.address = builder.address;</span><br><span class="line">	 &#125;</span><br><span class="line">	<span class="comment">//供外部获取的</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> id;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getAddress</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> address;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>然后就可以愉快的调用啦</p>
+<figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Student s = new Student.Builder<span class="params">(<span class="number">1</span>)</span>.setaddress<span class="params">(<span class="string">"山东省"</span>)</span>.setname<span class="params">(<span class="string">"70kg"</span>)</span>.build<span class="params">()</span>;</span><br><span class="line">System.out.println<span class="params">(<span class="string">"address:"</span>+s.getAddress<span class="params">()</span>+<span class="string">"   name:"</span>+s.getName<span class="params">()</span>+<span class="string">"   id:"</span>+s.getId<span class="params">()</span>)</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//输出</span></span><br><span class="line">	address:山东省   name:<span class="number">70</span>kg   id:<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>看，就build好了，最后记得去调用build方法去真正创建student对象，在Dialog里面的show也是类似，Toast好像也是这个效果，我去查查。（<del>toast好像不是这么玩的。。。。</del>)</p>
 
       
     </div>
@@ -493,7 +440,7 @@ System.out.println<span class="params">(<span class="string">"address:"</span>+s
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
