@@ -22,7 +22,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -55,12 +55,12 @@
 
 
 
-  <title> 标签: 生活杂记 // 70kg </title>
+  <title> java反射 // 70kg </title>
 </head>
 
 <body>
 <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
-  <div class="container one-column ">
+  <div class="container one-column page-post-detail">
     <div class="headband"></div>
 
     <div id="header" class="header">
@@ -285,106 +285,104 @@
         <div id="content" class="content">
           
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        生活杂记
-        <small>标签</small>
-      </h2>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
 
-  <div class="post post-type-normal">
+  <div class="post post-type-normal ">
     <div class="post-header">
 
-      <div class="post-title">
-        
-            <a class="post-title-link" href="/2015/08/16/2015-08-16/">
-              2015-08-16
-            </a>
-        
-      </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 08-16 </span>
-      </div>
-
-    </div>
-  </div>
-
-
-    
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              java反射
+            
+          
+        </h1>
       
 
-  <div class="post post-type-normal">
-    <div class="post-header">
-
-      <div class="post-title">
-        
-            <a class="post-title-link" href="/2015/07/09/2015-7-9/">
-              2015.7.9
-            </a>
-        
-      </div>
-
       <div class="post-meta">
-        <span class="post-time"> 07-09 </span>
+        <span class="post-time">
+          发表于 2015-09-14
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/09/14/java反射/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/14/java反射/"></span>
+            </a>
+          </span>
+          
+        
       </div>
-
     </div>
-  </div>
 
+    <div class="post-body">
 
-    
+      
       
 
-  <div class="post post-type-normal">
-    <div class="post-header">
+      
+        <h2 id="扯淡">扯淡</h2><p>对于JAVA的反射，在Android的开发中用的不是很多，比较多的地方就是获取系统默认访问不到的一些类信息和在一些框架的搭建上面。看<a href="http://weibo.com/shark0017?from=feed&amp;loc=nickname" target="_blank" rel="external">@天之界线2010 </a>说的，反射一般就是</p>
+<ol>
+<li>反射构建出无法直接访问的类   </li>
+<li>set或get到无法访问的类变量</li>
+<li>调用不可访问的方法</li>
+</ol>
+<p>比如之前用过的actionbar的more(好像是叫这个)的图标样式。在Android中还是蛮有用的。但是还是要比较熟悉源码结构，知道在哪里去获取什么样的类来进行我们需要的内容。</p>
+<p>看到网上的内容，算是copy了一份，具体的原作者也没找到。先感谢一下。<br><a href="https://github.com/70kg/Thinking_in_Java/blob/master/src/the_fourteenth/TestReflection.java" target="_blank" rel="external">地址在这里😁快点我</a>。这里常用的就够了。</p>
+<p>还有就是<a href="http://weibo.com/shark0017?from=feed&amp;loc=nickname" target="_blank" rel="external">@天之界线2010 </a>的<a href="https://github.com/tianzhijiexian/Android-Best-Practices/blob/master/2015.9/reflect/reflect.md" target="_blank" rel="external">Java反射最佳实践</a>这个讲了反射的一种简单优雅的写法，基于<a href="https://github.com/jOOQ/jOOR" target="_blank" rel="external">jOOR</a>写的。这个开源项目一共两个类，一个核心的类，用起来还是很方便的。</p>
 
-      <div class="post-title">
-        
-            <a class="post-title-link" href="/2015/07/08/2015-7-8/">
-              2015.7.8
-            </a>
-        
-      </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 07-08 </span>
-      </div>
-
+      
     </div>
-  </div>
 
-
-    
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/"> #Java </a>
+          
+        </div>
       
 
-  <div class="post post-type-normal">
-    <div class="post-header">
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
 
-      <div class="post-title">
-        
-            <a class="post-title-link" href="/2015/06/09/慢情调/">
-              慢情调
-            </a>
-        
-      </div>
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/22/Android Studio快捷键/">Android Studio快捷键</a>
+            
+          </div>
+        </div>
+      
 
-      <div class="post-meta">
-        <span class="post-time"> 06-09 </span>
-      </div>
-
+      
+      
     </div>
   </div>
 
 
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/09/14/java反射/"
+               data-title="java反射" data-url="http://70kg.info/2015/09/14/java反射/">
+          </div>
+        
+      </div>
     
   </div>
 
-  
 
         </div>
 
@@ -405,6 +403,15 @@
   <div id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
       
 
       <div class="site-overview">
@@ -463,6 +470,17 @@
       </div>
 
       
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#扯淡"><span class="nav-number">1.</span> <span class="nav-text">扯淡</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
 
     </div>
   </div>
@@ -505,12 +523,6 @@
 
   
   
-  
-    <script type="text/javascript">
-      postMotionOptions = {stagger: 100, drag: true};
-    </script>
-  
-
 
   
   <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
@@ -529,6 +541,145 @@
 
 
   
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
 
   <script type="text/javascript">
     $(document).ready(function () {
@@ -541,6 +692,26 @@
   
 
   
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"70kg"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
 
   
   
