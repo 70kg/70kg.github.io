@@ -299,6 +299,83 @@
           
           
             
+              <a class="post-title-link" href="/2015/07/21/冰与火之歌/">
+                冰与火之歌
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-07-21
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/07/21/冰与火之歌/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/21/冰与火之歌/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="先絮叨一会">先絮叨一会</h2><p>&emsp;&emsp;昨天晚上一点刷完了《冰与火之歌》第五季，花了大概一个月的时间看完了五季，依然是意犹未尽。也不知道是从什么时候开始喜欢上了看美剧，现在基本上每天一集，看完神清气爽的。每天起的早了，也有更多的时间去做更多喜欢的事情。这篇就是随便写写自己的观后感，我也没什么思路，就是想到哪写到哪，也没指望谁会去看我写的这些碎碎念。先写一下关于《冰与火之歌》的，后面有时间再把前面看过的稍微写一下，算是留个纪念。目前刷完的美剧：</p>
+<ul>
+<li>《末日孤舰》</li>
+<li>《生活大爆炸》</li>
+<li>《纸牌屋》</li>
+<li>《康斯坦丁》</li>
+<li>《破产姐妹》看了好像两季，不怎么喜欢</li>
+<li>。。。想起来再更新吧，也是刚开始看美剧
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/21/冰与火之歌/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/07/17/Palette浅谈/">
                 Palette浅谈
               </a>
@@ -575,109 +652,11 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/07/03/Android属性动画/">
-                Android属性动画
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-07-03
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/动画/">动画</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/07/03/Android属性动画/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/03/Android属性动画/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>&emsp;&emsp;其实之前就学习过关于android动画的一些东西,但是只是为了解决当时的问题简单的学习了一下，没有系统的学习，时间久了就忘记了，这段时间再从新系统的学习一下动画。</p>
-<h2 id="属性动画">属性动画</h2><p>&emsp;&emsp;关于Android动画的部分，我决定直接学习属性动画，之前的帧动画等用处没有属性动画那么的广泛和强大。好吧，现在开始聊聊属性动画。这篇还是讲基础。</p>
-<h3 id="ObjectAnimator">ObjectAnimator</h3><p>&emsp;&emsp;ObjectAnimator是属性动画的执行类，使用起来也是很简单，比如让一个view围绕y轴旋转</p>
-<pre><code><span class="tag">ObjectAnimator</span><span class="class">.ofFloat</span>(<span class="tag">mTestImage</span>,"<span class="tag">rotationY</span>",0<span class="class">.0f</span>,360<span class="tag">f</span>)<span class="class">.setDuration</span>(500)<span class="class">.start</span>();
-</code></pre><p>顺便提一下，属性动画改变的对象真正的属性，像View的Animation动画只是改变了”表面”的属性，比如使用Animation移动一个buton到一个新的位置，但是点击事件的响应还是在原来的位置，这样就十分的不方便。属性动画则不会有这样的问题。<br>上面的代码只是改变了一个属性，如果想改变两个属性怎么办？可以使用AnimatorSet。这个后面会说到。我们也可以使用ObjectAnimator来实现改变多个属性。</p>
-<pre><code>ObjectAnimator animator = ObjectAnimator.ofFloat<span class="params">(mTestImage, <span class="string">"abc"</span>, <span class="number">1</span>f, <span class="number">0</span>f)</span>
-           .setDuration<span class="params">(<span class="number">500</span>)</span>;
-   animator.start<span class="params">()</span>;
-   animator.addUpdateListener<span class="params">(new ValueAnimator.AnimatorUpdateListener<span class="params">()</span> {
-       @Override
-       public void onAnimationUpdate<span class="params">(ValueAnimator valueAnimator)</span> {
-           float cVal = <span class="params">(Float)</span> valueAnimator.getAnimatedValue<span class="params">()</span>;
-           mTestImage.setAlpha<span class="params">(cVal)</span>;
-           mTestImage.setScaleX<span class="params">(cVal)</span>;
-           mTestImage.setScaleY<span class="params">(cVal)</span>;
-       }
-   })</span>;
-</code></pre><p> 我们可以看出，上面的代码中是随便写了一个属性的名称，我们只是取用了valueAnimator的值，这个值是个0-1的值，在设置的持续时间中变化。然后根据valueAnimator的值动态的去改变对象的属性，这样就可以使用ObjectAnimator来同时改变多个属性了。不过还是使用AnimatorSet比较方便。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/03/Android属性动画/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">&raquo;</a>
   </div>
 
 
@@ -711,7 +690,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

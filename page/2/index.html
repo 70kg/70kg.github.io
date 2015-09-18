@@ -299,6 +299,82 @@
           
           
             
+              <a class="post-title-link" href="/2015/08/04/代理模式/">
+                代理模式
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-08-04
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/08/04/代理模式/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/04/代理模式/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>&emsp;&emsp;今天来写一写代理模式，代理模式的主要作用是为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不想或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。其实就是我不想直接去接触你，但是我可以控制你。<br>&emsp;&emsp;举个例子，一个人想去追求女生，但是他又不好意思自己去送礼物，就叫一个人代理他去送。但是礼物真正是这个人送的，不是代理人送的。（<del>好吧，有点复杂</del>）。看代码吧。</p>
+<h3 id="一个共同的接口">一个共同的接口</h3><pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">SendGift</span> {
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendFlower</span>(<span class="params"></span>)</span>;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendMoney</span>(<span class="params"></span>) </span>;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendDurex</span>(<span class="params"></span>)</span>;
+  }
+</code></pre><p>这个接口定义了送礼物的行为。
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/04/代理模式/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/08/02/单例模式/">
                 单例模式
               </a>
@@ -599,88 +675,11 @@ mRecycleView.addItemDecoration<span class="params">(new DividerItemDecoration<sp
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/07/21/冰与火之歌/">
-                冰与火之歌
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-07-21
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/07/21/冰与火之歌/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/21/冰与火之歌/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="先絮叨一会">先絮叨一会</h2><p>&emsp;&emsp;昨天晚上一点刷完了《冰与火之歌》第五季，花了大概一个月的时间看完了五季，依然是意犹未尽。也不知道是从什么时候开始喜欢上了看美剧，现在基本上每天一集，看完神清气爽的。每天起的早了，也有更多的时间去做更多喜欢的事情。这篇就是随便写写自己的观后感，我也没什么思路，就是想到哪写到哪，也没指望谁会去看我写的这些碎碎念。先写一下关于《冰与火之歌》的，后面有时间再把前面看过的稍微写一下，算是留个纪念。目前刷完的美剧：</p>
-<ul>
-<li>《末日孤舰》</li>
-<li>《生活大爆炸》</li>
-<li>《纸牌屋》</li>
-<li>《康斯坦丁》</li>
-<li>《破产姐妹》看了好像两季，不怎么喜欢</li>
-<li>。。。想起来再更新吧，也是刚开始看美剧
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/21/冰与火之歌/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
   <div class="pagination">
-    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
   </div>
 
 
@@ -714,7 +713,7 @@ mRecycleView.addItemDecoration<span class="params">(new DividerItemDecoration<sp
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
