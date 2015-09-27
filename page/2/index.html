@@ -299,6 +299,79 @@
           
           
             
+              <a class="post-title-link" href="/2015/08/18/Builder模式/">
+                Builder模式
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-08-18
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/08/18/Builder模式/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/18/Builder模式/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="扯淡">扯淡</h3><p>&emsp;&emsp;隔了好久，我又来扯设计模式了，今天扯扯Builder模式。这个是很久之前就想写的模式，最常见到的就是在使用Dialog的时候</p>
+<pre><code>AlertDialog.Builder builder = new Builder<span class="params">(this)</span>;
+builder.setTitle<span class="params">(<span class="string">""</span>)</span>.setIcon<span class="params">(R.drawable.ic_launcher)</span>.show<span class="params">()</span>;
+</code></pre><p>今天要说的就是这样的类型，网上还有很多正儿八经的Builder模式，我看了半天也是云里雾里的（<del>就是菜啊</del>）。这个还是很实用的。
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/18/Builder模式/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/08/16/2015-08-16/">
                 2015-08-16
               </a>
@@ -594,81 +667,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/07/26/Thinking in Java/">
-                Thanking in Java
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-07-26
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/07/26/Thinking in Java/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/26/Thinking in Java/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>这又是一篇占坑的。。。啦啦啦</p>
-<hr>
-<p> 7.29我来填坑啦啦</p>
-<hr>
-<p>写一些看书的笔记</p>
-<h2 id="第二章_一切都是对象">第二章 一切都是对象</h2><h3 id="JAVA堆栈和堆">JAVA堆栈和堆</h3><p>&emsp;&emsp;堆栈就是平时所说的栈，位于通用的ROM中，从堆栈指针从处理器那里获得直接支持。堆栈的指针向下移动，分配新的内存，向上移动，释放内存。在创建程序时，系统必须知道存储在盾战中所有的项目的确切生命周期，以便赏析移动堆栈的指针。这一约束限制了程序的灵活性，所以虽然某些JAVA数据存储在堆栈中—特别是对象引用，但是JAVA对象并不存储其中（<del>然而我并不怎么理解</del>。。）。<br>&emsp;&emsp;堆是一种通用的内存池，也是位于RAM中，用于存放所有的JAVA对象。堆对于栈的好处就是：编译器不需要知道存储的数据在堆里存货多长时间。当需要一个对象时，只需要去new，当执行这个代码会自动在堆内进行储存分配。但是用堆进行存储分配和清理可能比用栈分配需要更多的时间。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/26/Thinking in Java/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -707,7 +705,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
