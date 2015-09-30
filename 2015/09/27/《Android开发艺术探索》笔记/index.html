@@ -411,9 +411,50 @@
 <h3 id="使用Binder连接池">使用Binder连接池</h3><ul>
 <li>这个就是用于当一个项目用到很多的AIDL,总不能每个AIDL都去搞个<code>service</code>，可以把所以的AIDL都扔到一个<code>service</code>里面去管理，根据不同的业务模块拿到不同的<code>Binder</code>对象。Binder连接池的主要作用就是将每个业务模块的<code>Binder</code>请求统一转发到远程<code>service</code>上去执行。（其实感觉这个有点像个工厂）。</li>
 <li>具体我只是看了一下，并没有去写完这个代码，一是因为我的socket浪费了太多的时间，二是因为要使用到Binder连接池就是很大很大的项目了，目前还接触不到。原理并不复杂，再去写一个<code>BinderPool</code>的aidl接口，去管理里面的其他aidl，然后根据不同的业务需求返回不同的<code>IBinder</code>。用到再好好研究吧。</li>
-<li>下面就是开始<code>View</code>的部分，更”赤几”的来啦😁</li>
 </ul>
-<h2 id="View的事件体系">View的事件体系</h2>
+<hr>
+<p>  下面就是开始<code>View</code>的部分，更”赤几”的来啦😁</p>
+<hr>
+<h2 id="View的事件体系">View的事件体系</h2><ul>
+<li>view的left,top等都是相对于父布局的，但是我测试即使和父布局有间距，<code>getLeft()</code>初始化依然是0，在<code>setLeft()</code>之后变换了，但是view的位置似乎并没有变换，这个待解决吧。在3.0之后加入了新的参数x和<code>translationX</code>，x，y是view的左上角坐标，也是相对于父布局的，<code>translationX</code>只有在移动的时候才会有值，是相对于父布局的偏移量，x = left+translationX。在view的平移过程中，top和left表示原始左上角的左边，并不会改变。</li>
+<li><p><code>TouchSlop</code>是指滑动的最小距离，这个用的很多了，<code>ViewConfiguration.get(Context).getScaledTouchSlop()</code>这样获得，其实就是8dp。。</p>
+</li>
+<li><p><code>VelocityTracker</code>是关于滑动加速度的，这个用过几次，比较简单。不多说</p>
+</li>
+<li><code>GestureDetector</code>这个是关于手势的，其实用起来感觉就是touchevent的补充。也没太大难度。</li>
+<li><code>Scroller</code>这个倒是很有意思的东西，内部没有一点对view的引用却可以控制view的移动。但是只能view的内容移动，看原理就是不停的去重绘界面，实现倒是很是巧妙。</li>
+<li><p>View的滑动一般有三种实现方式：</p>
+<p> 1：通过view自身的<code>scrollto</code>和<code>scrollby</code>进行滑动</p>
+<p> 2：使用动画</p>
+<p> 3：通过改变view的<code>layoutparams</code>来实现</p>
+</li>
+</ul>
+<p>(我感觉在那些写的好的开源自定义的view中，使用matrix变换占了很大的比例。。无论是配合动画还是手指滑动距离，这个都是很好的解决办法)</p>
+<ul>
+<li><code>scrollto</code>的移动绝对距离，<code>scrollby</code>是移动相对距离，<code>scrollby</code>内部其实就是用<code>scrollto</code>实现的。</li>
+</ul>
+<h3 id="View的事件分发机制">View的事件分发机制</h3><ul>
+<li>主席的书对这个的讲解还是很精巧的。让人很容易的去理解这个过程。</li>
+<li><p>这个事件分发机制我们只需要去关心三个方法</p>
+<p>1：<code>public boolean dispatchTouchEvent(MotionEvent ev)</code><br>用来进行事件的分发，如果事件能够传递给当前的view，那么这个方式肯定会调用。返回结果受当前view的<code>onTouchEvent</code>和下级view的<code>dispatchTouchEvent</code>影响，表示是否消耗当前事件。</p>
+<p>2：<code>public boolean onInterceptTouchEvent(MotionEvent ev)</code><br>用来判断是否拦截某个事件，如果拦截了，那么在同一个事件序列中不会再次调用。返回结果表示是否拦截这个事件。</p>
+<p>3: <code>public boolean onTouchEvent(MotionEvent event)</code><br>在<code>dispatchTouchEvent</code>中调用，用来处理点击事件。返回结果表示是否消耗当前事件。如果不消耗，在同一个事件序列中不会再次接受事件。</p>
+</li>
+<li><p>下面就是精巧的伪代码表示三者关系时间啦</p>
+</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">public</span> boolean dispatchTouchEvent(MotionEvent ev) &#123;</span><br><span class="line">       <span class="title">boolean</span> consume = <span class="built_in">false</span>;</span><br><span class="line">       <span class="title">if</span> (<span class="built_in">on</span>InterceptTouchEvent(ev))&#123;</span><br><span class="line">           <span class="title">consume</span> = <span class="built_in">on</span>TouchEvent(ev);</span><br><span class="line">       &#125;<span class="title">else</span> &#123;</span><br><span class="line">           <span class="title">consume</span> = child.dispatchTouchEvent(ev);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="title">return</span> consume;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>解释一下：对于一个根<code>viewgroup</code>来说，点击事件产生后，首先调用<code>dispatchTouchEvent</code>方法，如果它的<code>onInterceptTouchEvent</code>返回true，表示它想拦截这个事件，然后就交给它的<code>onTouchEvent</code>来进行处理，否则就交给下一级view的<code>dispatchTouchEvent</code>再进行循环。</p>
+<ul>
+<li>如果view设置了<code>setOnTouchListener</code>,那么优先调用<code>setOnTouchListener</code>，如果返回false,那么再去调用<code>onTouchEvent</code>，返回true，说明已经消耗了，<code>onTouchEvent</code>不会调用了。还有常用的<code>setOnClickListener</code>它的优先级是最低的，没错，是最低的。。</li>
+<li>正常情况下，一个事件序列只能被一个view拦截和消耗。除非强行传递给其他的view。。</li>
+<li>某个view一旦开始处理事件，如果不消耗<code>ACTION_DOWN</code>即返回false,那么同一实践序列中的其他事件都不会交给他处理，并且将事件交给他爹处理。也就是说事件一旦交给你了，你就必须消耗掉，不然以后的都不给你了。😂</li>
+<li>如果view不消耗掉除<code>ACTION_DOWN</code>以外的其他事件，那么这个点击事件就会消失。此时父元素的<code>onTouchEvent</code>不会调用，最终会传递给<code>activity</code>处理。</li>
+</ul>
+<h3 id="view的滑动冲突">view的滑动冲突</h3><ul>
+<li>这里主席总结的也很好，主要有两种方式去解决滑动冲突。<br> 1：外部拦截法<br>这个是在父布局中的<code>onInterceptTouchEvent</code>方法中进行判断，根据具体的业务逻辑是否去拦截掉事件。主要还是在<code>MotionEvent.ACTION_MOVE</code>中判断，然后返回值。<br> 2：内部拦截法<br>这个方法是指父容器不拦截任何事件，全部交给子元素。如果子元素需要就消耗掉，如果不需要再返回给父元素。这个主要配合<code>requestDisallowInterceptTouchEvent</code>来对父布局的拦截事件操作。这个也不好用，也比较麻烦，和整个事件传递的思想也不怎么搭。就不写代码了。</li>
+</ul>
+<h2 id="View的工作原理">View的工作原理</h2>
       
     </div>
 
@@ -553,7 +594,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章_Activity的生命周期和启动模式"><span class="nav-number">1.</span> <span class="nav-text">第一章 Activity的生命周期和启动模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的LaunchMode"><span class="nav-number">1.1.</span> <span class="nav-text">Activity的LaunchMode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务栈"><span class="nav-number">1.2.</span> <span class="nav-text">任务栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的Flags"><span class="nav-number">1.3.</span> <span class="nav-text">Activity的Flags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#intentFilter的匹配规则"><span class="nav-number">1.4.</span> <span class="nav-text">intentFilter的匹配规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPC机制"><span class="nav-number">2.</span> <span class="nav-text">IPC机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializable接口"><span class="nav-number">2.1.</span> <span class="nav-text">Serializable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Paracelable接口"><span class="nav-number">2.2.</span> <span class="nav-text">Paracelable接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Binder"><span class="nav-number">2.2.1.</span> <span class="nav-text">Binder</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android中的IPC方式"><span class="nav-number">2.3.</span> <span class="nav-text">Android中的IPC方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AIDL"><span class="nav-number">2.4.</span> <span class="nav-text">AIDL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ContentProvider"><span class="nav-number">2.5.</span> <span class="nav-text">使用ContentProvider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Socket"><span class="nav-number">2.6.</span> <span class="nav-text">使用Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Binder连接池"><span class="nav-number">2.7.</span> <span class="nav-text">使用Binder连接池</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的事件体系"><span class="nav-number">3.</span> <span class="nav-text">View的事件体系</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章_Activity的生命周期和启动模式"><span class="nav-number">1.</span> <span class="nav-text">第一章 Activity的生命周期和启动模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的LaunchMode"><span class="nav-number">1.1.</span> <span class="nav-text">Activity的LaunchMode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务栈"><span class="nav-number">1.2.</span> <span class="nav-text">任务栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的Flags"><span class="nav-number">1.3.</span> <span class="nav-text">Activity的Flags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#intentFilter的匹配规则"><span class="nav-number">1.4.</span> <span class="nav-text">intentFilter的匹配规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPC机制"><span class="nav-number">2.</span> <span class="nav-text">IPC机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializable接口"><span class="nav-number">2.1.</span> <span class="nav-text">Serializable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Paracelable接口"><span class="nav-number">2.2.</span> <span class="nav-text">Paracelable接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Binder"><span class="nav-number">2.2.1.</span> <span class="nav-text">Binder</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android中的IPC方式"><span class="nav-number">2.3.</span> <span class="nav-text">Android中的IPC方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AIDL"><span class="nav-number">2.4.</span> <span class="nav-text">AIDL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ContentProvider"><span class="nav-number">2.5.</span> <span class="nav-text">使用ContentProvider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Socket"><span class="nav-number">2.6.</span> <span class="nav-text">使用Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Binder连接池"><span class="nav-number">2.7.</span> <span class="nav-text">使用Binder连接池</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的事件体系"><span class="nav-number">3.</span> <span class="nav-text">View的事件体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#View的事件分发机制"><span class="nav-number">3.1.</span> <span class="nav-text">View的事件分发机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#view的滑动冲突"><span class="nav-number">3.2.</span> <span class="nav-text">view的滑动冲突</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的工作原理"><span class="nav-number">4.</span> <span class="nav-text">View的工作原理</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
