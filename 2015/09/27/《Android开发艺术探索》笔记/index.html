@@ -377,7 +377,11 @@
 <h4 id="Binder">Binder</h4><ul>
 <li>Binder就是Android中的一个类，继承了<code>IBinder</code>接口。主要用于<code>Service</code>中，包括<code>AIDL</code>和<code>Messenger</code>，其中<code>Messenger</code>底层就是<code>AIDL</code>，这个后面有，所以还在主要看<code>AIDL</code>。</li>
 <li>对应介绍<code>AIDL</code>，推荐看一下洪洋的<a href="http://blog.csdn.net/lmj623565791/article/details/38461079" target="_blank" rel="external">Android aidl Binder框架浅析</a>。其中在<code>Eclipse</code>中创建正确的<code>aidl</code>文件会自动在gen下面生成对应的JAVA文件，但是在Android studio中即使按提示创建了正确的AIDL文件，在debug下面还是不会出现，这时make project就可以了。（也是坑死我了）。</li>
-<li>说一下使用<code>aidl</code>的简单流程：<br> 1：创建aidl文件，就是一个接口<br> 2：在service中使用接口去获取Binder<br> 3：就是在客户端调用喽</li>
+<li><p>说一下使用<code>aidl</code>的简单流程：</p>
+<p> 1：创建aidl文件，就是一个接口</p>
+<p> 2：在service中使用接口去获取Binder</p>
+<p> 3：就是在客户端调用喽</p>
+</li>
 <li>我们去定义一个<code>aidl</code>文件只是去简化工作，让系统去帮助我们生成一个对应的接口类（当然我们可以手写这个类）。这个接口类是继承了<code>IInterface</code>这个接口，同时自己也是一个接口，所有可以在<code>Binder</code>中传输的接口都需要继承<code>IInterface</code>接口。要分析这个类没有具体的案例也不好说，还是去看上面那篇博客吧。我自己也写了一遍<a href="https://github.com/70kg/Android-Studio-Project/tree/master/app/src/main/java/com/com/mr_wrong/AIDL" target="_blank" rel="external">我的GitHub</a>.里面还有对Binder的<code>linkToDeath</code>和<code>unlinkToDeath</code>方法的介绍，这两个主要就是在服务端异常终止的时候进行重新绑定。（我自己测试好像没什么用。。估计姿势不对😂）。</li>
 </ul>
 <h3 id="Android中的IPC方式">Android中的IPC方式</h3><ul>
@@ -386,7 +390,30 @@
 <li>使用Messenger,这个前面说过了，还是推荐看一下洪洋的博客<a href="http://blog.csdn.net/lmj623565791/article/details/47017485" target="_blank" rel="external">Android 基于Message的进程间通信 Messenger完全解析</a>.这就是对<code>aidl</code>的封装。</li>
 <li>还有就是<code>AIDL</code>了。</li>
 </ul>
-
+<h3 id="AIDL">AIDL</h3><ul>
+<li>Messenger是以串行的方式处理客户端发来的信息，所以只适用于低并发的情况。</li>
+<li>AIDL只支持特定的数据类型<br> 1：基本数据类型<br> 2：String和CharSequeue<br> 3:只支持ArrayList 并且里面的元素也要能被AIDL支持<br> 4：只支持HashMap  并且里面的元素也要能被AIDL支持<br> 5：所以实现了<code>Paracelable</code>接口的对象<br> 6：AIDL AILD本身也能在AIDL文件中使用</li>
+<li>其中自定义的<code>Paracelable</code>对象和AIDL对象要显式的import进来，不管他们是否和当前的aidl文件位于同一个包内</li>
+<li>同时 使用自定义的<code>Paracelable</code>对象时，要为他独立建一个同名的AIDL文件，并且声明为<code>Paracelable</code>类型</li>
+<li>服务端可以使用<code>CopyOnWriteArrayList</code>和<code>ConcurrentHashMap</code>来进行自动线程同步，支持并发读/写,客户端拿到的依然是ArrayList和HashMap</li>
+<li>可以使用<code>RemoteCallbackList</code>来进行解注册，他是系统专门提供的用于删除夸进程<code>listener</code>的接口，但是我没无法像list一样去操作它，要遍历要使用<code>listener.beginBroadcast()</code>和<code>listener.finishBroadcast()</code>。</li>
+<li>客户端通过IBinder.DeathRecipient来监听Binder死亡，也可以在onServiceDisconnected中监听并重连服务端。区别在于前者是在binder线程池中，访问UI需要用Handler，后者则是UI线程。  </li>
+<li>可以在<code>onBind</code>中进行权限的验证，还可以在服务端的<code>onTransact()</code>方法中采用uid和pid进行验证</li>
+</ul>
+<h3 id="使用ContentProvider">使用ContentProvider</h3><ul>
+<li><code>ContentProvider</code>是Android提供的专门用于不同应用间的数据共享方式，底层也是使用<code>Binder</code>实现的。</li>
+<li><code>ContentProvider</code>主要以表格的形式组织数据</li>
+<li>这里有一个使用<code>ContentProvider</code>和<code>SQLite</code>数据库的例子，就不贴代码了<a href="https://github.com/70kg/Android-Studio-Project/tree/master/app/src/main/java/com/com/mr_wrong/ContentProvider" target="_blank" rel="external">我的GitHub</a>。</li>
+</ul>
+<h3 id="使用Socket">使用Socket</h3><ul>
+<li><code>Socket</code>也可以进行进程间通信，虽然更多的时候用来进行网络数据交换。这样也写了一个使用<code>TCP</code>实现<code>Socket</code>通信的例子，里面有个坑坑死我了，总是接受不到服务器信息，最后发现是<code>out.println(msg)</code> 写成<code>print</code>就完蛋。<a href="https://github.com/70kg/Android-Studio-Project/tree/master/app/src/main/java/com/com/mr_wrong/Socket" target="_blank" rel="external">我的GitHub</a></li>
+</ul>
+<h3 id="使用Binder连接池">使用Binder连接池</h3><ul>
+<li>这个就是用于当一个项目用到很多的AIDL,总不能每个AIDL都去搞个<code>service</code>，可以把所以的AIDL都扔到一个<code>service</code>里面去管理，根据不同的业务模块拿到不同的<code>Binder</code>对象。Binder连接池的主要作用就是将每个业务模块的<code>Binder</code>请求统一转发到远程<code>service</code>上去执行。（其实感觉这个有点像个工厂）。</li>
+<li>具体我只是看了一下，并没有去写完这个代码，一是因为我的socket浪费了太多的时间，二是因为要使用到Binder连接池就是很大很大的项目了，目前还接触不到。原理并不复杂，再去写一个<code>BinderPool</code>的aidl接口，去管理里面的其他aidl，然后根据不同的业务需求返回不同的<code>IBinder</code>。用到再好好研究吧。</li>
+<li>下面就是开始<code>View</code>的部分，更”赤几”的来啦😁</li>
+</ul>
+<h2 id="View的事件体系">View的事件体系</h2>
       
     </div>
 
@@ -526,7 +553,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章_Activity的生命周期和启动模式"><span class="nav-number">1.</span> <span class="nav-text">第一章 Activity的生命周期和启动模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的LaunchMode"><span class="nav-number">1.1.</span> <span class="nav-text">Activity的LaunchMode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务栈"><span class="nav-number">1.2.</span> <span class="nav-text">任务栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的Flags"><span class="nav-number">1.3.</span> <span class="nav-text">Activity的Flags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#intentFilter的匹配规则"><span class="nav-number">1.4.</span> <span class="nav-text">intentFilter的匹配规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPC机制"><span class="nav-number">2.</span> <span class="nav-text">IPC机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializable接口"><span class="nav-number">2.1.</span> <span class="nav-text">Serializable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Paracelable接口"><span class="nav-number">2.2.</span> <span class="nav-text">Paracelable接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Binder"><span class="nav-number">2.2.1.</span> <span class="nav-text">Binder</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android中的IPC方式"><span class="nav-number">2.3.</span> <span class="nav-text">Android中的IPC方式</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章_Activity的生命周期和启动模式"><span class="nav-number">1.</span> <span class="nav-text">第一章 Activity的生命周期和启动模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的LaunchMode"><span class="nav-number">1.1.</span> <span class="nav-text">Activity的LaunchMode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务栈"><span class="nav-number">1.2.</span> <span class="nav-text">任务栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的Flags"><span class="nav-number">1.3.</span> <span class="nav-text">Activity的Flags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#intentFilter的匹配规则"><span class="nav-number">1.4.</span> <span class="nav-text">intentFilter的匹配规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPC机制"><span class="nav-number">2.</span> <span class="nav-text">IPC机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializable接口"><span class="nav-number">2.1.</span> <span class="nav-text">Serializable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Paracelable接口"><span class="nav-number">2.2.</span> <span class="nav-text">Paracelable接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Binder"><span class="nav-number">2.2.1.</span> <span class="nav-text">Binder</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android中的IPC方式"><span class="nav-number">2.3.</span> <span class="nav-text">Android中的IPC方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AIDL"><span class="nav-number">2.4.</span> <span class="nav-text">AIDL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ContentProvider"><span class="nav-number">2.5.</span> <span class="nav-text">使用ContentProvider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Socket"><span class="nav-number">2.6.</span> <span class="nav-text">使用Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Binder连接池"><span class="nav-number">2.7.</span> <span class="nav-text">使用Binder连接池</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的事件体系"><span class="nav-number">3.</span> <span class="nav-text">View的事件体系</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
