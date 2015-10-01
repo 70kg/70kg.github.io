@@ -474,8 +474,8 @@
 </ul>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ViewTreeObserver observer = mJellyTextView.getViewTreeObserver();</span><br><span class="line">    observer.addOnGlobalLayoutListener(<span class="keyword">new</span> ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
 <p>当view树的状态发生改变或者view树内部的view的可见性发生改变时，都会去回调这个方法。要注意的是，这个方法会多次调用。</p>
-<pre><code><span class="number">4</span>：使用`<span class="built_in">view</span>.measure(<span class="typename">int</span> widthMeasureSpec, <span class="typename">int</span> heightMeasureSpec) `这个我不是特别的会用，如果只是为了获取宽高，为啥不去使用post方法，简单又好用。
-</code></pre><ul>
+<p>   4：使用<code>view.measure(int widthMeasureSpec, int heightMeasureSpec)</code>这个我不是特别的会用，如果只是为了获取宽高，为啥不去使用post方法，简单又好用。</p>
+<ul>
 <li>在view的默认实现中<code>getMeasuredWidth()</code>和<code>getWidth()</code>的值是相等的。只不过测量值形成于measure过程，左中的宽高形成于layout过程。一般可以认为是一样的。但是可以在重写layout中强制改变，然而并没有什么卵用。。</li>
 </ul>
 <h3 id="Draw过程">Draw过程</h3><p>  1:绘制背景<code>background.draw(canvas)</code></p>
