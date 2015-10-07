@@ -597,7 +597,19 @@
 <li>Handler的工作原理：<br>a. 无论sendMessage还是post最终都是调用的sendMessageAtTime方法。<br>b. 发送消息其实就是把一条消息通过MessageQueue的enqueueMessage方法加入消息队列，Looper收到消息就会调用handler的dispatchMessage方法。它的处理过程参考书page388的流程图，一看就懂～<br>c. 这里我补充一个东西，当我们直接Handler h = new Handler()时，本质调用的是Handler(Callback callback, Boolean async)构造方法，这个方法里会调用Looper.myLooper()方法，这个方法其实就是返回的ThreadLocal里保存的当前线程的Looper，这也就解释了为什么我们在主线程中这样new没有问题，子线程中如果不先Looper.prepare会抛出异常的原因，前面多次说了，因为ActivityThread会在初始化的时候创建自己的Looper。</li>
 </ul>
 <h3 id="以上均来自@amurocrash的笔记，在此感谢。非常棒Android开发艺术探索读书笔记（三）">以上均来自@amurocrash的笔记，在此感谢。非常棒<a href="http://blog.csdn.net/amurocrash/article/details/48858353" target="_blank" rel="external">Android开发艺术探索读书笔记（三）</a></h3><hr>
-<h2 id="Android的线程和线程池">Android的线程和线程池</h2>
+<h2 id="Android的线程和线程池">Android的线程和线程池</h2><ul>
+<li><code>AsyncTask</code>封装了线程池和Handler。<code>HandlerThread</code>是一种具有消息循环的线程。在它的内部可以使用Handler.<code>IntentService</code> 是一个服务，系统对其进行封装可以更方便的执行后台任务，内部使用了<code>HandlerThread</code>和handler，当任务执行完成后会自动退出。</li>
+<li><p><code>AsyncTask</code>有四个核心的方法：</p>
+<p>1:<code>onPreExecute</code>这个在主线程中执行，用于一些准备工作<br>2:<code>doInBackground(Object[] params)</code>运行在线程池，在这个方法中可以通过<code>publishProgress</code>进行进度更新。<br>3:<code>onProgressUpdate(Object[] values)</code>在主线程中，当进度改变时回去调用这个方法。<br>4:<code>onPostExecute(Object o)</code>主线程中，用于处理返回结果</p>
+</li>
+<li>还有<code>onCancelled()</code>方法，主线程中调用，当任务被去取消的时候调用，这样就不会再去调用<code>onPostExecute</code>方法了。</li>
+<li>使用<code>AsyncTask</code>的限制<br>1：这个类只能在主线程中进行加载。<br>2：这个类的对象只能在主线程中进行创建。<br>3：<code>execute()</code>方法只能在主线程进行调用<br>4：一个<code>AsyncTask</code>对象只能执行一次，也就是只能执行一次<code>execute()</code>方法，否则会报错。<br>5：在1.6之前是串行的执行任务，1.6的时候采用了在线程池中并行的处理，但是在3.0开始，为了避免并发错误，又采用了一个新线程来串行执行任务。但是3.0以后的版本依然可以使用<code>executeOnExecutor()</code>来并行处理任务。但是不能在低版本上面使用。</li>
+<li><code>HandlerThread</code>个人感觉就是封装了一下我们一起在子线程中的<code>Looper.prepare()</code>和<code>Looper.loop（）</code>,通过handler的构造<code>handler（looper）</code>来与子线程的messagequeue进行关联，也就是在handler的<code>handlermessage</code>方法中去处理耗时任务，还得去通过一个主线程的handler去更新UI。具体原理去看源码，我都看得懂😂。</li>
+<li><code>IntentService</code>是一个抽象的特殊service，内部也是使用了<code>HandlerThread</code>和<code>Handler</code>。这个源码更少。。。😂不过很好使。</li>
+<li>线程池的好处：<br>1：重用线程，减少开销<br>2：能控制线程池的最大并发度，避免线程阻塞<br>3：能够对线程进行简单的管理</li>
+<li><code>ThreadPoolExecutor</code>是线程池的真正实现。</li>
+</ul>
+
       
     </div>
 
