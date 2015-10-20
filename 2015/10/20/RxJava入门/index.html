@@ -22,7 +22,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="RxJava," />
 
 
 
@@ -55,14 +55,12 @@
 
 
 
-  <title> 70kg </title>
+  <title> RxJava入门 // 70kg </title>
 </head>
 
 <body>
 <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
-  <div class="container one-column 
-   page-home 
-">
+  <div class="container one-column page-post-detail">
     <div class="headband"></div>
 
     <div id="header" class="header">
@@ -286,9 +284,9 @@
       <div class="main-inner">
         <div id="content" class="content">
           
+
   <div id="posts" class="posts-expand">
     
-      
 
   <div class="post post-type-normal ">
     <div class="post-header">
@@ -299,9 +297,7 @@
           
           
             
-              <a class="post-title-link" href="/2015/10/20/RxJava入门/">
-                RxJava入门
-              </a>
+              RxJava入门
             
           
         </h1>
@@ -333,8 +329,7 @@
       
 
       
-        
-          <h2 id="Observable事件源">Observable事件源</h2><p>一般的创建</p>
+        <h2 id="Observable事件源">Observable事件源</h2><p>一般的创建</p>
 <figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Observable&lt;String&gt; myObservable = Observable.create(  </span><br><span class="line">    new Observable.OnSubscribe&lt;String&gt;() &#123;  </span><br><span class="line">        <span class="variable">@Override</span>  </span><br><span class="line">        public void call(Subscriber&lt;? super String&gt; <span class="sub"><span class="keyword">sub</span>) &#123;</span>  </span><br><span class="line">            <span class="sub"><span class="keyword">sub</span>.onNext("Hello, world!");</span>  </span><br><span class="line">            <span class="sub"><span class="keyword">sub</span>.onCompleted();</span>  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <p>创建只发出一个事件就结束的Observable对象</p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">Observable</span>&lt;<span class="keyword">String&gt; </span>myObservable = Observable.just(<span class="string">"Hello, world!"</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
@@ -365,312 +360,48 @@
 <p>最多输出5个结果</p>
 <h3 id="doOnNext">doOnNext</h3><p>允许我们在每次输出一个元素之前做一些额外的事情</p>
 <figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">query<span class="params">(<span class="string">"Hello, world!"</span>)</span>  </span><br><span class="line">    .flatMap<span class="params">(urls -&gt; Observable.from<span class="params">(urls)</span>)</span>  </span><br><span class="line">    .flatMap<span class="params">(url -&gt; getTitle<span class="params">(url)</span>)</span>  </span><br><span class="line">    .filter<span class="params">(title -&gt; title != null)</span>  </span><br><span class="line">    .take<span class="params">(<span class="number">5</span>)</span>  </span><br><span class="line">    .doOnNext<span class="params">(title -&gt; saveTitle<span class="params">(title)</span>)</span>  <span class="comment">//保存标题</span></span><br><span class="line">    .subscribe<span class="params">(title -&gt; System.out.println<span class="params">(title)</span>)</span>;</span><br></pre></td></tr></table></figure>
-        
       
     </div>
 
     <div class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/RxJava/"> #RxJava </a>
+          
+        </div>
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/20/RxJava和Retrofit的那些事/">RxJava和Retrofit的那些事</a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </div>
   </div>
 
 
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/20/RxJava和Retrofit的那些事/">
-                RxJava和Retrofit的那些事
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-10-20
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/10/20/RxJava和Retrofit的那些事/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/20/RxJava和Retrofit的那些事/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>这是一篇占坑的，正在做菜中。。</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/09/29/十一假期之前的屁话/">
-                十一假期之前的屁话
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-09-29
-        </span>
-
+      <div class="comments" id="comments">
         
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/09/29/十一假期之前的屁话/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/29/十一假期之前的屁话/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>&emsp;&emsp;啦拉拉，马上就放假啦，生活真是多姿多彩啊。然而并没有什么卵用。😂
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/09/29/十一假期之前的屁话/#more">
-              阅读全文 &raquo;
-            </a>
+          <div class="ds-thread" data-thread-key="2015/10/20/RxJava入门/"
+               data-title="RxJava入门" data-url="http://70kg.info/2015/10/20/RxJava入门/">
           </div>
         
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/09/27/《Android开发艺术探索》笔记/">
-                《Android开发艺术探索》笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-09-27
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/09/27/《Android开发艺术探索》笔记/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/《Android开发艺术探索》笔记/"></span>
-            </a>
-          </span>
-          
-        
       </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="Activity的生命周期和启动模式">Activity的生命周期和启动模式</h2><ul>
-<li>在启动新activity时，必须在当前activity<code>onPause()</code>方法执行完成才执行新activity的<code>onCreate()</code>，所以在<code>onPause()</code>方中不能进行重量级操作，可以进行比如短时间的存储数据和停止动画等工作。</li>
-<li>当打开新的activity或者回到桌面时，会调用<code>onPause()</code>-&gt;<code>onStop()</code>,但是当新的activity采用了透明的主题，那么不会调用<code>onStop()</code></li>
-<li>从activity是否可见，<code>onStart()</code>和<code>onStop()</code>是配对的，从activity是否在前台来说，<code>onResume()</code>和<code>onPause()</code>是配对的</li>
-<li>当启动一个activity，当前<code>onPause()</code>-&gt;新<code>onCreate()</code>-&gt;<code>onStart()</code>-&gt;<code>onResume()</code>-&gt;当前<code>onStop()</code>,所以耗时操作尽量在<code>onStop()</code>方法中进行操作</li>
-<li>当系统配置发生改变后，会调用<code>onSaveInstanceState</code>方法来进行保存当前状态，是在<code>onStop()</code>之前，和<code>onPause()</code>没有固定的顺序，当重新创建时，调用<code>onRestoreInstanceState</code>方法，在<code>onStart()</code>之后调用。</li>
-<li>关于屏幕旋转，配置了<code>android:configChanges = &quot;orientation|screenSize&quot;</code>是不会进行重新创建的，在API13之后，单独设置一个都会进行重新创建。这时会去调用<code>onConfigurationChanged</code>方法，而不走正常流程。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/09/27/《Android开发艺术探索》笔记/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/09/21/2015-9-21/">
-                2015-9-21
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-09-21
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/09/21/2015-9-21/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/21/2015-9-21/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>&emsp;&emsp;看着印象笔记里面的每日记录，感觉时间过的好快好快，不知不觉已经到了九月底了。天气也渐渐的变凉了，回到学校的路上，也偶尔能碰到行道树飘下来的落叶，看到这样的情景，总是有些许伤感。</p>
-<p>&emsp;&emsp;说到自己的生活呢，生活的有些没心没肺的，整天嘻嘻哈哈的过，别人看起来我过的很爽很舒服，搞得跟人生赢家似的。但是呢，我觉得我只是比别人看的开一点吧，或许就是真的没心没肺没良心。我不在乎那么多的事情，有时这是好事，有时这又是一种很不好的事情。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/09/21/2015-9-21/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-  </div>
-
-  
-  <div class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
   </div>
 
 
@@ -693,6 +424,15 @@
   <div id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
       
 
       <div class="site-overview">
@@ -751,6 +491,17 @@
         
       </div>
         
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Observable事件源"><span class="nav-number">1.</span> <span class="nav-text">Observable事件源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Subscriber订阅者"><span class="nav-number">2.</span> <span class="nav-text">Subscriber订阅者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Operators操作符"><span class="nav-number">3.</span> <span class="nav-text">Operators操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map"><span class="nav-number">3.1.</span> <span class="nav-text">map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#from"><span class="nav-number">3.2.</span> <span class="nav-text">from</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flatMap"><span class="nav-number">3.3.</span> <span class="nav-text">flatMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#filter"><span class="nav-number">3.4.</span> <span class="nav-text">filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#take"><span class="nav-number">3.5.</span> <span class="nav-text">take</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#doOnNext"><span class="nav-number">3.6.</span> <span class="nav-text">doOnNext</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
       
         
     </div>
@@ -812,6 +563,145 @@
 
 
   
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
 
   <script type="text/javascript">
     $(document).ready(function () {
