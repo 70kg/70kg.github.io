@@ -1,0 +1,740 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+    <meta name="description" content="A rookie Android coder" />
+
+
+
+  <meta name="keywords" content="RxJava," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'hide'
+  };
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?66269e36c19de3d5b65c8d870ab0028b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <title> RxJava和Retrofit的那些事 // 70kg </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">70kg</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+     
+        
+      <li class="mw-harlem_shake_me im_first menu-item  menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+      
+    
+        
+      <li class="mw-harlem_shake_me im_first menu-item  menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+      
+    
+        
+      <li class="mw-harlem_shake_me im_first menu-item  menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+      
+    
+        
+      <li class="mw-harlem_shake_me im_first menu-item  menu-item-about">
+        <a href="/about">
+          <i class="menu-item-icon icon-about"></i> <br />
+          关于
+        </a>
+      </li>
+      
+    
+  <!--增加high一下-->
+  
+  <li class="mw-harlem_shake_me im_first  menu-item menu-item-about">
+    <a title="" href='javascript:(function() {
+  function c() {
+    var e = document.createElement("link");
+    e.setAttribute("type", "text/css");
+    e.setAttribute("rel", "stylesheet");
+    e.setAttribute("href", f);
+    e.setAttribute("class", l);
+    document.body.appendChild(e)
+  }
+ 
+  function h() {
+    var e = document.getElementsByClassName(l);
+    for (var t = 0; t < e.length; t++) {
+      document.body.removeChild(e[t])
+    }
+  }
+ 
+  function p() {
+    var e = document.createElement("div");
+    e.setAttribute("class", a);
+    document.body.appendChild(e);
+    setTimeout(function() {
+      document.body.removeChild(e)
+    }, 100)
+  }
+ 
+  function d(e) {
+    return {
+      height : e.offsetHeight,
+      width : e.offsetWidth
+    }
+  }
+ 
+  function v(i) {
+    var s = d(i);
+    return s.height > e && s.height < n && s.width > t && s.width < r
+  }
+ 
+  function m(e) {
+    var t = e;
+    var n = 0;
+    while (!!t) {
+      n += t.offsetTop;
+      t = t.offsetParent
+    }
+    return n
+  }
+ 
+  function g() {
+    var e = document.documentElement;
+    if (!!window.innerWidth) {
+      return window.innerHeight
+    } else if (e && !isNaN(e.clientHeight)) {
+      return e.clientHeight
+    }
+    return 0
+  }
+ 
+  function y() {
+    if (window.pageYOffset) {
+      return window.pageYOffset
+    }
+    return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+  }
+ 
+  function E(e) {
+    var t = m(e);
+    return t >= w && t <= b + w
+  }
+ 
+  function S() {
+    var e = document.createElement("audio");
+    e.setAttribute("class", l);
+    e.src = i;
+    e.loop = false;
+    e.addEventListener("canplay", function() {
+      setTimeout(function() {
+        x(k)
+      }, 500);
+      setTimeout(function() {
+        N();
+        p();
+        
+        for (var e = 0; e < O.length; e++) {
+
+          T(O[e]) 
+        }
+      }, 15500)
+    }, true);
+    e.addEventListener("ended", function() {
+      N();
+      h()
+    }, true);
+    e.innerHTML = " <p>你的浏览器不想让你High起来~.</p> <p>";
+    document.body.appendChild(e);
+    e.play()
+  }
+ 
+  function x(e) {
+    e.className += " " + s + " " + o
+  }
+ 
+  function T(e) {
+    e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+  }
+ 
+  function N() {
+    var e = document.getElementsByClassName(s);
+    var t = new RegExp("\\b" + s + "\\b");
+    for (var n = 0; n < e.length; ) {
+      e[n].className = e[n].className.replace(t, "")
+    }
+  }
+ 
+  var e = 30;
+  var t = 30;
+  var n = 350;
+  var r = 350;
+  
+  var i = "//7xiewb.com1.z0.glb.clouddn.com/imageharlem-shake.mp3";
+  var s = "mw-harlem_shake_me";
+  var o = "im_first";
+  var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+  var a = "mw-strobe_light";
+  
+  var f = "//7xiewb.com1.z0.glb.clouddn.com/imageharlem-shake-style.css";
+  var l = "mw_added_css";
+  var b = g();
+  var w = y();
+  var C = document.getElementsByTagName("*");
+  var k = null;
+  for (var L = 0; L < C.length; L++) {
+    var A = C[L];
+    if (v(A)) {
+      if (E(A)) {
+        k = A;
+        break
+      }
+    }
+  }
+  if (A === null) {
+    console.warn("Could not find a node of the right size. Please try a different page.");
+    return
+  }
+  c();
+  S();
+  var O = [];
+  for (var L = 0; L < C.length; L++) {
+    var A = C[L];
+    if (v(A)) {
+      O.push(A)
+    }
+  }
+  })()    '>High一下</a>
+  </li>
+  
+  </ul>
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              RxJava和Retrofit的那些事
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-10-20
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/10/20/RxJava和Retrofit的那些事/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/20/RxJava和Retrofit的那些事/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h2 id="关于Retrofit">关于Retrofit</h2><p>这是一个最近很火的网络请求库，官网在这<a href="http://square.github.io/retrofit/" target="_blank" rel="external">官网</a>,当然这也是一个开源的项目<a href="https://github.com/square/retrofit" target="_blank" rel="external">GitHub地址</a>。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。<br><a id="more"></a><br>为什么要用Retrofit呢，因为他除了提供给我们常见的请求Callback形式，还封装了Observable的请求形式，这就很方便的支持了Rxjava,而Rxjava的强大就是体现在异步任务上。下面来简单的介绍一下使用。</p>
+<p>对于RxJava的语法就不说了，有一篇写了关于这方面的，下面就直接开始了。</p>
+<p>以github的开放API作为数据来源，我们要去获取某个项目的contributors，以square的retrofit为例，可以调用这个<code>https://api.github.com/repos/square/retrofit/contributors</code>返回的json是这样的array</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="string">login:</span> <span class="string">"JakeWharton"</span>,</span><br><span class="line"><span class="string">id:</span> <span class="number">66577</span>,</span><br><span class="line"><span class="string">avatar_url:</span> <span class="string">"https://avatars.githubusercontent.com/u/66577?v=3"</span>,</span><br><span class="line"><span class="string">gravatar_id:</span> <span class="string">""</span>,</span><br><span class="line"><span class="string">url:</span> <span class="string">"https://api.github.com/users/JakeWharton"</span>,</span><br><span class="line"><span class="string">html_url:</span> <span class="string">"https://github.com/JakeWharton"</span>,</span><br><span class="line"><span class="string">followers_url:</span> <span class="string">"https://api.github.com/users/JakeWharton/followers"</span>,</span><br><span class="line"><span class="string">following_url:</span> <span class="string">"https://api.github.com/users/JakeWharton/following&#123;/other_user&#125;"</span>,</span><br><span class="line"><span class="string">gists_url:</span> <span class="string">"https://api.github.com/users/JakeWharton/gists&#123;/gist_id&#125;"</span>,</span><br><span class="line"><span class="string">starred_url:</span> <span class="string">"https://api.github.com/users/JakeWharton/starred&#123;/owner&#125;&#123;/repo&#125;"</span>,</span><br><span class="line"><span class="string">subscriptions_url:</span> <span class="string">"https://api.github.com/users/JakeWharton/subscriptions"</span>,</span><br><span class="line"><span class="string">organizations_url:</span> <span class="string">"https://api.github.com/users/JakeWharton/orgs"</span>,</span><br><span class="line"><span class="string">repos_url:</span> <span class="string">"https://api.github.com/users/JakeWharton/repos"</span>,</span><br><span class="line"><span class="string">events_url:</span> <span class="string">"https://api.github.com/users/JakeWharton/events&#123;/privacy&#125;"</span>,</span><br><span class="line"><span class="string">received_events_url:</span> <span class="string">"https://api.github.com/users/JakeWharton/received_events"</span>,</span><br><span class="line"><span class="string">type:</span> <span class="string">"User"</span>,</span><br><span class="line"><span class="string">site_admin:</span> <span class="literal">false</span>,</span><br><span class="line"><span class="string">contributions:</span> <span class="number">619</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>这里我们只使用到<code>login</code>和<code>contributions</code></p>
+<p> 1.定义一个接口，这个看代码就明白了</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">public</span> <span class="tag">interface</span> <span class="tag">GithubApi</span> &#123;</span><br><span class="line"> <span class="variable">@GET</span>(<span class="string">"/repos/&#123;owner&#125;/&#123;repo&#125;/contributors"</span>)</span><br><span class="line">    Observable&lt;List&lt;Contributor&gt;&gt; <span class="function">contributors</span>(<span class="variable">@Path</span>(<span class="string">"owner"</span>) String owner,</span><br><span class="line">                                               <span class="variable">@Path</span>(<span class="string">"repo"</span>) String repo);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p>通过注解来提供参数，这里注解有很多，还有<code>@Query</code>，<code>@QueryMap</code>，<code>@Body</code>等等，也可以通过<code>@Headers</code>设置请求头。参数基于base url,其实就是拼接成的。这个返回的是一个<code>Observable</code>，这样就很方便的去发布一个事件了。</p>
+<p> 2.设置<code>RestAdapter</code>和<code>service</code>,先用<code>Endpoint(API)</code>并调用buid()方法来创建一个RestAdapter对象。</p>
+<figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RestAdapter adapter = new RestAdapter.Builder<span class="params">()</span>.setEndpoint<span class="params">(</span><br><span class="line">              <span class="string">"https://api.github.com/"</span>)</span>.setLogLevel<span class="params">(RestAdapter.LogLevel.FULL)</span>.build<span class="params">()</span>;</span><br></pre></td></tr></table></figure>
+<p>然后使用我们的adapter来创建一个服务适配器(service for adapter)。<code>adapter.create(GithubApi.class);</code><br>完整的代码</p>
+<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">GithubApi</span> _createGithubApi<span class="literal">()</span> &#123;</span><br><span class="line">      <span class="type">RestAdapter</span> adapter = <span class="keyword">new</span> <span class="type">RestAdapter</span>.<span class="type">Builder</span><span class="literal">()</span>.setEndpoint(</span><br><span class="line">            <span class="string">"https://api.github.com/"</span>).setLogLevel(<span class="type">RestAdapter</span>.<span class="type">LogLevel</span>.<span class="type">FULL</span>).build<span class="literal">()</span>;</span><br><span class="line"></span><br><span class="line">      return adapter.create(<span class="type">GithubApi</span>.<span class="keyword">class</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p> 3.这就到了Rxjava的地方了，上一步获取到了GithubApi对象，就可以去调用函数了：</p>
+<figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">_subscriptions.add<span class="params">(</span><br><span class="line">                _api.contributors<span class="params">(_username.getText<span class="params">()</span>.toString<span class="params">()</span>, _repo.getText<span class="params">()</span>.toString<span class="params">()</span>)</span>//事件源</span><br><span class="line">                        .subscribeOn<span class="params">(Schedulers.io<span class="params">()</span>)</span></span><br><span class="line">                        .observeOn<span class="params">(AndroidSchedulers.mainThread<span class="params">()</span>)</span></span><br><span class="line">                        .subscribe<span class="params">(new Observer&lt;List&lt;Contributor&gt;&gt;<span class="params">()</span> &#123;//订阅者</span><br><span class="line">                            @Override</span><br><span class="line">                            public void onCompleted<span class="params">()</span> &#123;</span><br><span class="line">                                </span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            @Override</span><br><span class="line">                            public void onError<span class="params">(Throwable e)</span> &#123;</span><br><span class="line">                               </span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            @Override</span><br><span class="line">                            public void onNext<span class="params">(List&lt;Contributor&gt; contributors)</span> &#123;</span><br><span class="line">                                for <span class="params">(Contributor c : contributors)</span> &#123;</span><br><span class="line">                                    _adapter.add<span class="params">(format<span class="params">(<span class="string">"%s has made %d contributions to %s"</span>,</span><br><span class="line">                                            c.login,</span><br><span class="line">                                            c.contributions,</span><br><span class="line">                                            _repo.getText<span class="params">()</span>.toString<span class="params">()</span>)</span>)</span>;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;)</span>)</span>;</span><br></pre></td></tr></table></figure>
+<p>当然这是一个比较简单的处理过程，并没有用到一下通配符，但是基本的流程就是这样的。</p>
+<p>到现在发现我们并没有去解析json数据就自动生成了bean类，这是因为Retrofit已经集成了Gson，并且默认使用Gson来进行解析，当然你也可以自己去定义。在创建<code>RestAdapter</code>的时候使用<code>setConverter(new GsonConverter(gson))</code>。默认是使用okhttp进行加载的，当然你也可以去配置一些关于<code>OkHttpClient</code>的数据，然后通过<code>setClient(new OkClient(client))</code>进行设置进去。</p>
+<p>现在<code>Retrofit</code>的2.0版本已经出了，主要就是 取消了同步和异步，可以取消正在进行中的业务，取消了Gson的依赖等等，具体可以看这里<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0915/3460.html" target="_blank" rel="external">Retrofit 2.0：有史以来最大的改进</a><br>这篇参考了GitHub上的项目<a href="https://github.com/70kg/RxJava-Android-Samples" target="_blank" rel="external">RxJava-Android-Samples</a>，这里只是拣取了关于Retrofit的部分，有兴趣可以看看其他的。</p>
+<hr>
+<h3 id="遇到的坑">遇到的坑</h3><p>最近打算使用<code>Retrofit</code>和<code>RxJava</code>重写meizi项目，由于我是直接请求，然后去解析网页，但是<code>Retrofit</code>的默认解析器是<code>Gson</code>的，本来觉得可以直接返回<code>Response</code>的body。然而还是too young。直接抛出了异常。。折腾了半天，也是菜的不行才算是解决这个，下面说说吧。s<code>Retrofit</code>的各种<code>Converter</code>都是实现了<code>Converter</code>这个接口：</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public interface Converter &#123;</span><br><span class="line">  /<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line">   <span class="keyword">*</span> Convert an HTTP response body to a concrete object of the specified type.</span><br><span class="line">   <span class="keyword">*</span></span><br><span class="line">   <span class="keyword">*</span> <span class="comment">@param body HTTP response body.</span></span><br><span class="line">   <span class="keyword">*</span> <span class="comment">@param type Target object type.</span></span><br><span class="line">   <span class="keyword">*</span> <span class="comment">@return Instance of &#123;@code type&#125; which will be cast by the caller.</span></span><br><span class="line">   <span class="keyword">*</span> <span class="comment">@throws ConversionException if conversion was unable to complete. This will trigger a call to</span></span><br><span class="line">   <span class="keyword">*</span> &#123;<span class="comment">@link retrofit.Callback#failure(retrofit.RetrofitError)&#125; or throw a</span></span><br><span class="line">   <span class="keyword">*</span> &#123;<span class="comment">@link retrofit.RetrofitError&#125;. The exception message should report all necessary information</span></span><br><span class="line">   <span class="keyword">*</span> about its cause as the response body will be set to &#123;<span class="comment">@code null&#125;.</span></span><br><span class="line">   <span class="keyword">*</span>/</span><br><span class="line">  Object fromBody(TypedInput body, Type type) throws ConversionException;</span><br><span class="line"></span><br><span class="line">  /<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line">   <span class="keyword">*</span> Convert and object to an appropriate representation for HTTP transport.</span><br><span class="line">   <span class="keyword">*</span></span><br><span class="line">   <span class="keyword">*</span> <span class="comment">@param object Object instance to convert.</span></span><br><span class="line">   <span class="keyword">*</span> <span class="comment">@return Representation of the specified object as bytes.</span></span><br><span class="line">   <span class="keyword">*</span>/</span><br><span class="line">  TypedOutput toBody(Object object);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里可以看到，<code>Retrofit</code>也只是序列化<code>ResponseBody</code>，这里的<code>TypedInput</code>也是个接口，其实是从输入流读入的响应，和我们之前手动写请求是一样的。那么我们就可以自己去实现个String的转换器，读取这个输入流然后返回body的string。</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> class StringConverter implements Converter &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">Object</span> fromBody(TypedInput typedInput, Type type)</span><br><span class="line">            <span class="keyword">throws</span> ConversionException &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">String</span> <span class="built_in">text</span> = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="built_in">text</span> = fromStream(typedInput.in());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">text</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> TypedOutput toBody(<span class="keyword">Object</span> o) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> fromStream(InputStream in) <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">BufferedReader</span> reader = <span class="keyword">new</span> <span class="keyword">BufferedReader</span>(<span class="keyword">new</span> InputStreamReader(in));</span><br><span class="line">        StringBuilder out = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">String</span> newLine = System.getProperty(<span class="string">"line.separator"</span>);</span><br><span class="line">        <span class="keyword">String</span> <span class="built_in">line</span>;</span><br><span class="line">        <span class="keyword">while</span> ((<span class="built_in">line</span> = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            out.<span class="built_in">append</span>(<span class="built_in">line</span>);</span><br><span class="line">            out.<span class="built_in">append</span>(newLine);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> out.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二种办法：从<a href="https://github.com/square/retrofit/tree/f6878a5ccbe7505fcf44fa7063c72e6434493f75/retrofit/src/main/java/retrofit/mime" target="_blank" rel="external">源代码</a>可以看到,<code>TypedByteArray</code>是实现了<code>TypedInput</code>这个接口的，而<code>TypedString</code>是继承自<code>TypedByteArray</code>，所以我们可以获取到一个<code>response</code>之后，然后转换成String,<code>(TypedString) response.getBody()).toString();</code>这样就可以啦</p>
+<p>第三种：在2.0的时候，已经更好的支持自定义的<code>Converter</code>，只要去继承<a href="https://github.com/square/retrofit/blob/master/retrofit/src/main/java/retrofit/Converter.java" target="_blank" rel="external"><code>Converter . Factory</code></a>这个类,实现里面的方法就可以了。</p>
+<p>参考：</p>
+<p><a href="http://www.tuicool.com/articles/26jUZjv" target="_blank" rel="external">http://www.tuicool.com/articles/26jUZjv</a><br><a href="http://www.cnblogs.com/angeldevil/p/3757335.html" target="_blank" rel="external">http://www.cnblogs.com/angeldevil/p/3757335.html</a></p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RxJava/"> #RxJava </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/20/RxJava入门/">RxJava入门</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/29/十一假期之前的屁话/">十一假期之前的屁话</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/10/20/RxJava和Retrofit的那些事/"
+               data-title="RxJava和Retrofit的那些事" data-url="http://70kg.info/2015/10/20/RxJava和Retrofit的那些事/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://7xjlmz.com1.z0.glb.clouddn.com/头像1.jpg" alt="70kg" />
+          <p class="site-author-name">70kg</p>
+        </div>
+        <p class="site-description motion-element">A rookie Android coder</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+         </div>
+   
+        
+        
+        <div class="links-of-author motion-element">
+
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/70kg" target="_blank">github</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="https://twitter.com/985469793" target="_blank">twitter</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/MrWrong12138" target="_blank">weibo</a>
+            </span>
+            
+          
+        </div>
+        
+        
+        
+        
+      </div>
+        
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Retrofit"><span class="nav-number">1.</span> <span class="nav-text">关于Retrofit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的坑"><span class="nav-number">1.1.</span> <span class="nav-text">遇到的坑</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+        
+    </div>
+
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">70kg</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js" id="motion.global"></script>
+
+
+
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"70kg"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>

@@ -38,10 +38,20 @@
     analytics: {
       google: ''
     },
-    sidebar: 'always'
+    sidebar: 'hide'
   };
 </script>
 
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?66269e36c19de3d5b65c8d870ab0028b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -82,15 +92,6 @@
       
     
         
-      <li class="mw-harlem_shake_me im_first menu-item  menu-item-categories">
-        <a href="/categories">
-          <i class="menu-item-icon icon-categories"></i> <br />
-          分类
-        </a>
-      </li>
-      
-    
-        
       <li class="mw-harlem_shake_me im_first menu-item  menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
@@ -108,9 +109,18 @@
       </li>
       
     
+        
+      <li class="mw-harlem_shake_me im_first menu-item  menu-item-about">
+        <a href="/about">
+          <i class="menu-item-icon icon-about"></i> <br />
+          关于
+        </a>
+      </li>
+      
+    
   <!--增加high一下-->
   
-  <li class="mw-harlem_shake_me im_first  menu-item menu-item-tags">
+  <li class="mw-harlem_shake_me im_first  menu-item menu-item-about">
     <a title="" href='javascript:(function() {
   function c() {
     var e = document.createElement("link");
@@ -289,8 +299,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/07/13/自定义控件学习笔记/">
-                自定义控件学习笔记
+              <a class="post-title-link" href="/2015/10/27/Android-5-0-transition介绍/">
+                Android 5.0 transition介绍
               </a>
             
           
@@ -299,7 +309,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-07-13
+          发表于 2015-10-27
         </span>
 
         
@@ -308,8 +318,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/07/13/自定义控件学习笔记/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/13/自定义控件学习笔记/"></span>
+            <a href="/2015/10/27/Android-5-0-transition介绍/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/27/Android-5-0-transition介绍/"></span>
             </a>
           </span>
           
@@ -324,11 +334,9 @@
 
       
         
-          <h1 id="Canvas">Canvas</h1><h2 id="canvas简介">canvas简介</h2><p>&emsp;&emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，<code>Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
-        Canvas canvas = new Canvas(bitmap);</code>这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。</p>
-<h2 id="canvas的主要方法">canvas的主要方法</h2><p>&emsp;&emsp;canvas主要有几种方法，draw…这类方法是用来画一下东西的，clip…就是用来裁剪的，还有scale,translate，skew，rotate是用来进行画布的变换，还有saveXXX和restoreXXX构成的画布锁定和还原。
+          <h3 id="扯淡">扯淡</h3><p>之所以写这篇是因为看到别人写的APP都很酷炫，了解到之后发现5.0之后的动画丰富了那么多，特别是共享元素和圆形展开那个(不知道是不是这么叫的)特别酷，就去了解了一下。再加上我最近才上的5.0，终于有真机可以进行调试了，看到动画在自己手机上运行，还是挺有成就感的😂。<br>下面的文章来自国外的一篇译文，摘抄自泡网，我在这个dome上也注释了一些<a href="https://github.com/70kg/activity-transitions-master">地址</a>。这是这位博主写的的，当时没fork，所以在这说明一下<a href="https://github.com/alexjlockwood/activity-transitions">地址</a><br>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/13/自定义控件学习笔记/#more">
+            <a class="btn" href="/2015/10/27/Android-5-0-transition介绍/#more">
               阅读全文 &raquo;
             </a>
           </div>
@@ -361,8 +369,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/07/09/2015-7-9/">
-                2015.7.9
+              <a class="post-title-link" href="/2015/10/20/RxJava入门/">
+                RxJava入门
               </a>
             
           
@@ -371,7 +379,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-07-09
+          发表于 2015-10-20
         </span>
 
         
@@ -380,8 +388,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/07/09/2015-7-9/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/09/2015-7-9/"></span>
+            <a href="/2015/10/20/RxJava入门/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/20/RxJava入门/"></span>
             </a>
           </span>
           
@@ -396,82 +404,12 @@
 
       
         
-          <p>&emsp;&emsp;今天早上起来去跑步了，刚开始跑步真有点受不了，跑两圈基本上就累的不行了。先跑了两圈，然后就慢走了一圈，然后再跑了一圈，就结束了。因为这是第一天，跑太多之后的工作会没精力，而且我已经没有可以换的衣服了（逃。。）。跑太多衣服都湿透了我怎么去上班，唉，穷啊。<br>&emsp;&emsp;明天还是接着去跑步吧，如果不下雨的话，下雨了就起床写代码。说说写代码的事情，感觉自己写代码没什么目的性，就是瞎写，那现在就写个短期的计划吧：</p>
-<ul>
-<li>贝塞尔曲线控制</li>
-<li>爱哥博客实现一遍</li>
-<li>那个什么动画的源码分析</li>
-<li>再搞一搞ViewPager的切换动画</li>
-</ul>
-<p>&emsp;&emsp;目前就先搞搞动画，然后周末尽量去看看Thinking in Java 和设计模式，把看到的，学到的尽量都写下来，一方面可以锻炼自己的文笔，一方面也能加深一下记忆。挺好的<br>&emsp;&emsp;再来吐槽一下上海的天气吧，真的受不了这种天气，一直下雨，还不停，也下不大，就是稀稀拉拉的没个完。<br>&emsp;&emsp;先写到这吧，脖子真疼的受不了，唉。</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/07/08/2015-7-8/">
-                2015.7.8
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-07-08
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/07/08/2015-7-8/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/08/2015-7-8/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>&emsp;&emsp;这段时间一直在忙考试和搬校区的事情，再加上工作上的事情，感觉身体真有点吃不消了。所以决定每天去锻炼锻炼，先从跑步做起吧，这两天每天都醒的特别早，躺床上翻来覆去的也睡不着，索性以后下决心去跑步。<br>&emsp;&emsp;其实能和女朋友一起跑步倒是很幸福的一件事，但是估计她也起不来，就算起来一天，过两天也不想去了，我也不想去勉强她。明天起床跑步去喽。<br>
+          <h2 id="Observable事件源">Observable事件源</h2><p>一般的创建</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Observable&lt;String&gt; myObservable = Observable.create(  </span><br><span class="line">    new Observable.OnSubscribe&lt;String&gt;() &#123;  </span><br><span class="line">        <span class="variable">@Override</span>  </span><br><span class="line">        public void call(Subscriber&lt;? super String&gt; <span class="sub"><span class="keyword">sub</span>) &#123;</span>  </span><br><span class="line">            <span class="sub"><span class="keyword">sub</span>.onNext("Hello, world!");</span>  </span><br><span class="line">            <span class="sub"><span class="keyword">sub</span>.onCompleted();</span>  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>创建只发出一个事件就结束的Observable对象</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">Observable</span>&lt;<span class="keyword">String&gt; </span>myObservable = Observable.just(<span class="string">"Hello, world!"</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/08/2015-7-8/#more">
+            <a class="btn" href="/2015/10/20/RxJava入门/#more">
               阅读全文 &raquo;
             </a>
           </div>
@@ -504,8 +442,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/07/03/Android属性动画/">
-                Android属性动画
+              <a class="post-title-link" href="/2015/10/20/RxJava和Retrofit的那些事/">
+                RxJava和Retrofit的那些事
               </a>
             
           
@@ -514,28 +452,17 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-07-03
+          发表于 2015-10-20
         </span>
 
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/动画/">动画</a>
-
-              
-              
-
-            
-          </span>
         
 
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/07/03/Android属性动画/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/03/Android属性动画/"></span>
+            <a href="/2015/10/20/RxJava和Retrofit的那些事/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/20/RxJava和Retrofit的那些事/"></span>
             </a>
           </span>
           
@@ -550,26 +477,9 @@
 
       
         
-          <p>&emsp;&emsp;其实之前就学习过关于android动画的一些东西,但是只是为了解决当时的问题简单的学习了一下，没有系统的学习，时间久了就忘记了，这段时间再从新系统的学习一下动画。</p>
-<h2 id="属性动画">属性动画</h2><p>&emsp;&emsp;关于Android动画的部分，我决定直接学习属性动画，之前的帧动画等用处没有属性动画那么的广泛和强大。好吧，现在开始聊聊属性动画。这篇还是讲基础。</p>
-<h3 id="ObjectAnimator">ObjectAnimator</h3><p>&emsp;&emsp;ObjectAnimator是属性动画的执行类，使用起来也是很简单，比如让一个view围绕y轴旋转</p>
-<pre><code><span class="tag">ObjectAnimator</span><span class="class">.ofFloat</span>(<span class="tag">mTestImage</span>,"<span class="tag">rotationY</span>",0<span class="class">.0f</span>,360<span class="tag">f</span>)<span class="class">.setDuration</span>(500)<span class="class">.start</span>();
-</code></pre><p>顺便提一下，属性动画改变的对象真正的属性，像View的Animation动画只是改变了”表面”的属性，比如使用Animation移动一个buton到一个新的位置，但是点击事件的响应还是在原来的位置，这样就十分的不方便。属性动画则不会有这样的问题。<br>上面的代码只是改变了一个属性，如果想改变两个属性怎么办？可以使用AnimatorSet。这个后面会说到。我们也可以使用ObjectAnimator来实现改变多个属性。</p>
-<pre><code>ObjectAnimator animator = ObjectAnimator.ofFloat<span class="params">(mTestImage, <span class="string">"abc"</span>, <span class="number">1</span>f, <span class="number">0</span>f)</span>
-           .setDuration<span class="params">(<span class="number">500</span>)</span>;
-   animator.start<span class="params">()</span>;
-   animator.addUpdateListener<span class="params">(new ValueAnimator.AnimatorUpdateListener<span class="params">()</span> {
-       @Override
-       public void onAnimationUpdate<span class="params">(ValueAnimator valueAnimator)</span> {
-           float cVal = <span class="params">(Float)</span> valueAnimator.getAnimatedValue<span class="params">()</span>;
-           mTestImage.setAlpha<span class="params">(cVal)</span>;
-           mTestImage.setScaleX<span class="params">(cVal)</span>;
-           mTestImage.setScaleY<span class="params">(cVal)</span>;
-       }
-   })</span>;
-</code></pre><p> 我们可以看出，上面的代码中是随便写了一个属性的名称，我们只是取用了valueAnimator的值，这个值是个0-1的值，在设置的持续时间中变化。然后根据valueAnimator的值动态的去改变对象的属性，这样就可以使用ObjectAnimator来同时改变多个属性了。不过还是使用AnimatorSet比较方便。
+          <h2 id="关于Retrofit">关于Retrofit</h2><p>这是一个最近很火的网络请求库，官网在这<a href="http://square.github.io/retrofit/">官网</a>,当然这也是一个开源的项目<a href="https://github.com/square/retrofit">GitHub地址</a>。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。<br>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/03/Android属性动画/#more">
+            <a class="btn" href="/2015/10/20/RxJava和Retrofit的那些事/#more">
               阅读全文 &raquo;
             </a>
           </div>
@@ -602,8 +512,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/06/15/Tips/">
-                Android Tips
+              <a class="post-title-link" href="/2015/09/29/十一假期之前的屁话/">
+                十一假期之前的屁话
               </a>
             
           
@@ -612,28 +522,17 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-15
+          发表于 2015-09-29
         </span>
 
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Android/">Android</a>
-
-              
-              
-
-            
-          </span>
         
 
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/15/Tips/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/15/Tips/"></span>
+            <a href="/2015/09/29/十一假期之前的屁话/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/29/十一假期之前的屁话/"></span>
             </a>
           </span>
           
@@ -648,32 +547,9 @@
 
       
         
-          <h2 id="TextView添加成链接">TextView添加成链接</h2><p>在Srting中设置</p>
-<pre><code><span class="tag">&lt;<span class="title">string</span> <span class="attribute">name</span>=<span class="value">"app_github"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"https://github.com/openproject/AndroidDigest"</span>&gt;</span>干柴的Github<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">string</span>&gt;</span>
-</code></pre><p>在textview设置</p>
-<pre><code><span class="tag">about_us_githubpage</span><span class="class">.setMovementMethod</span>(<span class="tag">LinkMovementMethod</span><span class="class">.getInstance</span>());
-</code></pre><h2 id="改变Frament">改变Frament</h2><pre><code>public void changeFrament<span class="params">(Fragment fragment, String fragmentTag)</span> {
-
-    <span class="keyword">if</span> <span class="params">(fragment == currentFragment)</span> {
-        return;
-    }
-
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction<span class="params">()</span>;
-    <span class="keyword">if</span> <span class="params">(!fragment.isAdded<span class="params">()</span>)</span> {
-        fragmentTransaction.hide<span class="params">(currentFragment)</span>.add<span class="params">(R.id.fragments, fragment, fragmentTag)</span>.commit<span class="params">()</span>;
-    } <span class="keyword">else</span> {
-        fragmentTransaction.hide<span class="params">(currentFragment)</span>.show<span class="params">(fragment)</span>.commit<span class="params">()</span>;
-    }
-    currentFragment = fragment;
-
-}
-</code></pre><h2 id="获得当前界面所用的xml文件的根view">获得当前界面所用的xml文件的根view</h2><pre><code>View rootView = <span class="params">(<span class="params">(ViewGroup)</span> <span class="params">(getWindow<span class="params">()</span>.getDecorView<span class="params">()</span>.findViewById<span class="params">(android.R.id.content)</span>)</span>)</span>.getChildAt<span class="params">(<span class="number">0</span>)</span>;
-</code></pre><h2 id="删除当前view">删除当前view</h2><pre><code>ViewGroup <span class="keyword">parent</span> <span class="subst">=</span> (ViewGroup) mBlueBall<span class="built_in">.</span>getParent();  
-    <span class="keyword">if</span> (<span class="keyword">parent</span> <span class="subst">!=</span> <span class="built_in">null</span>)  
-        <span class="keyword">parent</span><span class="built_in">.</span>removeView(mBlueBall); 
-</code></pre>
+          <p>&emsp;&emsp;啦拉拉，马上就放假啦，生活真是多姿多彩啊。然而并没有什么卵用。😂
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/06/15/Tips/#more">
+            <a class="btn" href="/2015/09/29/十一假期之前的屁话/#more">
               阅读全文 &raquo;
             </a>
           </div>
@@ -706,8 +582,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/06/14/使用Hexo建站的那些坑/">
-                使用Hexo建站的那些坑
+              <a class="post-title-link" href="/2015/09/27/《Android开发艺术探索》笔记/">
+                《Android开发艺术探索》笔记
               </a>
             
           
@@ -716,28 +592,17 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-14
+          发表于 2015-09-27
         </span>
 
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Hexo/">Hexo</a>
-
-              
-              
-
-            
-          </span>
         
 
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/14/使用Hexo建站的那些坑/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/14/使用Hexo建站的那些坑/"></span>
+            <a href="/2015/09/27/《Android开发艺术探索》笔记/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/《Android开发艺术探索》笔记/"></span>
             </a>
           </span>
           
@@ -752,259 +617,15 @@
 
       
         
-          <p>&emsp;&emsp;这段时间学习使用Hexo搭建这个博客，从一个什么都不懂的小白倒腾了半天弄出了这个博客，过程中遇到了很多坑，写下来不然过段时间就忘了，毕竟好记性不如烂笔头。<br>&emsp;&emsp;首先先感谢一下网上的那些教程，先贴一下他们的链接吧，没有他们就没有今天我的这个网站（好感人。。55）。<br><a href="http://zipperary.com/categories/hexo/">http://zipperary.com/categories/hexo/</a><br><a href="http://cnfeat.com/2014/05/10/2014-05-11-how-to-build-a-blog">http://cnfeat.com/2014/05/10/2014-05-11-how-to-build-a-blog</a><br><a href="http://ibruce.info/2013/11/22/hexo-your-blog/">http://ibruce.info/2013/11/22/hexo-your-blog/</a><br>&emsp;&emsp;我的环境的Mac，win的环境还没配置过，下面说一下我遇到的那些坑吧
+          <h2 id="Activity的生命周期和启动模式">Activity的生命周期和启动模式</h2><ul>
+<li>在启动新activity时，必须在当前activity<code>onPause()</code>方法执行完成才执行新activity的<code>onCreate()</code>，所以在<code>onPause()</code>方中不能进行重量级操作，可以进行比如短时间的存储数据和停止动画等工作。</li>
+<li>当打开新的activity或者回到桌面时，会调用<code>onPause()</code>-&gt;<code>onStop()</code>,但是当新的activity采用了透明的主题，那么不会调用<code>onStop()</code></li>
+<li>从activity是否可见，<code>onStart()</code>和<code>onStop()</code>是配对的，从activity是否在前台来说，<code>onResume()</code>和<code>onPause()</code>是配对的</li>
+<li>当启动一个activity，当前<code>onPause()</code>-&gt;新<code>onCreate()</code>-&gt;<code>onStart()</code>-&gt;<code>onResume()</code>-&gt;当前<code>onStop()</code>,所以耗时操作尽量在<code>onStop()</code>方法中进行操作</li>
+<li>当系统配置发生改变后，会调用<code>onSaveInstanceState</code>方法来进行保存当前状态，是在<code>onStop()</code>之前，和<code>onPause()</code>没有固定的顺序，当重新创建时，调用<code>onRestoreInstanceState</code>方法，在<code>onStart()</code>之后调用。</li>
+<li>关于屏幕旋转，配置了<code>android:configChanges = &quot;orientation|screenSize&quot;</code>是不会进行重新创建的，在API13之后，单独设置一个都会进行重新创建。这时会去调用<code>onConfigurationChanged</code>方法，而不走正常流程。
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/06/14/使用Hexo建站的那些坑/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/06/11/Android字体浅谈/">
-                Android字体浅谈
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-06-11
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Android/">Android</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/06/11/Android字体浅谈/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/11/Android字体浅谈/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>  今天想写个可以加文字的imageview,结果吭吭哧哧的卡在了绘制文字的地方，总是不知道怎么对齐文字，翻了一些资料了解了一些，还是写下来吧，也没什么太大的技术含量，就是为了不懒。。</p>
-<p>  <code>mPaint.getTextBounds(mText, 0, mText.length(), mTextBound);</code><br> 这个方法可以获取包裹文字的一个最小矩形。使用<code>mTextBound.width()</code>和<code>mTextBound.height()</code>就可以获得文字的宽和高了。</p>
-<p>   想要让文字居中显示这个还不够，先稍微了解一下文字的绘制，先放张图吧<br> <img src="http://img.blog.csdn.net/20141124164714390?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="cmd-markdown-logo"><br> 这张图就包含了绘制文字的top,ascent,descent,bottom,leading这五个参数,首先我们要知道Baseline基线，在Android中，文字的绘制都是从Baseline处开始的，Baseline往上至字符最高处的距离我们称之为ascent（上坡度），Baseline往下至字符最底处的距离我们称之为descent（下坡度），而leading（行间距）则表示上一行字符的descent到该行字符的ascent之间的距离，top和bottom文档描述地很模糊，其实这里我们可以借鉴一下TextView对文本的绘制，TextView在绘制文本的时候总会在文本的最外层留出一些内边距，为什么要这样做？因为TextView在绘制文本的时候考虑到了类似读音符号，可能大家很久没写过拼音了已经忘了什么叫读音符号了吧……下图中的A上面的符号就是一个拉丁文的类似读音符号的东西：</p>
-<p> <img src="http://img.blog.csdn.net/20141124164740174?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="a"></p>
-<p>如何获得这些参数呢，Android提供了一个字体测量的类，<code>FontMetrics</code>通过这个方法 <code>mFontMetrics = mPaint.getFontMetrics();</code>获得一个FontMetrics对象，然后就可以获得前面的属性了。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/06/11/Android字体浅谈/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/06/09/慢情调/">
-                慢情调
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-06-09
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/生活杂记/">生活杂记</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/06/09/慢情调/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/09/慢情调/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p> 今天刚刚学会怎么添加音乐，才发现是这么简单，这算是我平时没事听的歌单，先扔上面吧
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/06/09/慢情调/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/06/08/My-new-post/">
-                开站大吉！
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-06-08
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/慢情调/">慢情调</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/06/08/My-new-post/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/08/My-new-post/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="写在前面">写在前面</h2><p>  这是我建站的第一篇文章，最近比较忙，忙工作，忙学习，还有忙着刷美剧。。但是生活还是蛮丰富多彩的，这算是我大学以来过的最有意义的一个学期了。</p>
-<h3 id="顺便写个计划">顺便写个计划</h3><p>  在期末忙完之后把建站的过程写一写，尤其是踩了那么多Hexo的坑。。<br>  然后把之前写的有点营养的博客迁移过来<br>  写到哪算哪，我写作文都使劲凑字数，就当是写给我自己看的吧</p>
-<p>  我开始想吐槽这个公司了。。实习生竟然还得加班。。</p>
-<p><img src="http://www.zhiyin.cn/uploadfile/2012/1025/20121025030631892.jpg" alt="疯">
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/06/08/My-new-post/#more">
+            <a class="btn" href="/2015/09/27/《Android开发艺术探索》笔记/#more">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1029,6 +650,10 @@
   </div>
 
   
+  <div class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
+  </div>
+
 
         </div>
 
@@ -1053,37 +678,38 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="http://ww4.sinaimg.cn/mw690/a659dfe9jw8eg1hdm8t50j20u00u0405.jpg" alt="70kg" />
+          <img class="site-author-image" src="http://7xjlmz.com1.z0.glb.clouddn.com/头像1.jpg" alt="70kg" />
           <p class="site-author-name">70kg</p>
         </div>
         <p class="site-description motion-element">A rookie Android coder</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
-            <a href="/categories">
+            
               <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">分类</span>
-              </a>
+              
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
 
-        </div>
-
+         </div>
+   
         
-
+        
         <div class="links-of-author motion-element">
+
           
             
               <span class="links-of-author-item">
@@ -1100,16 +726,16 @@
             
           
         </div>
-
         
         
-
+        
+        
       </div>
-
+        
       
-
+        
     </div>
-  </div>
+
 
 
     </div>

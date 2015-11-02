@@ -1,0 +1,1024 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+    <meta name="description" content="A rookie Android coder" />
+
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'hide'
+  };
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?66269e36c19de3d5b65c8d870ab0028b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <title> 《Android开发艺术探索》笔记 // 70kg </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">70kg</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+     
+        
+      <li class="mw-harlem_shake_me im_first menu-item  menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+      
+    
+        
+      <li class="mw-harlem_shake_me im_first menu-item  menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+      
+    
+        
+      <li class="mw-harlem_shake_me im_first menu-item  menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+      
+    
+        
+      <li class="mw-harlem_shake_me im_first menu-item  menu-item-about">
+        <a href="/about">
+          <i class="menu-item-icon icon-about"></i> <br />
+          关于
+        </a>
+      </li>
+      
+    
+  <!--增加high一下-->
+  
+  <li class="mw-harlem_shake_me im_first  menu-item menu-item-about">
+    <a title="" href='javascript:(function() {
+  function c() {
+    var e = document.createElement("link");
+    e.setAttribute("type", "text/css");
+    e.setAttribute("rel", "stylesheet");
+    e.setAttribute("href", f);
+    e.setAttribute("class", l);
+    document.body.appendChild(e)
+  }
+ 
+  function h() {
+    var e = document.getElementsByClassName(l);
+    for (var t = 0; t < e.length; t++) {
+      document.body.removeChild(e[t])
+    }
+  }
+ 
+  function p() {
+    var e = document.createElement("div");
+    e.setAttribute("class", a);
+    document.body.appendChild(e);
+    setTimeout(function() {
+      document.body.removeChild(e)
+    }, 100)
+  }
+ 
+  function d(e) {
+    return {
+      height : e.offsetHeight,
+      width : e.offsetWidth
+    }
+  }
+ 
+  function v(i) {
+    var s = d(i);
+    return s.height > e && s.height < n && s.width > t && s.width < r
+  }
+ 
+  function m(e) {
+    var t = e;
+    var n = 0;
+    while (!!t) {
+      n += t.offsetTop;
+      t = t.offsetParent
+    }
+    return n
+  }
+ 
+  function g() {
+    var e = document.documentElement;
+    if (!!window.innerWidth) {
+      return window.innerHeight
+    } else if (e && !isNaN(e.clientHeight)) {
+      return e.clientHeight
+    }
+    return 0
+  }
+ 
+  function y() {
+    if (window.pageYOffset) {
+      return window.pageYOffset
+    }
+    return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+  }
+ 
+  function E(e) {
+    var t = m(e);
+    return t >= w && t <= b + w
+  }
+ 
+  function S() {
+    var e = document.createElement("audio");
+    e.setAttribute("class", l);
+    e.src = i;
+    e.loop = false;
+    e.addEventListener("canplay", function() {
+      setTimeout(function() {
+        x(k)
+      }, 500);
+      setTimeout(function() {
+        N();
+        p();
+        
+        for (var e = 0; e < O.length; e++) {
+
+          T(O[e]) 
+        }
+      }, 15500)
+    }, true);
+    e.addEventListener("ended", function() {
+      N();
+      h()
+    }, true);
+    e.innerHTML = " <p>你的浏览器不想让你High起来~.</p> <p>";
+    document.body.appendChild(e);
+    e.play()
+  }
+ 
+  function x(e) {
+    e.className += " " + s + " " + o
+  }
+ 
+  function T(e) {
+    e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+  }
+ 
+  function N() {
+    var e = document.getElementsByClassName(s);
+    var t = new RegExp("\\b" + s + "\\b");
+    for (var n = 0; n < e.length; ) {
+      e[n].className = e[n].className.replace(t, "")
+    }
+  }
+ 
+  var e = 30;
+  var t = 30;
+  var n = 350;
+  var r = 350;
+  
+  var i = "//7xiewb.com1.z0.glb.clouddn.com/imageharlem-shake.mp3";
+  var s = "mw-harlem_shake_me";
+  var o = "im_first";
+  var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+  var a = "mw-strobe_light";
+  
+  var f = "//7xiewb.com1.z0.glb.clouddn.com/imageharlem-shake-style.css";
+  var l = "mw_added_css";
+  var b = g();
+  var w = y();
+  var C = document.getElementsByTagName("*");
+  var k = null;
+  for (var L = 0; L < C.length; L++) {
+    var A = C[L];
+    if (v(A)) {
+      if (E(A)) {
+        k = A;
+        break
+      }
+    }
+  }
+  if (A === null) {
+    console.warn("Could not find a node of the right size. Please try a different page.");
+    return
+  }
+  c();
+  S();
+  var O = [];
+  for (var L = 0; L < C.length; L++) {
+    var A = C[L];
+    if (v(A)) {
+      O.push(A)
+    }
+  }
+  })()    '>High一下</a>
+  </li>
+  
+  </ul>
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              《Android开发艺术探索》笔记
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-09-27
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/09/27/《Android开发艺术探索》笔记/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/27/《Android开发艺术探索》笔记/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h2 id="Activity的生命周期和启动模式">Activity的生命周期和启动模式</h2><ul>
+<li>在启动新activity时，必须在当前activity<code>onPause()</code>方法执行完成才执行新activity的<code>onCreate()</code>，所以在<code>onPause()</code>方中不能进行重量级操作，可以进行比如短时间的存储数据和停止动画等工作。</li>
+<li>当打开新的activity或者回到桌面时，会调用<code>onPause()</code>-&gt;<code>onStop()</code>,但是当新的activity采用了透明的主题，那么不会调用<code>onStop()</code></li>
+<li>从activity是否可见，<code>onStart()</code>和<code>onStop()</code>是配对的，从activity是否在前台来说，<code>onResume()</code>和<code>onPause()</code>是配对的</li>
+<li>当启动一个activity，当前<code>onPause()</code>-&gt;新<code>onCreate()</code>-&gt;<code>onStart()</code>-&gt;<code>onResume()</code>-&gt;当前<code>onStop()</code>,所以耗时操作尽量在<code>onStop()</code>方法中进行操作</li>
+<li>当系统配置发生改变后，会调用<code>onSaveInstanceState</code>方法来进行保存当前状态，是在<code>onStop()</code>之前，和<code>onPause()</code>没有固定的顺序，当重新创建时，调用<code>onRestoreInstanceState</code>方法，在<code>onStart()</code>之后调用。</li>
+<li>关于屏幕旋转，配置了<code>android:configChanges = &quot;orientation|screenSize&quot;</code>是不会进行重新创建的，在API13之后，单独设置一个都会进行重新创建。这时会去调用<code>onConfigurationChanged</code>方法，而不走正常流程。<a id="more"></a></li>
+</ul>
+<h3 id="Activity的LaunchMode">Activity的LaunchMode</h3><ul>
+<li>standard:这是默认的启动模式，会一直创建新的对象并加入任务栈。谁启动了这个activity，这个activity就运行在启动它的那个activity的所在栈中。当使用<code>ApplicationContext</code>去启动activity时会报错误，请求新建任务栈。这是因为这种模式的activity会默认进入启动它的activity任务栈，但是非activity的context并没有所谓的任务栈，这就出问题了，所以可以指定<code>FLAG_ACTIVITY_NEW_TASK</code>标记位去创建一个新的任务栈。</li>
+<li>singleTop:栈顶复用模式，如果新的activity位于栈顶，不会去创建新的，同时去回调<code>onNewIntent</code>方法去获取启动intent，不会去走正常的流程。</li>
+<li>singleTask:栈内复用模式，这是一种单实例模式，只要栈内存在activity，就不会去创建，也是回调<code>onNewIntent</code>方法，同时，singleTask还默认拥有<code>cleanTop</code>效果。</li>
+<li>singleInstance:实单例模式，这是加强型的singleTask，除了singleTask的特点，它会为新activity启用一个新的任务栈。</li>
+</ul>
+<h3 id="任务栈">任务栈</h3><ul>
+<li>TaskAffinity,任务相关性，这个参数标识了一个activity所需任务栈的名字，默认情况下，所以activity所需的任务栈的名字为其应用的包名。当然我们可以自己设置，<code>TaskAffinity</code>属性主要和<code>singleTask</code>启动模式或者<code>allowTaskReqarenting</code>属性配对使用。在其他情况下没意义。</li>
+<li>任务栈分为前台任务栈和后台任务栈，后台任务栈中的activity处于暂停状态，用户可以通过切换将后台任务栈再次调用到前台。</li>
+<li>在activity下面定义<code>android:taskAffinity = &quot;包名.自定义&quot;</code>,一般还有<code>android:launchMode = &quot;singleTask&quot;</code></li>
+</ul>
+<h3 id="Activity的Flags">Activity的Flags</h3><ul>
+<li>FLAG_ACTIVITY_NEW_TASK: 就是singletask模式</li>
+<li>FLAG_ACTIVITY_SINGLE_TOP:就是singletop模式</li>
+<li>FLAG_ACTIVITY_CLEAN_TOP:清除当前activity上面的所以activity，一般和<code>FLAG_ACTIVITY_NEW_TASK</code>配合使用，<code>singletask</code>默认拥有这个属性。</li>
+<li>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS:拥有这个标志的activity不会出现在历史activity列表中。等同于XML设置<code>android:excludeFromRecents = &quot;true&quot;</code></li>
+</ul>
+<h3 id="intentFilter的匹配规则">intentFilter的匹配规则</h3><ul>
+<li>action：可以有多个，要求intent中的action 存在 且 必须和过滤规则中的其中一个相同 区分大小写；</li>
+<li>category：系统会默认加上一个<code>android.intent.category.DEAFAULT</code>，所以intent中可以不存在category，但如果存在就必须匹配其中一个，一般都会加上默认的；</li>
+<li>data:data由两部分组成，mimeType和URI，要求和action相似。如果没有指定URI，URI默认值为content和file（schema）;<br><a href="http://blog.csdn.net/xiazdong/article/details/7764865" target="_blank" rel="external">Android入门：隐式Intent</a></li>
+</ul>
+<h2 id="IPC机制">IPC机制</h2><ul>
+<li>IPC就是进程间通信或者跨进程通信，每个操作系统都有对应的IPC机制，Android上有特色的Binder。</li>
+<li>使用多进程最简单就是给四大组件指定<code>android:process</code>,而且Android使用多进程只有这一种方法（特殊的通过JNI去fork一个新进程不算）。</li>
+<li>在使用<code>android:process:remote</code>是默认在前面加上了包名。当然也可以自己去指定进程名称，其中以：开头的进程是属于当前应用的私有进程，和其他应用的组件不可以和它泡在同一个进程中国，而进程名不以：开头的属于全局进程，其他应用通过shareUID方式可以和它泡在同一个进程中。</li>
+<li>Android为每一个应用分配了一个独立的虚拟机，或者说为每一个进程分配了一个虚拟机，不同的虚拟机在内存分配桑有不同的地址空间，这就导致了在不同虚拟机中访问同一个类的对象会产生多份副本。</li>
+<li>所有运行在不同进程中的四大组件，只要他们之间需要通过内存来共享数据，都会共享失败。所以多进程会造成下面问题：<br> 1：静态成员和单例模式完全失效<br> 2：线程同步机制完全失效<br> 3：Sharedpreference可靠性下降<br> 4：application会多次创建</li>
+<li>不同进程的组件会拥有独立的虚拟机，application以及内存空间。</li>
+</ul>
+<h3 id="Serializable接口">Serializable接口</h3><ul>
+<li>这是JAVA提供的序列化接口，它是一个空接口，只要实现了这个接口，就可以实现序列化。其实还需要提供一个<code>SerialVersionUID</code>,这个在反序列化的时候去检测是否是同一个版本，比如当成员变量的数量，类型改变时就无法反序列化。所以还是尽量去指定。还有，静态成员变量属于类不属于对象，所以不会参加序列化过程，其实使用<code>tranient</code>关键字标记的成员变量不会参加序列化。</li>
+</ul>
+<h3 id="Paracelable接口">Paracelable接口</h3><ul>
+<li>这个Android提供的一种序列化接口，实现这个接口就可以完成序列化并可以通过<code>Intent</code>和<code>Binder</code>传递。这个写法稍微复杂点。</li>
+<li>这两个的区别就是<code>Serializable</code>是JAVA中的序列化接口，简单但是开销大，需要大量的<code>I/O</code>操作，<code>Paracelable</code>效率高，但是稍微复杂，取决与自己吧。</li>
+</ul>
+<h4 id="Binder">Binder</h4><ul>
+<li>Binder就是Android中的一个类，继承了<code>IBinder</code>接口。主要用于<code>Service</code>中，包括<code>AIDL</code>和<code>Messenger</code>，其中<code>Messenger</code>底层就是<code>AIDL</code>，这个后面有，所以还在主要看<code>AIDL</code>。</li>
+<li>对应介绍<code>AIDL</code>，推荐看一下洪洋的<a href="http://blog.csdn.net/lmj623565791/article/details/38461079" target="_blank" rel="external">Android aidl Binder框架浅析</a>。其中在<code>Eclipse</code>中创建正确的<code>aidl</code>文件会自动在gen下面生成对应的JAVA文件，但是在Android studio中即使按提示创建了正确的AIDL文件，在debug下面还是不会出现，这时make project就可以了。（也是坑死我了）。</li>
+<li><p>说一下使用<code>aidl</code>的简单流程：</p>
+<p> 1：创建aidl文件，就是一个接口</p>
+<p> 2：在service中使用接口去获取Binder</p>
+<p> 3：就是在客户端调用喽</p>
+</li>
+<li>我们去定义一个<code>aidl</code>文件只是去简化工作，让系统去帮助我们生成一个对应的接口类（当然我们可以手写这个类）。这个接口类是继承了<code>IInterface</code>这个接口，同时自己也是一个接口，所有可以在<code>Binder</code>中传输的接口都需要继承<code>IInterface</code>接口。要分析这个类没有具体的案例也不好说，还是去看上面那篇博客吧。我自己也写了一遍<a href="https://github.com/70kg/Android-Studio-Project/tree/master/app/src/main/java/com/com/mr_wrong/AIDL" target="_blank" rel="external">我的GitHub</a>.里面还有对Binder的<code>linkToDeath</code>和<code>unlinkToDeath</code>方法的介绍，这两个主要就是在服务端异常终止的时候进行重新绑定。（我自己测试好像没什么用。。估计姿势不对😂）。</li>
+</ul>
+<h3 id="Android中的IPC方式">Android中的IPC方式</h3><ul>
+<li>使用Bundle,它是实现了<code>Paracelable</code>接口的，我们可以往里面put一些支持的序列化对象，它有个父类<code>BaseBundle</code>,里面维护了一个<code>ArrayMap</code>。</li>
+<li>使用文件共享，这个在对读写没有并发的多进程情况下也是一种比较简单的方式。然而<code>SharedPreference</code>是个特例，虽然它也是去读取XML文件，但是它在内存中会有缓存啊。。so….</li>
+<li>使用Messenger,这个前面说过了，还是推荐看一下洪洋的博客<a href="http://blog.csdn.net/lmj623565791/article/details/47017485" target="_blank" rel="external">Android 基于Message的进程间通信 Messenger完全解析</a>.这就是对<code>aidl</code>的封装。</li>
+<li>还有就是<code>AIDL</code>了。</li>
+</ul>
+<h3 id="AIDL">AIDL</h3><ul>
+<li>Messenger是以串行的方式处理客户端发来的信息，所以只适用于低并发的情况。</li>
+<li>AIDL只支持特定的数据类型<br> 1：基本数据类型<br> 2：String和CharSequeue<br> 3:只支持ArrayList 并且里面的元素也要能被AIDL支持<br> 4：只支持HashMap  并且里面的元素也要能被AIDL支持<br> 5：所以实现了<code>Paracelable</code>接口的对象<br> 6：AIDL AILD本身也能在AIDL文件中使用</li>
+<li>其中自定义的<code>Paracelable</code>对象和AIDL对象要显式的import进来，不管他们是否和当前的aidl文件位于同一个包内</li>
+<li>同时 使用自定义的<code>Paracelable</code>对象时，要为他独立建一个同名的AIDL文件，并且声明为<code>Paracelable</code>类型</li>
+<li>服务端可以使用<code>CopyOnWriteArrayList</code>和<code>ConcurrentHashMap</code>来进行自动线程同步，支持并发读/写,客户端拿到的依然是ArrayList和HashMap</li>
+<li>可以使用<code>RemoteCallbackList</code>来进行解注册，他是系统专门提供的用于删除夸进程<code>listener</code>的接口，但是我没无法像list一样去操作它，要遍历要使用<code>listener.beginBroadcast()</code>和<code>listener.finishBroadcast()</code>。</li>
+<li>客户端通过IBinder.DeathRecipient来监听Binder死亡，也可以在onServiceDisconnected中监听并重连服务端。区别在于前者是在binder线程池中，访问UI需要用Handler，后者则是UI线程。  </li>
+<li>可以在<code>onBind</code>中进行权限的验证，还可以在服务端的<code>onTransact()</code>方法中采用uid和pid进行验证</li>
+</ul>
+<h3 id="使用ContentProvider">使用ContentProvider</h3><ul>
+<li><code>ContentProvider</code>是Android提供的专门用于不同应用间的数据共享方式，底层也是使用<code>Binder</code>实现的。</li>
+<li><code>ContentProvider</code>主要以表格的形式组织数据</li>
+<li>这里有一个使用<code>ContentProvider</code>和<code>SQLite</code>数据库的例子，就不贴代码了<a href="https://github.com/70kg/Android-Studio-Project/tree/master/app/src/main/java/com/com/mr_wrong/ContentProvider" target="_blank" rel="external">我的GitHub</a>。</li>
+</ul>
+<h3 id="使用Socket">使用Socket</h3><ul>
+<li><code>Socket</code>也可以进行进程间通信，虽然更多的时候用来进行网络数据交换。这样也写了一个使用<code>TCP</code>实现<code>Socket</code>通信的例子，里面有个坑坑死我了，总是接受不到服务器信息，最后发现是<code>out.println(msg)</code> 写成<code>print</code>就完蛋。<a href="https://github.com/70kg/Android-Studio-Project/tree/master/app/src/main/java/com/com/mr_wrong/Socket" target="_blank" rel="external">我的GitHub</a></li>
+</ul>
+<h3 id="使用Binder连接池">使用Binder连接池</h3><ul>
+<li>这个就是用于当一个项目用到很多的AIDL,总不能每个AIDL都去搞个<code>service</code>，可以把所以的AIDL都扔到一个<code>service</code>里面去管理，根据不同的业务模块拿到不同的<code>Binder</code>对象。Binder连接池的主要作用就是将每个业务模块的<code>Binder</code>请求统一转发到远程<code>service</code>上去执行。（其实感觉这个有点像个工厂）。</li>
+<li>具体我只是看了一下，并没有去写完这个代码，一是因为我的socket浪费了太多的时间，二是因为要使用到Binder连接池就是很大很大的项目了，目前还接触不到。原理并不复杂，再去写一个<code>BinderPool</code>的aidl接口，去管理里面的其他aidl，然后根据不同的业务需求返回不同的<code>IBinder</code>。用到再好好研究吧。</li>
+</ul>
+<hr>
+<p>  下面就是开始<code>View</code>的部分，更”赤几”的来啦😁</p>
+<hr>
+<h2 id="View的事件体系">View的事件体系</h2><ul>
+<li>view的left,top等都是相对于父布局的，但是我测试即使和父布局有间距，<code>getLeft()</code>初始化依然是0，在<code>setLeft()</code>之后变换了，但是view的位置似乎并没有变换，这个待解决吧。在3.0之后加入了新的参数x和<code>translationX</code>，x，y是view的左上角坐标，也是相对于父布局的，<code>translationX</code>只有在移动的时候才会有值，是相对于父布局的偏移量，x = left+translationX。在view的平移过程中，top和left表示原始左上角的左边，并不会改变。</li>
+<li><p><code>TouchSlop</code>是指滑动的最小距离，这个用的很多了，<code>ViewConfiguration.get(Context).getScaledTouchSlop()</code>这样获得，其实就是8dp。。</p>
+</li>
+<li><p><code>VelocityTracker</code>是关于滑动加速度的，这个用过几次，比较简单。不多说</p>
+</li>
+<li><code>GestureDetector</code>这个是关于手势的，其实用起来感觉就是touchevent的补充。也没太大难度。</li>
+<li><code>Scroller</code>这个倒是很有意思的东西，内部没有一点对view的引用却可以控制view的移动。但是只能view的内容移动，看原理就是不停的去重绘界面，实现倒是很是巧妙。</li>
+<li><p>View的滑动一般有三种实现方式：</p>
+<p> 1：通过view自身的<code>scrollto</code>和<code>scrollby</code>进行滑动</p>
+<p> 2：使用动画</p>
+<p> 3：通过改变view的<code>layoutparams</code>来实现</p>
+</li>
+</ul>
+<p>(我感觉在那些写的好的开源自定义的view中，使用matrix变换占了很大的比例。。无论是配合动画还是手指滑动距离，这个都是很好的解决办法)</p>
+<ul>
+<li><code>scrollto</code>的移动绝对距离，<code>scrollby</code>是移动相对距离，<code>scrollby</code>内部其实就是用<code>scrollto</code>实现的。</li>
+</ul>
+<h3 id="View的事件分发机制">View的事件分发机制</h3><ul>
+<li>主席的书对这个的讲解还是很精巧的。让人很容易的去理解这个过程。</li>
+<li><p>这个事件分发机制我们只需要去关心三个方法</p>
+<p>1：<code>public boolean dispatchTouchEvent(MotionEvent ev)</code><br>用来进行事件的分发，如果事件能够传递给当前的view，那么这个方式肯定会调用。返回结果受当前view的<code>onTouchEvent</code>和下级view的<code>dispatchTouchEvent</code>影响，表示是否消耗当前事件。</p>
+<p>2：<code>public boolean onInterceptTouchEvent(MotionEvent ev)</code><br>用来判断是否拦截某个事件，如果拦截了，那么在同一个事件序列中不会再次调用。返回结果表示是否拦截这个事件。</p>
+<p>3: <code>public boolean onTouchEvent(MotionEvent event)</code><br>在<code>dispatchTouchEvent</code>中调用，用来处理点击事件。返回结果表示是否消耗当前事件。如果不消耗，在同一个事件序列中不会再次接受事件。</p>
+</li>
+<li><p>下面就是精巧的伪代码表示三者关系时间啦</p>
+</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">public</span> boolean dispatchTouchEvent(MotionEvent ev) &#123;</span><br><span class="line">       <span class="title">boolean</span> consume = <span class="built_in">false</span>;</span><br><span class="line">       <span class="title">if</span> (<span class="built_in">on</span>InterceptTouchEvent(ev))&#123;</span><br><span class="line">           <span class="title">consume</span> = <span class="built_in">on</span>TouchEvent(ev);</span><br><span class="line">       &#125;<span class="title">else</span> &#123;</span><br><span class="line">           <span class="title">consume</span> = child.dispatchTouchEvent(ev);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="title">return</span> consume;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>解释一下：对于一个根<code>viewgroup</code>来说，点击事件产生后，首先调用<code>dispatchTouchEvent</code>方法，如果它的<code>onInterceptTouchEvent</code>返回true，表示它想拦截这个事件，然后就交给它的<code>onTouchEvent</code>来进行处理，否则就交给下一级view的<code>dispatchTouchEvent</code>再进行循环。</p>
+<ul>
+<li>如果view设置了<code>setOnTouchListener</code>,那么优先调用<code>setOnTouchListener</code>，如果返回false,那么再去调用<code>onTouchEvent</code>，返回true，说明已经消耗了，<code>onTouchEvent</code>不会调用了。还有常用的<code>setOnClickListener</code>它的优先级是最低的，没错，是最低的。。</li>
+<li>正常情况下，一个事件序列只能被一个view拦截和消耗。除非强行传递给其他的view。。</li>
+<li>某个view一旦开始处理事件，如果不消耗<code>ACTION_DOWN</code>即返回false,那么同一实践序列中的其他事件都不会交给他处理，并且将事件交给他爹处理。也就是说事件一旦交给你了，你就必须消耗掉，不然以后的都不给你了。😂</li>
+<li>如果view不消耗掉除<code>ACTION_DOWN</code>以外的其他事件，那么这个点击事件就会消失。此时父元素的<code>onTouchEvent</code>不会调用，最终会传递给<code>activity</code>处理。</li>
+</ul>
+<h3 id="view的滑动冲突">view的滑动冲突</h3><ul>
+<li>这里主席总结的也很好，主要有两种方式去解决滑动冲突。<br> 1：外部拦截法<br>这个是在父布局中的<code>onInterceptTouchEvent</code>方法中进行判断，根据具体的业务逻辑是否去拦截掉事件。主要还是在<code>MotionEvent.ACTION_MOVE</code>中判断，然后返回值。<br> 2：内部拦截法<br>这个方法是指父容器不拦截任何事件，全部交给子元素。如果子元素需要就消耗掉，如果不需要再返回给父元素。这个主要配合<code>requestDisallowInterceptTouchEvent</code>来对父布局的拦截事件操作。这个也不好用，也比较麻烦，和整个事件传递的思想也不怎么搭。就不写代码了。</li>
+</ul>
+<h2 id="View的工作原理">View的工作原理</h2><ul>
+<li><code>ViewRoot</code>对用于<code>ViewRootImpl</code>类，它是连接<code>WindowManager</code>和<code>DecorView</code>的纽带，view的三大流程均是通过<code>ViewRoot</code>来完成的。</li>
+<li>在<code>ActivityThread</code>中，当<code>Activity</code>对象被创建完毕之后，会讲<code>DecorView</code>添加到<code>Window</code>中，同时创建<code>ViewRootImpl</code>类，并将<code>ViewRootImpl</code>和<code>DecorView</code>建立关联。</li>
+<li>view的绘制流程是冲<code>ViewRoot</code>的<code>performTraversals</code>方法开始的，它经过<code>measure</code>，<code>layout</code>,<code>draw</code>三个过程才能最终将一个view绘制出来。</li>
+<li><code>DecorView</code>作为顶级view，内部有标题栏和一个名为<code>content</code>的<code>Framelayout</code>，这个就是我们常用的<code>setcontentview</code>的地方，这也是为什么叫做<code>setcontentview</code>而不是<code>setview</code>。在实际使用的时候也会发现这个现象。</li>
+</ul>
+<h3 id="MeasureSpec">MeasureSpec</h3><ul>
+<li>在测量过程中，系统会讲view的<code>LayoutParams</code>根据父容器所施加的规则转换成对应的<code>MeasureSpec</code>，然后根据这个<code>MeasureSpec</code>来测量view的宽和高。</li>
+<li>对于<code>DecorView</code>，其<code>MeasureSpec</code>是由窗口的尺寸和其自身的<code>LayoutParams</code>来共同决定的。对于普通的view，其<code>MeasureSpec</code>由其父容器的<code>MeasureSpec</code>和其自身的<code>LayoutParams</code>来共同决定的。这个想想实际使用中遇到的，也是挺好理解的。</li>
+<li>对于测量中的<code>mode</code>就不写了，这个每本书都会去介绍，也说不出什么别的花样来，就是那么回事。</li>
+<li>view的<code>measure</code>过程是由其<code>measure</code>方法完成。<code>measure</code>方法又是个<code>final</code>的，但是在<code>measure</code>方法中会去调用<code>onMeasure</code>方法，这就是我们常见的了。</li>
+<li>view的默认在<code>AT_MOST</code>也就是<code>wrap_content</code>下是去使用<code>EXACTLY</code>(match_parent)模式的。所以当我们是直接继承view，还是乖乖去写<code>onmeasure</code>吧（大部分情况下。。😂）。</li>
+<li><p>在<code>activity</code>的<code>oncreate</code>，<code>onstart</code>,<code>onresume</code>中都没法得到正确的view宽高。这是因为view的measure过程和<code>activity</code>的生命周期不是同步的，so.. 解决办法</p>
+<p> 1：<code>onWindowFocusChanged</code>这个是view和activity都有的方法，调用这个方法意味着view已经初始化完毕，可以去获取宽高。但是这个方法会在activity的窗口获得焦点和失去焦点的时候调用。</p>
+<p> 2：<code>Veiw.post(runnable)</code>这个是将一个runnable对象加入到当前的<code>messagequeue</code>中，等到<code>measure</code>和<code>layout</code>等方法调用完成之后再去调用。</p>
+<p> 3：使用<code>ViewTreeObserver</code>这个有多个回调。比如使用</p>
+</li>
+</ul>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ViewTreeObserver observer = mJellyTextView.getViewTreeObserver();</span><br><span class="line">    observer.addOnGlobalLayoutListener(<span class="keyword">new</span> ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>当view树的状态发生改变或者view树内部的view的可见性发生改变时，都会去回调这个方法。要注意的是，这个方法会多次调用。</p>
+<p>   4：使用<code>view.measure(int widthMeasureSpec, int heightMeasureSpec)</code>这个我不是特别的会用，如果只是为了获取宽高，为啥不去使用post方法，简单又好用。</p>
+<ul>
+<li>在view的默认实现中<code>getMeasuredWidth()</code>和<code>getWidth()</code>的值是相等的。只不过测量值形成于measure过程，左中的宽高形成于layout过程。一般可以认为是一样的。但是可以在重写layout中强制改变，然而并没有什么卵用。。</li>
+</ul>
+<h3 id="Draw过程">Draw过程</h3><p>  1:绘制背景<code>background.draw(canvas)</code></p>
+<p>  2: 绘制自己<code>ondraw</code></p>
+<p>  3: 绘制children<code>dispatchDraw</code></p>
+<p>  4: 绘制装饰<code>onDrawScrollBars</code></p>
+<ul>
+<li>在继承viewgroup进行绘制的时候，去看tips里面的吧。</li>
+<li>不要在view中使用handler，因为view有post啊😂</li>
+<li>view中有线程或者动画，需要及时停止，参考<code>onDetachedFromWindow()</code>（在查看大图的时候可以在这里设置为空，可以让gc更快的去回收）。</li>
+</ul>
+<h2 id="理解RemoteViews">理解RemoteViews</h2><ul>
+<li><code>RemoteViews</code>表示一个view结构，它可以在远程进程中显示，这就是说它提供了一组基础操作用于跨进程更新界面。（叼不叼😂）。这个东西主要用在通知栏和桌面小部件。</li>
+<li>在使用通知栏时，使用<code>NotificationManager</code>的<code>nofity</code>实现，使用小部件使用<code>AppWidgetManager</code>实现，他们都运行在其他的进程，确切说是<code>SystemServier</code>进程，所以没法像以前那么直接去更新view，要使用<code>RemoteViews</code>提供的一系列set方法。set支持的属性有限，同样<code>RemoteViews</code>支持的view也有限。</li>
+<li>在通知栏的使用看我之前写的<a href="https://github.com/70kg/Android-Studio-Project/blob/master/app/src/main/java/com/com/mr_wrong/Notification/NotificationActivity.java" target="_blank" rel="external">Android 5.0通知栏</a></li>
+<li>在小部件的使用我还没写，因为我在麦当劳，这里的声音实在太吵了。<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_5/src/com/ryg/chapter_5/MyAppWidgetProvider.java" target="_blank" rel="external">先看看主席的吧</a>.(ps：我是很不喜欢使用小部件的，又丑又鸡肋还占地方，看起来很方便，其实体验跟屎一样。😤)</li>
+<li><code>PendingIntent</code>表示一种处于<code>pending</code>状态的intent，就是要有某些条件去触发它去执行。支持三种使用：启动activity,启动service和发送广播。分别就是<code>PendingIntent.getActivity(content, requestcode, intent, flags)</code>。。<code>requestcode</code>表示发送方的请求码，多数情况下设为0就可以。</li>
+<li><code>PendingIntent</code>相同的定义：内部的Intent和requestCode都相同。Intent相同的定义：两个Intent的componentName和intent-filter相同（不包括extras）</li>
+<li><p>flag定义：</p>
+<p>1：FLAG_NO_CREATE,基本不使用；</p>
+<p>2：FLAG_ONE_SHOT，以第一个为准，后续的会全部和第一条保持一致，任意一条被触发，其他的都cancel；</p>
+<p>3：FLAG_CANCEL_CURRENT，前面的相同的PendingIntent都会被cancel，只有最新的可用；</p>
+<p>4：FLAG_UDPATE_CURRENT，前面的PendingIntent都会被更新（它们Intent中的extras都会被更新）</p>
+</li>
+</ul>
+<h3 id="RemoteViews的内部机制"><code>RemoteViews</code>的内部机制</h3><ul>
+<li><code>RemoteViews</code>常用的构造方法<code>RemoteViews(getPackageName(), R.layout.notification);</code>第一个就是当前应用的包名，第二个就是布局ID。</li>
+<li><p><code>RemoteViews</code>只支持有限的view类型：<br>Layout：FrameLayout, LinearLayout, RelativeLayout, GridLayout;</p>
+<p>View: AnalogClock, Button, Chronometer, ImageButton, ImageView, ProgressBar, TextView, ViewFlipper, ListView, GridView, StackView, AdapterViewFlipper, ViewStub。</p>
+</li>
+</ul>
+<ul>
+<li>客户端的remoteViews通过action对象，由binder机制来更新服务端的remoteViews，所以RemoteViews本身也实现了Parcelable接口。</li>
+<li>RemoteViews中真正操作View的方法apply和reapply，前者会加载布局并更新界面，后者则只更新界面。</li>
+<li><code>RemoteViews</code>只支持<code>PendingIntent</code>，不支持<code>OnClickListener</code>。可以使用<code>setOnClickPendingIntent</code>给普通的view设置点击事件，但是不能给集合(lisview,stackview)中的view设置点击事件。必须使用<code>setPendingIntentTemplate</code>和<code>setOnClickFillInIntent</code>组合使用。</li>
+<li><a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_5/src/com/ryg/chapter_5/MainActivity.java" target="_blank" rel="external">还有个例子</a>配个<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_5/src/com/ryg/chapter_5/DemoActivity_2.java" target="_blank" rel="external">这个</a>食用</li>
+</ul>
+<h2 id="Android的Drawable">Android的Drawable</h2><ul>
+<li>这章总体比较简单，再加上之前也写过关于<code>Drawable</code>的一些东西。估计会写的少点。在麦当劳喝了凉的再加上吹空调搞得我肚子难受，又不放心电脑放这去厕所，所以。。😂</li>
+<li><code>Drawable</code>有很多种，他们都表示一种图像的概念。<code>Drawable</code>是一个抽象类，他是所有<code>Drawable</code>对象的基类。可以通过<code>getIntrinsicWidth</code>和<code>getIntrinsicHeight</code>来获取内部的宽高。但是并不是所有的<code>Drawable</code>都有宽高，一张图片形成的可以获取，但是一个颜色形成的就无法获取。同时<code>Drawable</code>的宽高并不等于他们的大小，<code>Drawable</code>一般是没有大小的概念，当用作view的背景时，<code>Drawable</code>会被拉伸至view的同等大小。</li>
+</ul>
+<h3 id="Drawable的分类"><code>Drawable</code>的分类</h3><ul>
+<li>BitmapDrawable<br>就是一张图片。可以设置tilemode进行镜像平铺什么的</li>
+<li>ShapeDrawable<br>可以理解为通过颜色来构造的图形。可以渐变</li>
+<li>LayerDrawable<br>他是一种层次化的Drawable集合，可以将不同的<code>Drawable</code>放置在不同的层上面来达到一种层叠的效果。</li>
+<li>StateListDrawable<br>这个用在view的不同状态改变的时候。有挺多属性的。</li>
+<li>LevelListDrawable<br>也是一个Drawable的集合，每个Drawable都有一个等级，根据等级的不同可以切换不同的Drawable</li>
+<li>TransitionDrawable<br>淡入淡出的效果</li>
+<li>InsetDrawable<br>可以将其他的Drawable内嵌到自己当中。</li>
+<li>ScaleDrawable<br>根据自己的等级将指定的Drawable缩放到一定的比例。</li>
+<li>ClipDrawable<br>做裁剪的  用过这个。</li>
+</ul>
+<p>对于自定义的<code>Drawable</code>，我觉得可以再讲讲关于<code>Drawable</code>的<code>Callback</code>接口和关于<code>Animatable</code>接口的相关知识，这两个配合起来使用对自定义<code>Drawable</code>才更加丰富。</p>
+<h2 id="Android动画深入分析">Android动画深入分析</h2><ul>
+<li>这个动画方面的之前就了解过。再看一遍吧。</li>
+</ul>
+<h3 id="view动画">view动画</h3><ul>
+<li>view动画主要就是<code>Animation</code>的四个子类<code>TranslateAnimation</code>,<code>ScaleAnimation</code>,<code>RotateAnimation</code>,<code>AlphaAnimation</code>。对于view动画还是建议使用XML来进行定义，具体就不写了。</li>
+<li>自定义view动画只要继承<code>Animation</code>这个抽象类就可以了，主要涉及矩阵的变化，还有配合<code>camera</code>的使用，写过一个<a href="https://github.com/70kg/Android-Studio-Project/blob/master/app/src/main/java/com/com/mr_wrong/CustomAnimAndCamera/CustomAnim.java" target="_blank" rel="external">我的GitHub</a></li>
+<li>帧动画就不说了，使用尺寸大图片容易oom</li>
+<li><code>layoutanimation</code>也不说了，也写过<a href="https://github.com/70kg/Android-Studio-Project/blob/master/app/src/main/java/com/com/mr_wrong/Property_Animation/myLayoutTransition.java" target="_blank" rel="external">我的GitHub</a></li>
+<li><code>activity</code>的切换效果，这个其实说也没什么用，在5.0之后的效果要酷炫的多，而且不兼容前面的，要说也是独立开一篇说。</li>
+<li>属性动画看我之前写的吧<a href="http://70kg.info/2015/07/03/Android%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">Android属性动画</a>。还有相关代码<a href="https://github.com/70kg/Android-Studio-Project/tree/master/app/src/main/java/com/com/mr_wrong/Property_Animation" target="_blank" rel="external">我的GitHub</a>。属性动画的具体原理是利用了反射去设置属性值。</li>
+</ul>
+<h2 id="理解Window和WindowManager">理解Window和WindowManager</h2><ul>
+<li><code>Window</code>是一个抽象类，它的具体实现是<code>PhoneWindow</code>，创建一个<code>Window</code>需要通过<code>WindowManager</code>。<code>Window</code>的具体实现是在<code>WindowManagerSeivice</code>中，<code>WindowManager</code>和<code>WindowManagerSeivice</code>的交互是一个ipc过程。Android中的所有视图都是通<code>Window</code>来呈现，所以<code>Window</code>实际上是view的直接管理者。</li>
+</ul>
+<h3 id="Window和WindowManager"><code>Window</code>和<code>WindowManager</code></h3><ul>
+<li><code>Window</code>的简单使用<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">WindowManager mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE)<span class="comment">;</span></span><br><span class="line">      WindowManager.LayoutParams layoutParams =</span><br><span class="line">              new WindowManager.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT</span><br><span class="line">              0,0, PixelFormat.TRANSPARENT)<span class="comment">;</span></span><br><span class="line">       layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL|</span><br><span class="line">               WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|</span><br><span class="line">               WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED<span class="comment">;</span></span><br><span class="line">       layoutParams.gravity = Gravity.LEFT|Gravity.TOP<span class="comment">;</span></span><br><span class="line">       layoutParams.x = 100<span class="comment">;</span></span><br><span class="line">       layoutParams.y = 100<span class="comment">;</span></span><br><span class="line">       mWindowManager.addView(mHeadImg,layoutParams)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其中<code>WindowManager.LayoutParams</code>的flags属性比较重要，它可以控制<code>Window</code>的显示特性。</p>
+<ul>
+<li><code>FLAG_NOT_FOCUSABLE</code><br>表示<code>Window</code>不需要获取焦点也不需要接收各种输入事件，此标记同时会启用<code>FLAG_NOT_TOUCH_MODAL</code>最终事件会直接传递给下层具有焦点的<code>Window</code></li>
+<li><code>FLAG_NOT_TOUCH_MODAL</code><br>这个表示当前<code>Window</code>区域以外的单击事件传递给下层的<code>Window</code>，当前<code>Window</code>区域内的点击事件自己处理。一般都要写写个标记</li>
+<li><code>FLAG_SHOW_WHEN_LOCKED</code><br>这个可以显示在锁屏上</li>
+<li>type参数表示<code>Window</code>的类型，有三中类型：应用<code>Window</code>，子<code>Window</code>，系统<code>Window</code>。<code>Window</code>是分级的，应用的在1~99，子在1000~1999，系统的在2000~2999，大的会层叠在小的上面。我们想要显示在上层，可以使用<code>TYPE_SYSTEM_ERROR</code>或者<code>TYPE_SYSTEM_OVERLAY</code>。同时还有添加相应的权限。</li>
+<li><code>WindowManager</code>常用的方法就三个添加view，更新view和删除view。具体的实现过程就不写了，我看了会也是云里雾里的。</li>
+</ul>
+<h3 id="Window的创建过程"><code>Window</code>的创建过程</h3><h4 id="activity的Window创建过程">activity的<code>Window</code>创建过程</h4><p> 1：如果没有<code>DecorView</code>就去创建它<br> 2：将view添加到<code>DecorView</code>的<code>mContentParent</code>中.<br> 3:回调activity的<code>onContentChanged</code>方法去通知activity视图已经发生改变。</p>
+<h4 id="Dailog的Window创建过程">Dailog的<code>Window</code>创建过程</h4><p>  1：创建<code>Window</code><br>  2：初始化<code>DecorView</code>并将dialog的视图添加到<code>DecorView</code>中<br>  3：将<code>DecorView</code>添加到<code>Window</code>中显示</p>
+<ul>
+<li>普通的dialog必须使用activity的context，因为application的没有token，一般只有activity才有。</li>
+</ul>
+<h4 id="Toast的Window创建过程"><code>Toast</code>的<code>Window</code>创建过程</h4><ul>
+<li>这个比较复杂一点，由于具有定时取消功能，所以采用了Handler.这也意味着<code>Toast</code>无法在没有looper的线程中使用。</li>
+<li>内部有一个<code>mToastQueue</code>的队列。为了防止DOS,最多只能同时存在50个。</li>
+</ul>
+<h2 id="四大组件的工作过程">四大组件的工作过程</h2><h3 id="我是真没怎么看懂😂"><strong>我是真没怎么看懂</strong>😂</h3><p>主席说了很多东西，看起来是很有价值，然而我笨没办法。留着以后再看吧，或许到时候就看得懂了。。。</p>
+<hr>
+<p>看到了别人写的笔记，真的是差距啊。</p>
+<h3 id="Activity的工作过程">Activity的工作过程</h3><p><img src="http://img.blog.csdn.net/20151002094304318" alt=""></p>
+<h3 id="启动Service">启动Service</h3><p><img src="http://img.blog.csdn.net/20151002094641495" alt=""></p>
+<h3 id="绑定Service">绑定Service</h3><p><img src="http://img.blog.csdn.net/20151002094725602" alt=""></p>
+<h3 id="动态注册BroadcastReceiver">动态注册BroadcastReceiver</h3><p><img src="http://img.blog.csdn.net/20151002094832822" alt=""><br>发送和接收<br><img src="http://img.blog.csdn.net/20151002094847398" alt=""></p>
+<h3 id="ContentProvider">ContentProvider</h3><ul>
+<li>当ContentProvider所在的进程启动的时候，它会同时被启动并被发布到AMS中，这个时候它的onCreate要先去Application的onCreate执行。 </li>
+</ul>
+<ol>
+<li>应用启动的入口为ActivityThread的main方法，main方法会创建ActivityThread实例并创建主线程消息队列。 </li>
+<li>attach方法中远程调用AMS的attachApplication方法，并提供ApplicationThread用于和AMS的通信。 </li>
+<li>attachApplication方法会通过bindApplication方法和H来调回ActivityThread的handleBindApplication，这个方法会先创建Application，再加载ContentProvider，然后才会回调Application的onCreate方法。 </li>
+<li>ContentProvider的multiprocess属性决定了ContentProvider是否是单例（false时），一般都用单例。 </li>
+<li>ContentResolver的具体类是ApplicationContentResolver，当ContentProvider所在进程未启动时，第一次访问它会触发ContentProvider的创建以及进程启动。 </li>
+</ol>
+<ul>
+<li>query流程<br><img src="http://img.blog.csdn.net/20151002095010807" alt=""></li>
+</ul>
+<h2 id="Android的消息机制">Android的消息机制</h2><ul>
+<li>三大件：Hanlder，MessageQueue，Looper。</li>
+<li>MessageQueue内部的数据结构并非队列，而是单链表，它只是用来存储数据。</li>
+<li>Looper是真正的数据处理者，线程默认没有Looper，使用Handler必须为线程创建Looper，UI线程也就是ActivityThread创建时会初始化Looper，所以主线程中默认可以直接使用Handler。</li>
+<li>UI线程检查当前线程的操作在ViewRootImpl的checkThread方法中，我们常见的不能在子线程中访问view的异常就是在这里抛出的。</li>
+<li>不允许子线程访问主线程的原因是UI控件不是线程安全的，而加锁又会导致UI的操作过于复杂。</li>
+<li>Handler的工作过程，我简单概括一下就是：假设创建Handler的线程是A，耗时操作的线程是B，B线程中拿到handler实例发送消息或者post一个Runnable，实际是调用了MessageQueue的enqueueMessage方法，进入了消息队列，线程A中的Looper发现了这个消息，就会处理这个消息，也就是消息中的Runnable或者handler的handleMessage方法会被调用，这样handler中的业务逻辑就被切换到线程A中去了。</li>
+<li>ThreadLocal我用一句大白话来讲解，就是看上去只new了一份，但在每个不同的线程中却可以拥有不同数据副本的神奇类。其本质是ThreadLocal中的Values类维护了一个Object[]，而每个Thread类中有一个ThreadLocal.Values成员，当调用ThreadLocal的set方法时，其实是根据一定规则把这个线程中对应的ThreadLocal值塞进了Values的Object[]数组中的某个index里。这个index总是为ThreadLocal的reference字段所标识的对象的下一个位置。</li>
+<li>MessageQueue的工作原理：主要方法为enqueueMessage和next。<br>a. enqueueMessag主要就是一个单链表的插入操作，<br>b. next方法是一个无限循环，如果消息队列中没有消息，next方法就阻塞，有新消息到来时，next方法会返回这条消息并将其从单链表中删除。</li>
+<li>Looper的工作原理：<br>a. prepare方法，为当前没有Looper的线程创建Looper。<br>b. prepareMainLooper和getMainLooper方法用于创建和获取ActivityThread的Looper。<br>c. quit和quitSafely方法，前者立即退出，后者只是设定一个标记，当消息队列中的所有消息处理完毕后会才安全退出。子线程中创建的Looper建议不需要的时候都要手动终止。<br>d. loop方法，死循环，阻塞获取msg并丢给msg.target.dispatchMessage方法去处理，这里的target就是handler。</li>
+<li>Handler的工作原理：<br>a. 无论sendMessage还是post最终都是调用的sendMessageAtTime方法。<br>b. 发送消息其实就是把一条消息通过MessageQueue的enqueueMessage方法加入消息队列，Looper收到消息就会调用handler的dispatchMessage方法。它的处理过程参考书page388的流程图，一看就懂～<br>c. 这里我补充一个东西，当我们直接Handler h = new Handler()时，本质调用的是Handler(Callback callback, Boolean async)构造方法，这个方法里会调用Looper.myLooper()方法，这个方法其实就是返回的ThreadLocal里保存的当前线程的Looper，这也就解释了为什么我们在主线程中这样new没有问题，子线程中如果不先Looper.prepare会抛出异常的原因，前面多次说了，因为ActivityThread会在初始化的时候创建自己的Looper。</li>
+</ul>
+<h3 id="以上均来自@amurocrash的笔记，在此感谢。非常棒Android开发艺术探索读书笔记（三）">以上均来自@amurocrash的笔记，在此感谢。非常棒<a href="http://blog.csdn.net/amurocrash/article/details/48858353" target="_blank" rel="external">Android开发艺术探索读书笔记（三）</a></h3><hr>
+<h2 id="Android的线程和线程池">Android的线程和线程池</h2><ul>
+<li><code>AsyncTask</code>封装了线程池和Handler。<code>HandlerThread</code>是一种具有消息循环的线程。在它的内部可以使用Handler.<code>IntentService</code> 是一个服务，系统对其进行封装可以更方便的执行后台任务，内部使用了<code>HandlerThread</code>和handler，当任务执行完成后会自动退出。</li>
+<li><p><code>AsyncTask</code>有四个核心的方法：</p>
+<p>1:<code>onPreExecute</code>这个在主线程中执行，用于一些准备工作<br>2:<code>doInBackground(Object[] params)</code>运行在线程池，在这个方法中可以通过<code>publishProgress</code>进行进度更新。<br>3:<code>onProgressUpdate(Object[] values)</code>在主线程中，当进度改变时回去调用这个方法。<br>4:<code>onPostExecute(Object o)</code>主线程中，用于处理返回结果</p>
+</li>
+<li>还有<code>onCancelled()</code>方法，主线程中调用，当任务被去取消的时候调用，这样就不会再去调用<code>onPostExecute</code>方法了。</li>
+<li>使用<code>AsyncTask</code>的限制<br>1：这个类只能在主线程中进行加载。<br>2：这个类的对象只能在主线程中进行创建。<br>3：<code>execute()</code>方法只能在主线程进行调用<br>4：一个<code>AsyncTask</code>对象只能执行一次，也就是只能执行一次<code>execute()</code>方法，否则会报错。<br>5：在1.6之前是串行的执行任务，1.6的时候采用了在线程池中并行的处理，但是在3.0开始，为了避免并发错误，又采用了一个新线程来串行执行任务。但是3.0以后的版本依然可以使用<code>executeOnExecutor()</code>来并行处理任务。但是不能在低版本上面使用。</li>
+<li><code>HandlerThread</code>个人感觉就是封装了一下我们一起在子线程中的<code>Looper.prepare()</code>和<code>Looper.loop（）</code>,通过handler的构造<code>handler（looper）</code>来与子线程的messagequeue进行关联，也就是在handler的<code>handlermessage</code>方法中去处理耗时任务，还得去通过一个主线程的handler去更新UI。具体原理去看源码，我都看得懂😂。</li>
+<li><code>IntentService</code>是一个抽象的特殊service，内部也是使用了<code>HandlerThread</code>和<code>Handler</code>。这个源码更少。。。😂不过很好使。</li>
+<li>线程池的好处：<br>1：重用线程，减少开销<br>2：能控制线程池的最大并发度，避免线程阻塞<br>3：能够对线程进行简单的管理</li>
+<li><code>ThreadPoolExecutor</code>是线程池的真正实现。他常用的构造方法<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolExecutor(<span class="keyword">int</span> corePoolSize,</span><br><span class="line">                              <span class="keyword">int</span> maximumPoolSize,</span><br><span class="line">                              <span class="keyword">long</span> keepAliveTime,</span><br><span class="line">                              TimeUnit unit,</span><br><span class="line">                              BlockingQueue&lt;Runnable&gt; workQueue)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在Android中我只找到了两个构造函数，一个是上面的，一个是还有<code>ThreadFactory threadFactory,RejectedExecutionHandler handler</code>这两个参数的。没有找到主席说的，但是并不影响。主要就是这几个参数；</p>
+<p><code>corePoolSize</code>核心线程数，核心线程默认会一直存活</p>
+<p><code>maximumPoolSize</code>线程池的最大线程数，超过了会阻塞</p>
+<p><code>keepAliveTime</code>非核心线程闲置的超时时长，超过了就会回收</p>
+<p><code>unit</code>这个是时间单位，毫秒，分钟，秒等</p>
+<p><code>workQueue</code>任务队列，runnable对象会储存在这里</p>
+<p><code>threadFactory</code>为线程池提供创建新线程的功能</p>
+<p><code>handler</code>这个不常用</p>
+<ul>
+<li><p><code>AsyncTask</code>内部的线程池配置：</p>
+<p>核心线程数是CPU核心数+1；</p>
+<p>最大线程数是CPU核心数*2+1；</p>
+<p>核心线程无超时机制，非核心线程在闲置时的超时为1秒；</p>
+<p>任务队列的容量128；</p>
+<h3 id="线程池的分类">线程池的分类</h3></li>
+<li><p><code>FixedThreadPool()</code>通过<code>Executors.newFixedThreadPool()</code>创建，只有核心线程且不会回收，可以更快的响应外界的请求。</p>
+</li>
+<li><code>CachedThreadPool()</code>数量不定，只有非核心线程。适合执行大量的耗时较少的任务</li>
+<li><code>ScheduledThreadPool()</code>核心线程固定，非核心线程不固定，非核心线程闲置会立即回收，主要用来执行定时任务和具有固定周期的重复任务。</li>
+<li><code>SingleThreadExecutor()</code>只有一个核心线程。所有任务都在同一个线程中顺序执行。好处是不需要处理线程间的同步问题。</li>
+</ul>
+<h2 id="Bitmap的加载和Cache">Bitmap的加载和Cache</h2><p>这个我就不写了，关于<code>Bitmap</code>就是内存缓存和硬盘缓存，使用<code>LruCache</code>和<code>DiskLruCache</code>之前就写过这个<a href="https://github.com/70kg/Android-Studio-Project/blob/master/app/src/main/java/com/com/mr_wrong/ImageLoaderWithCaches/ImageLoaderWithDoubleCaches.java" target="_blank" rel="external">我的GitHub</a>。不过我用的是<code>AsyncTask</code>，主席用的是线程池。我对线程池不怎么熟练。为什么不用<code>AsyncTask</code>还是之前说的兼容性问题。对应列表滑动的优化也是老生常谈了，还是早去使用<code>RecyclerView</code>吧。</p>
+<h2 id="综合技术">综合技术</h2><h3 id="使用CrashHandler来获取应用的crash信息">使用<code>CrashHandler</code>来获取应用的crash信息</h3><p>这个在项目上也就使用一次，还是看<a href="https://github.com/singwhatiwanna/android-art-res/tree/master/Chapter_13/CrashTest/src/com/ryg/crashtest" target="_blank" rel="external">主席写的吧</a>。我记得友盟等第三方的统计SDk都支持这个的，我也没怎么用过这些，不过看他们开源的都使用友盟的，集成倒是很方便。</p>
+<h3 id="使用multidex来解决方法数越界">使用<code>multidex</code>来解决方法数越界</h3><p>就是传说中的65536方法数越界，这个解决办法挺简单的，官方出品，我估计我暂时还用不到。😂</p>
+<h3 id="Android的动态加载技术">Android的动态加载技术</h3><p>这个我就更用不上了。之前看过360开源的一个动态加载的库，主席好像也有个库，这种高大上的先稍微了解一下就可以了。当个科普文看了。</p>
+<h3 id="反编译初步">反编译初步</h3><p>这个也就用来看看别人的代码，用到了倒是很实用，但是混淆了你也没办法。</p>
+<h2 id="JNI和NDK编程">JNI和NDK编程</h2><p>也是作为了解的部分，强行上手也没什么用</p>
+<h2 id="Android性能优化">Android性能优化</h2><p>这个详细的可以去看谷爹官方出的教程。都出三季了。YouTube上有视频，不过英语捉鸡没办法，貌似优酷有翻译，还是看博客吧。胡凯大大翻译的博客<a href="http://hukai.me/blog/categories/android/" target="_blank" rel="external">地址</a></p>
+<h2 id="最后的话">最后的话</h2><p>好了，主席的这本书算是看完了，一共写了18649个字。前前后后花了有两周的时间吧。中间还因为十一假期拖沓了几天。真的很有营养。但是这些都是理论，还是应该多去写代码去实践。话说我的meizi项目也是拖了有段时间了，thinking in java 说好的十一更新也没来得及。加油吧。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/"> #Android </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/29/十一假期之前的屁话/">十一假期之前的屁话</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/21/2015-9-21/">2015-9-21</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/09/27/《Android开发艺术探索》笔记/"
+               data-title="《Android开发艺术探索》笔记" data-url="http://70kg.info/2015/09/27/《Android开发艺术探索》笔记/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://7xjlmz.com1.z0.glb.clouddn.com/头像1.jpg" alt="70kg" />
+          <p class="site-author-name">70kg</p>
+        </div>
+        <p class="site-description motion-element">A rookie Android coder</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+         </div>
+   
+        
+        
+        <div class="links-of-author motion-element">
+
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/70kg" target="_blank">github</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="https://twitter.com/985469793" target="_blank">twitter</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/MrWrong12138" target="_blank">weibo</a>
+            </span>
+            
+          
+        </div>
+        
+        
+        
+        
+      </div>
+        
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Activity的生命周期和启动模式"><span class="nav-number">1.</span> <span class="nav-text">Activity的生命周期和启动模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的LaunchMode"><span class="nav-number">1.1.</span> <span class="nav-text">Activity的LaunchMode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务栈"><span class="nav-number">1.2.</span> <span class="nav-text">任务栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的Flags"><span class="nav-number">1.3.</span> <span class="nav-text">Activity的Flags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#intentFilter的匹配规则"><span class="nav-number">1.4.</span> <span class="nav-text">intentFilter的匹配规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPC机制"><span class="nav-number">2.</span> <span class="nav-text">IPC机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializable接口"><span class="nav-number">2.1.</span> <span class="nav-text">Serializable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Paracelable接口"><span class="nav-number">2.2.</span> <span class="nav-text">Paracelable接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Binder"><span class="nav-number">2.2.1.</span> <span class="nav-text">Binder</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android中的IPC方式"><span class="nav-number">2.3.</span> <span class="nav-text">Android中的IPC方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AIDL"><span class="nav-number">2.4.</span> <span class="nav-text">AIDL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ContentProvider"><span class="nav-number">2.5.</span> <span class="nav-text">使用ContentProvider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Socket"><span class="nav-number">2.6.</span> <span class="nav-text">使用Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Binder连接池"><span class="nav-number">2.7.</span> <span class="nav-text">使用Binder连接池</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的事件体系"><span class="nav-number">3.</span> <span class="nav-text">View的事件体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#View的事件分发机制"><span class="nav-number">3.1.</span> <span class="nav-text">View的事件分发机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#view的滑动冲突"><span class="nav-number">3.2.</span> <span class="nav-text">view的滑动冲突</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View的工作原理"><span class="nav-number">4.</span> <span class="nav-text">View的工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MeasureSpec"><span class="nav-number">4.1.</span> <span class="nav-text">MeasureSpec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Draw过程"><span class="nav-number">4.2.</span> <span class="nav-text">Draw过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解RemoteViews"><span class="nav-number">5.</span> <span class="nav-text">理解RemoteViews</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RemoteViews的内部机制"><span class="nav-number">5.1.</span> <span class="nav-text">RemoteViews的内部机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android的Drawable"><span class="nav-number">6.</span> <span class="nav-text">Android的Drawable</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Drawable的分类"><span class="nav-number">6.1.</span> <span class="nav-text">Drawable的分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android动画深入分析"><span class="nav-number">7.</span> <span class="nav-text">Android动画深入分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#view动画"><span class="nav-number">7.1.</span> <span class="nav-text">view动画</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解Window和WindowManager"><span class="nav-number">8.</span> <span class="nav-text">理解Window和WindowManager</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Window和WindowManager"><span class="nav-number">8.1.</span> <span class="nav-text">Window和WindowManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Window的创建过程"><span class="nav-number">8.2.</span> <span class="nav-text">Window的创建过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#activity的Window创建过程"><span class="nav-number">8.2.1.</span> <span class="nav-text">activity的Window创建过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dailog的Window创建过程"><span class="nav-number">8.2.2.</span> <span class="nav-text">Dailog的Window创建过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Toast的Window创建过程"><span class="nav-number">8.2.3.</span> <span class="nav-text">Toast的Window创建过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四大组件的工作过程"><span class="nav-number">9.</span> <span class="nav-text">四大组件的工作过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#我是真没怎么看懂😂"><span class="nav-number">9.1.</span> <span class="nav-text">我是真没怎么看懂😂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity的工作过程"><span class="nav-number">9.2.</span> <span class="nav-text">Activity的工作过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动Service"><span class="nav-number">9.3.</span> <span class="nav-text">启动Service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绑定Service"><span class="nav-number">9.4.</span> <span class="nav-text">绑定Service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态注册BroadcastReceiver"><span class="nav-number">9.5.</span> <span class="nav-text">动态注册BroadcastReceiver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ContentProvider"><span class="nav-number">9.6.</span> <span class="nav-text">ContentProvider</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android的消息机制"><span class="nav-number">10.</span> <span class="nav-text">Android的消息机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以上均来自@amurocrash的笔记，在此感谢。非常棒Android开发艺术探索读书笔记（三）"><span class="nav-number">10.1.</span> <span class="nav-text">以上均来自@amurocrash的笔记，在此感谢。非常棒Android开发艺术探索读书笔记（三）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android的线程和线程池"><span class="nav-number">11.</span> <span class="nav-text">Android的线程和线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池的分类"><span class="nav-number">11.1.</span> <span class="nav-text">线程池的分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bitmap的加载和Cache"><span class="nav-number">12.</span> <span class="nav-text">Bitmap的加载和Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#综合技术"><span class="nav-number">13.</span> <span class="nav-text">综合技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用CrashHandler来获取应用的crash信息"><span class="nav-number">13.1.</span> <span class="nav-text">使用CrashHandler来获取应用的crash信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用multidex来解决方法数越界"><span class="nav-number">13.2.</span> <span class="nav-text">使用multidex来解决方法数越界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android的动态加载技术"><span class="nav-number">13.3.</span> <span class="nav-text">Android的动态加载技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反编译初步"><span class="nav-number">13.4.</span> <span class="nav-text">反编译初步</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JNI和NDK编程"><span class="nav-number">14.</span> <span class="nav-text">JNI和NDK编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android性能优化"><span class="nav-number">15.</span> <span class="nav-text">Android性能优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后的话"><span class="nav-number">16.</span> <span class="nav-text">最后的话</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+        
+    </div>
+
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">70kg</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js" id="motion.global"></script>
+
+
+
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"70kg"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>
