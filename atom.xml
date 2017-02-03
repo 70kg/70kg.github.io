@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-02-03T10:24:28.000Z</updated>
+  <updated>2017-02-03T10:54:13.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,119 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《深入理解Java虚拟机》笔记</title>
+    <link href="http://yoursite.com/2016/12/31/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E7%AC%94%E8%AE%B0/"/>
+    <id>http://yoursite.com/2016/12/31/《深入理解Java虚拟机》笔记/</id>
+    <published>2016-12-31T08:54:38.000Z</published>
+    <updated>2017-02-03T10:54:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="自动内存管理机制"><a href="#自动内存管理机制" class="headerlink" title="自动内存管理机制"></a>自动内存管理机制</h1><h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><ul>
+<li>通过改变这个计数器的指决定执行的下一条指令</li>
+<li>线程私有 每条线程独立</li>
+<li>不会 oom <a id="more"></a><h3 id="Java-虚拟机栈"><a href="#Java-虚拟机栈" class="headerlink" title="Java 虚拟机栈"></a>Java 虚拟机栈</h3>存放基本类型和引用和   returnAddress类型(指向了一条字节码指令的地址）<br>描述 Java 方法执行的内存模型<h3 id="Java-堆"><a href="#Java-堆" class="headerlink" title="Java 堆"></a>Java 堆</h3></li>
+<li>存放对象实例</li>
+<li>线程共享，内存最大</li>
+<li>GC 的主要区域</li>
+<li>基于分代回收，大致分为新生代和老年代<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3></li>
+<li>线程共享</li>
+<li>类信息，常量，静态变量<h2 id="虚拟机对象"><a href="#虚拟机对象" class="headerlink" title="虚拟机对象"></a>虚拟机对象</h2><h3 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h3>new指令的参数是否能在常量池中定位到一个类的符号引用-&gt;是否已经加载，解析初始化-&gt;分配内存(指针碰撞，空闲列表)-&gt;初始化为零值-&gt;为对象进行必要设置-&gt;&lt; init &gt; 方法。(ps：new 关键字其实为new和init两个方法)</li>
+</ul>
+<h3 id="对象的内存分布"><a href="#对象的内存分布" class="headerlink" title="对象的内存分布"></a>对象的内存分布</h3><ul>
+<li>对象头<br>1.分用于存储对象自身的运行时数据,e.g.哈希码(HashCode)、GC分代年龄、锁状态标志、线程持有的锁、偏向线程ID、偏向时 间戳等<br>2.类型指针,对象指向它的类元数据的指针,虚拟机通过这个指 针来确定这个对象是哪个类的实例.</li>
+<li>实例数据</li>
+<li>对其填充</li>
+</ul>
+<h3 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p>使用栈上的引用去操作堆上的实例。</p>
+<ol>
+<li>句柄<br>在堆中有一块内存区域作为句柄池，栈中的引用存储的是对象的句柄地址，句柄中包括对象的实例数据(实例池)和类型数据(方法区)。<br>好处：GC 时只会改变句柄中实例指针，不会影响栈中的指向。<ol>
+<li>直接指针<br>栈中的引用直接指向对象地址。<br>好处：速度快，省一次指针定向</li>
+</ol>
+</li>
+</ol>
+<p>ps: <code>String.intern</code>的问题 <a href="http://tech.meituan.com/in_depth_understanding_string_intern.html" target="_blank" rel="external">点这里</a></p>
+<h1 id="垃圾收集器与内存分配策略"><a href="#垃圾收集器与内存分配策略" class="headerlink" title="垃圾收集器与内存分配策略"></a>垃圾收集器与内存分配策略</h1><h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><h3 id="标记-清除"><a href="#标记-清除" class="headerlink" title="标记-清除"></a>标记-清除</h3><p>先标记需要回收的对象，然后统一回收。缺点是效率不高，会产生内存碎片问题。</p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>1：1分割内存，只用一半，回收时把存活的复制到另一半，清除原来一半。<br>实际使用在新生代，适合回收频率高的。朝生夕死。每次清理都有大量对象死亡。<code>HotSpot</code>默认为8:1:1,浪费10%的内存空间，使用8和1，当回收时候，复制到另一个1中。空间不够时候，需要依赖老年代。</p>
+<h3 id="标记-整理"><a href="#标记-整理" class="headerlink" title="标记-整理"></a>标记-整理</h3><p>先标记，把存活的移动到一端，清除。适合老年代</p>
+<h2 id="HotSpot的算法实现"><a href="#HotSpot的算法实现" class="headerlink" title="HotSpot的算法实现"></a>HotSpot的算法实现</h2><h3 id="枚举根节点"><a href="#枚举根节点" class="headerlink" title="枚举根节点"></a>枚举根节点</h3><p>通过使用一组<code>OopMap</code>的数据结构知道哪些地方存放对象引用。在类加载完成时，<code>HotSpot</code>就把对象内什么偏移量上是什么类型的数据计算出来，在<code>JIT</code>编译过程中，也会在特定的位置记录下栈和寄存器中哪些位置是引用，这样GC扫描时就可以直接得知。</p>
+<h3 id="安全点"><a href="#安全点" class="headerlink" title="安全点"></a>安全点</h3><p>上面特定的位置是安全点，只有在安全点处暂停。主要使用主动式中断让所有线程都跑到安全点再停顿。不直接对线程操作，设置一个标志，各个线程主动去轮训，发现中断标志true就自己中断挂起。</p>
+<h3 id="安全区域"><a href="#安全区域" class="headerlink" title="安全区域"></a>安全区域</h3><p>安全区域用来解决在程序没有CPU时间，例如线程sleep或者block的时候进入GC。安全区域是指在一段代码之后，引用关系不会发生变化，在这个区域任何地方GC都是安全的。当程序执行到安全区域，首先标识进入，然后GC可以随时进行。当程序要离开安全区域时，先去检查GC是否完成，是-&gt;继续执行，否-&gt;等待完成。</p>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><h3 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h3><p>最基本最久远的收集器，单线程,STW。没有线程切换的开销，简单。复制算法</p>
+<h3 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h3><p>Serial收集器的多线程版本。</p>
+<h3 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h3><p>和ParNew收集器类似，关注吞吐量</p>
+<h3 id="Serial-Old收集器"><a href="#Serial-Old收集器" class="headerlink" title="Serial Old收集器"></a>Serial Old收集器</h3><p>Serial收集器的的老年代版本。标记-整理</p>
+<h3 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h3><p>Parallel Scavenge收集器的老年代版本，标记-整理。</p>
+<h3 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h3><ol>
+<li>初始标记（CMS initial mark）</li>
+<li>并发标记（CMS concurrent mark）</li>
+<li>重新标记（CMS remark）</li>
+<li>并发清除（CMS concurrent sweep）<br>1，3步骤STW。1只标记GC roots能直接关联对象，很快。并发标记阶段就是进行GC RootsTracing 的过程,而重新标记阶段则是为了修正并发标记期间因用户程序继续运作而导致标记产生变 动的那一部分对象的标记记录,这个阶段的停顿时间一般会比初始标记阶段稍长一些,但远 比并发标记的时间短。整个过程中耗时最长的并发标记和并发清除过程收集器线程都可以与用户线程一起工作<img src="http://7xjlmz.com1.z0.glb.clouddn.com/Java%E8%99%9A%E6%8B%9F%E6%9C%BAcms.png" alt=""><br>优点：<br>并发收集，低停顿<br>缺点：<br>对CPU资源敏感，默认回收线程(cpu数量+3)/4<br>cms无法处理”浮动垃圾”（当并发收集同时产生的垃圾）<br>标记-清除算法内存碎片问题</li>
+</ol>
+<h3 id="G1收集器"><a href="#G1收集器" class="headerlink" title="G1收集器"></a>G1收集器</h3><p>特点：</p>
+<ul>
+<li>分代收集</li>
+<li>并行与并发</li>
+<li>空间整合</li>
+<li>可预测的停顿<br>将整个Java堆划分 为多个大小相等的独立区域(Region)<br>大致过程：<ol>
+<li>初始标记(Initial Marking)</li>
+<li>并发标记(Concurrent Marking)</li>
+<li>最终标记(Final Marking)</li>
+<li>筛选回收(Live Data Counting and Evacuation)<br>4-&gt;筛选回收阶段首先对各个Region的回收价值和成本进行排序, 根据用户所期望的GC停顿时间来制定回收计划</li>
+</ol>
+</li>
+</ul>
+<h2 id="内存分配与回收策略"><a href="#内存分配与回收策略" class="headerlink" title="内存分配与回收策略"></a>内存分配与回收策略</h2><h3 id="对象优先在Eden分配"><a href="#对象优先在Eden分配" class="headerlink" title="对象优先在Eden分配"></a>对象优先在Eden分配</h3><p>大多数情况下,对象在新生代Eden区中分配。当Eden区没有足够空间进行分配时,虚拟 机将发起一次Minor GC</p>
+<h3 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h3><h3 id="长期存活的对象将进入老年代"><a href="#长期存活的对象将进入老年代" class="headerlink" title="长期存活的对象将进入老年代"></a>长期存活的对象将进入老年代</h3><p>虚拟机给每个对象定义了一个对 象年龄(Age)计数器。如果对象在Eden出生并经过第一次Minor GC后仍然存活,并且能被 Survivor容纳的话,将被移动到Survivor空间中,并且对象年龄设为1。对象在Survivor区中 每“熬过”一次Minor GC,年龄就增加1岁,当它的年龄增加到一定程度(默认为15岁),就 将会被晋升到老年代中。</p>
+<h3 id="动态对象年龄判定"><a href="#动态对象年龄判定" class="headerlink" title="动态对象年龄判定"></a>动态对象年龄判定</h3><p>如果在Survivor空间中相同年龄所有对象大小的总 和大于Survivor空间的一半,年龄大于或等于该年龄的对象就可以直接进入老年代,无须等 到MaxTenuringThreshold中要求的年龄。</p>
+<h3 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h3><p>在发生Minor GC之前,虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有 对象总空间,如果这个条件成立,那么Minor GC可以确保是安全的。如果不成立,则虚拟机 会查看HandlePromotionFailure设置值是否允许担保失败。如果允许,那么会继续检查老年代 最大可用的连续空间是否大于历次晋升到老年代对象的平均大小,如果大于,将尝试着进行 一次Minor GC,尽管这次Minor GC是有风险的;如果小于,或者HandlePromotionFailure设置 不允许冒险,那这时也要改为进行一次Full GC。</p>
+<h1 id="虚拟机性能监控与故障处理工具"><a href="#虚拟机性能监控与故障处理工具" class="headerlink" title="虚拟机性能监控与故障处理工具"></a>虚拟机性能监控与故障处理工具</h1><p>略</p>
+<h1 id="调优案例分析与实战"><a href="#调优案例分析与实战" class="headerlink" title="调优案例分析与实战"></a>调优案例分析与实战</h1><p>略</p>
+<h1 id="虚拟机执行子系统"><a href="#虚拟机执行子系统" class="headerlink" title="虚拟机执行子系统"></a>虚拟机执行子系统</h1><h1 id="类文件结构"><a href="#类文件结构" class="headerlink" title="类文件结构"></a>类文件结构</h1><p>Class文件格式采用一种类似C语言结构体的伪结构来存储数据，这种伪结构中只有两种数据类型：无符号数和表<br>无符号数属于基本类型，有u1,u2,u4,u8表示几个字节，可以用来描述数字，索引引用，数据值或者按照UTF-8编码的字符串<br>表是由多个无符号数或者其他表作为数据结构的复合数据结构，表习惯以_info结尾。<br>整个Class本质上就是一个表<br>Class文件格式：<br><img src="http://7xjlmz.com1.z0.glb.clouddn.com/class%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F.png" alt=""></p>
+<h3 id="魔数-u4"><a href="#魔数-u4" class="headerlink" title="魔数 u4"></a>魔数 u4</h3><p><code>0xCAFFBABE</code></p>
+<h3 id="次版本号-u2"><a href="#次版本号-u2" class="headerlink" title="次版本号 u2"></a>次版本号 u2</h3><h3 id="主版本号-u2"><a href="#主版本号-u2" class="headerlink" title="主版本号 u2"></a>主版本号 u2</h3><h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><p>u2的常量池大小 index从1开始，第0项空出<br>常量池中主要存放两大类常亮：字面量和符号引用<br>字面量类似Java的常量<br>符号引用包括：</p>
+<ol>
+<li>类和接口的全限定名</li>
+<li>字段的名称和描述符</li>
+<li>方法的名称和描述符</li>
+</ol>
+<p>常量池中每一项都是一个表(都对应一个Class)。一共14种表，表开始的第一位u1代表当前这个常量属于哪种常量类型<br>具体如下：<br><img src="http://7xjlmz.com1.z0.glb.clouddn.com/class%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%B1%BB%E5%9E%8B.jpg" alt=""></p>
+<h3 id="访问标志-u2"><a href="#访问标志-u2" class="headerlink" title="访问标志 u2"></a>访问标志 u2</h3><p>用于标识一些类或者接口成次的访问信息<br>具体如下：<br><img src="http://7xjlmz.com1.z0.glb.clouddn.com/class%E8%AE%BF%E9%97%AE%E6%A0%87%E5%BF%97.jpg" alt=""></p>
+<h3 id="类索引、父类索引与接口索引集合-u2-u2-List"><a href="#类索引、父类索引与接口索引集合-u2-u2-List" class="headerlink" title="类索引、父类索引与接口索引集合 u2,u2,List"></a>类索引、父类索引与接口索引集合 u2,u2,List<u2></u2></h3><h3 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h3><p>用于描述接口或类中的变量<br>字段包括类级变量(static)和实例级变量 不包括方法内部的局部变量</p>
+<h3 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h3><p>对方法的描述</p>
+<h3 id="属性表集合"><a href="#属性表集合" class="headerlink" title="属性表集合"></a>属性表集合</h3><p>用于描述某些场景专用信息。下面的必备的9个属性:<br><img src="http://7xjlmz.com1.z0.glb.clouddn.com/class%E5%B1%9E%E6%80%A7%E8%A1%A8.png" alt=""></p>
+<h4 id="Code属性"><a href="#Code属性" class="headerlink" title="Code属性"></a>Code属性</h4><p>简单理解就是方法体,具体的结构如下：<br><img src="http://7xjlmz.com1.z0.glb.clouddn.com/class_code%E5%B1%9E%E6%80%A7.jpg" alt=""></p>
+<p>Code属性是Class文件中最重要的属性，如果把Java程序中信息分为代码（Code）和元数据(类，字段，方法定有以及其他信息)两部分。Code属性属于描述代码，所有的其他数据项目都用于描述元数据</p>
+<h2 id="字节码指令简介"><a href="#字节码指令简介" class="headerlink" title="字节码指令简介"></a>字节码指令简介</h2><h3 id="加载和存储指令"><a href="#加载和存储指令" class="headerlink" title="加载和存储指令"></a>加载和存储指令</h3><p>用于将数据在栈帧中的局部变量表和操作数栈之间来回传输<br>Tload -&gt; 将一个局部变量加载到操作栈<br>Tstore -&gt; 将一个数值从操作数栈存储到局部变量表<br>Tipush -&gt; 将一个变量加载到操作数栈<br>wide -&gt; 扩充局部变量表的访问索引指令</p>
+<h3 id="运算指令"><a href="#运算指令" class="headerlink" title="运算指令"></a>运算指令</h3><p>用于对两个操作数栈上的值进行某种特定的运算，并把结果重新存入到操作栈顶。<br>算术运算大致分为对整形数据进行运算的指令和对浮点数进行运算的指令</p>
+<p>加法指令 ：Tadd<br>减法指令: Tsub<br>乘法指令： Tmul<br>除法指令：Tdiv<br>求余指令：Trem<br>取反指令：Tneg<br>位移指令：Tshl,Tshr,Tushr<br>按位或指令：Tor<br>按位与指令：Tand<br>按位异或指令：Txor<br>局部变量自增指令：Tinc<br>比较指令：Tcmpg,Rcmpl</p>
+<h3 id="类型转换指令"><a href="#类型转换指令" class="headerlink" title="类型转换指令"></a>类型转换指令</h3><p>用于将两种不同的数值类型进行相互转换，一般用于实现用户代码中的显式类型转换或者用于处理字节码指令集中数据类型相关指令无法一一对应的问题<br>i2b,i2c…</p>
+<h3 id="对象创建和访问指令"><a href="#对象创建和访问指令" class="headerlink" title="对象创建和访问指令"></a>对象创建和访问指令</h3><p>Java虚拟机对类实例和数组的创建于操作用了不同的字节码指令。<br>创建类实例 -&gt; new<br>创建数组 -&gt; newarray,anewarray,multianewarray<br>访问类字段和实例字段 -&gt; getfield,putfield,getstatic,putstatic<br>把一个数组元素加载到操作数栈 -&gt; Taload<br>将一个操作数栈的值存储到数组元素中 -&gt;Tastore<br>取数组长度 -&gt; arraylength<br>检查类实例类型 -&gt; instanceof,checkcast</p>
+<h3 id="操作数栈管理指令"><a href="#操作数栈管理指令" class="headerlink" title="操作数栈管理指令"></a>操作数栈管理指令</h3><p>直接操作操作数栈的指令<br>将操作数栈的栈顶一个或两个元素出栈 -&gt;pop,pop2<br>复制栈顶两个数值并将双份复制值从新压入栈顶 -&gt; dup2,dup2_x1,dup2_x2<br>栈顶两个数值交换 -&gt; swap</p>
+<h3 id="控制转移指令"><a href="#控制转移指令" class="headerlink" title="控制转移指令"></a>控制转移指令</h3><p>条件分支，复合条件分支，无条件分支<br>各种类型的比较最终都会转化成int类型的比较操作，所以Java虚拟机提供的int类型的条件分支指令是最丰富和强大的</p>
+<h3 id="方法调用和返回指令"><a href="#方法调用和返回指令" class="headerlink" title="方法调用和返回指令"></a>方法调用和返回指令</h3><p>invokevirtual -&gt;调用实例方法，最常见的<br>invokeinterface -&gt;调用接口方法，会在运行时搜索一个实现了这个接口方法的对象，找到合适的方法进行调用<br>invokespecial -&gt; 调用一些需要特殊处理的实例方法，包括实例初始化方法，私有方法和父类方法<br>invokestatic -&gt; 调用类方法<br>invokedynamic -&gt; 在运行时动态解析出调用点限定符所引用的方法，并执行该方法？？？？</p>
+<p>方法调用指令与数据类型无关，返回指令是根据返回值的类型区分的.Treturn</p>
+<h3 id="异常处理指令"><a href="#异常处理指令" class="headerlink" title="异常处理指令"></a>异常处理指令</h3><p>显示抛出异常(throw)都是由athrow指令实现。<br>处理异常不是由字节码指令实现的，采用异常表完成。</p>
+<h3 id="同步指令"><a href="#同步指令" class="headerlink" title="同步指令"></a>同步指令</h3><p>支持方法级同步和方法内部一段指令序列的同步，是使用管程(Monitor)支持。</p>
+<p>方法级的同步是隐式的,即无须通过字节码指令来控制,它实现在方法调用和返回操作 之中。虚拟机可以从方法常量池的方法表结构中的ACC_SYNCHRONIZED访问标志得知一个 方法是否声明为同步方法。当方法调用时,调用指令将会检查方法的ACC_SYNCHRONIZED 访问标志是否被设置,如果设置了,执行线程就要求先成功持有管程,然后才能执行方法, 最后当方法完成(无论是正常完成还是非正常完成)时释放管程。在方法执行期间,执行线 程持有了管程,其他任何线程都无法再获取到同一个管程。如果一个同步方法执行期间抛出 了异常,并且在方法内部无法处理此异常,那么这个同步方法所持有的管程将在异常抛到同 步方法之外时自动释放。</p>
+<p>同步一段指令集序列通常是由Java语言中的synchronized语句块来表示的,Java虚拟机的 指令集中有monitorenter和monitorexit两条指令来支持synchronized关键字的语义,正确实现 synchronized关键字需要Javac编译器与Java虚拟机两者共同协作支持。</p>
+<h1 id="Vim的简单快捷键"><a href="#Vim的简单快捷键" class="headerlink" title="Vim的简单快捷键"></a>Vim的简单快捷键</h1><p>这是在全咋会新加的一行<br>这是在全咋会新加的一行<br>这是在全咋会<br>复制先V 然后选择 y 复制  yy是复制整行 d是剪切 dd是剪切整行 p是粘贴<br>o 是在下面新开一行     O是在上面新开一行<br>x 是删除当前字符<br>a -&gt;在光标后面插入字符<br>0 -&gt;回到行头 $ 是到行尾<br>130G -&gt;跳转到130行</p>
+<p>gg -&gt;到第一行<br>G -&gt; 到最后一行<br>w -&gt; 下一个单词开头 b-&gt; 上一个单词开头<br>e -&gt; 下一个单词结尾</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;自动内存管理机制&quot;&gt;&lt;a href=&quot;#自动内存管理机制&quot; class=&quot;headerlink&quot; title=&quot;自动内存管理机制&quot;&gt;&lt;/a&gt;自动内存管理机制&lt;/h1&gt;&lt;h2 id=&quot;运行时数据区域&quot;&gt;&lt;a href=&quot;#运行时数据区域&quot; class=&quot;headerlink&quot; title=&quot;运行时数据区域&quot;&gt;&lt;/a&gt;运行时数据区域&lt;/h2&gt;&lt;h3 id=&quot;程序计数器&quot;&gt;&lt;a href=&quot;#程序计数器&quot; class=&quot;headerlink&quot; title=&quot;程序计数器&quot;&gt;&lt;/a&gt;程序计数器&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;通过改变这个计数器的指决定执行的下一条指令&lt;/li&gt;
+&lt;li&gt;线程私有 每条线程独立&lt;/li&gt;
+&lt;li&gt;不会 oom
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>从零撸一个Redux</title>
@@ -252,6 +365,45 @@
   </entry>
   
   <entry>
+    <title>RxJava和Retrofit的那些事</title>
+    <link href="http://yoursite.com/2016/08/01/RxJava%E5%92%8CRetrofit%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
+    <id>http://yoursite.com/2016/08/01/RxJava和Retrofit的那些事/</id>
+    <published>2016-08-01T14:24:32.000Z</published>
+    <updated>2017-02-03T10:24:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>##关于Retrofit<br>这是一个最近很火的网络请求库，官网在这<a href="http://square.github.io/retrofit/" target="_blank" rel="external">官网</a>,当然这也是一个开源的项目<a href="https://github.com/square/retrofit" target="_blank" rel="external">GitHub地址</a>。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。<a id="more"></a></p>
+<p>为什么要用Retrofit呢，因为他除了提供给我们常见的请求Callback形式，还封装了Observable的请求形式，这就很方便的支持了Rxjava,而Rxjava的强大就是体现在异步任务上。下面来简单的介绍一下使用。</p>
+<p>对于RxJava的语法就不说了，有一篇写了关于这方面的，下面就直接开始了。</p>
+<p>以github的开放API作为数据来源，我们要去获取某个项目的contributors，以square的retrofit为例，可以调用这个<code>https://api.github.com/repos/square/retrofit/contributors</code>返回的json是这样的array</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">login: &quot;JakeWharton&quot;,</div><div class="line">id: 66577,</div><div class="line">avatar_url: &quot;https://avatars.githubusercontent.com/u/66577?v=3&quot;,</div><div class="line">gravatar_id: &quot;&quot;,</div><div class="line">url: &quot;https://api.github.com/users/JakeWharton&quot;,</div><div class="line">html_url: &quot;https://github.com/JakeWharton&quot;,</div><div class="line">followers_url: &quot;https://api.github.com/users/JakeWharton/followers&quot;,</div><div class="line">following_url: &quot;https://api.github.com/users/JakeWharton/following&#123;/other_user&#125;&quot;,</div><div class="line">gists_url: &quot;https://api.github.com/users/JakeWharton/gists&#123;/gist_id&#125;&quot;,</div><div class="line">starred_url: &quot;https://api.github.com/users/JakeWharton/starred&#123;/owner&#125;&#123;/repo&#125;&quot;,</div><div class="line">subscriptions_url: &quot;https://api.github.com/users/JakeWharton/subscriptions&quot;,</div><div class="line">organizations_url: &quot;https://api.github.com/users/JakeWharton/orgs&quot;,</div><div class="line">repos_url: &quot;https://api.github.com/users/JakeWharton/repos&quot;,</div><div class="line">events_url: &quot;https://api.github.com/users/JakeWharton/events&#123;/privacy&#125;&quot;,</div><div class="line">received_events_url: &quot;https://api.github.com/users/JakeWharton/received_events&quot;,</div><div class="line">type: &quot;User&quot;,</div><div class="line">site_admin: false,</div><div class="line">contributions: 619</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>这里我们只使用到<code>login</code>和<code>contributions</code></p>
+<p> 1.定义一个接口，这个看代码就明白了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public interface GithubApi &#123;</div><div class="line"> @GET(&quot;/repos/&#123;owner&#125;/&#123;repo&#125;/contributors&quot;)</div><div class="line">    Observable&lt;List&lt;Contributor&gt;&gt; contributors(@Path(&quot;owner&quot;) String owner,</div><div class="line">                                               @Path(&quot;repo&quot;) String repo);</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
+<p>通过注解来提供参数，这里注解有很多，还有<code>@Query</code>，<code>@QueryMap</code>，<code>@Body</code>等等，也可以通过<code>@Headers</code>设置请求头。参数基于base url,其实就是拼接成的。这个返回的是一个<code>Observable</code>，这样就很方便的去发布一个事件了。</p>
+<p> 2.设置<code>RestAdapter</code>和<code>service</code>,先用<code>Endpoint(API)</code>并调用buid()方法来创建一个RestAdapter对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RestAdapter adapter = new RestAdapter.Builder().setEndpoint(</div><div class="line">              &quot;https://api.github.com/&quot;).setLogLevel(RestAdapter.LogLevel.FULL).build();</div></pre></td></tr></table></figure>
+<p>然后使用我们的adapter来创建一个服务适配器(service for adapter)。<code>adapter.create(GithubApi.class);</code><br>完整的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">private GithubApi _createGithubApi() &#123;</div><div class="line">      RestAdapter adapter = new RestAdapter.Builder().setEndpoint(</div><div class="line">            &quot;https://api.github.com/&quot;).setLogLevel(RestAdapter.LogLevel.FULL).build();</div><div class="line"></div><div class="line">      return adapter.create(GithubApi.class);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p> 3.这就到了Rxjava的地方了，上一步获取到了GithubApi对象，就可以去调用函数了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">_subscriptions.add(</div><div class="line">                _api.contributors(_username.getText().toString(), _repo.getText().toString())//事件源</div><div class="line">                        .subscribeOn(Schedulers.io())</div><div class="line">                        .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                        .subscribe(new Observer&lt;List&lt;Contributor&gt;&gt;() &#123;//订阅者</div><div class="line">                            @Override</div><div class="line">                            public void onCompleted() &#123;</div><div class="line">                                </div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            @Override</div><div class="line">                            public void onError(Throwable e) &#123;</div><div class="line">                               </div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            @Override</div><div class="line">                            public void onNext(List&lt;Contributor&gt; contributors) &#123;</div><div class="line">                                for (Contributor c : contributors) &#123;</div><div class="line">                                    _adapter.add(format(&quot;%s has made %d contributions to %s&quot;,</div><div class="line">                                            c.login,</div><div class="line">                                            c.contributions,</div><div class="line">                                            _repo.getText().toString()));</div><div class="line">                                &#125;</div><div class="line">                            &#125;</div><div class="line">                        &#125;));</div></pre></td></tr></table></figure>
+<p>当然这是一个比较简单的处理过程，并没有用到一下通配符，但是基本的流程就是这样的。</p>
+<p>到现在发现我们并没有去解析json数据就自动生成了bean类，这是因为Retrofit已经集成了Gson，并且默认使用Gson来进行解析，当然你也可以自己去定义。在创建<code>RestAdapter</code>的时候使用<code>setConverter(new GsonConverter(gson))</code>。默认是使用okhttp进行加载的，当然你也可以去配置一些关于<code>OkHttpClient</code>的数据，然后通过<code>setClient(new OkClient(client))</code>进行设置进去。</p>
+<p>现在<code>Retrofit</code>的2.0版本已经出了，主要就是 取消了同步和异步，可以取消正在进行中的业务，取消了Gson的依赖等等，具体可以看这里<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0915/3460.html" target="_blank" rel="external">Retrofit 2.0：有史以来最大的改进</a><br>这篇参考了GitHub上的项目<a href="https://github.com/70kg/RxJava-Android-Samples" target="_blank" rel="external">RxJava-Android-Samples</a>，这里只是拣取了关于Retrofit的部分，有兴趣可以看看其他的。</p>
+<p>参考：<br><a href="http://www.tuicool.com/articles/26jUZjv" target="_blank" rel="external">http://www.tuicool.com/articles/26jUZjv</a><br><a href="http://www.cnblogs.com/angeldevil/p/3757335.html" target="_blank" rel="external">http://www.cnblogs.com/angeldevil/p/3757335.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;##关于Retrofit&lt;br&gt;这是一个最近很火的网络请求库，官网在这&lt;a href=&quot;http://square.github.io/retrofit/&quot;&gt;官网&lt;/a&gt;,当然这也是一个开源的项目&lt;a href=&quot;https://github.com/square/retrofit&quot;&gt;GitHub地址&lt;/a&gt;。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
     <title>浅谈CoordinatorLayout</title>
     <link href="http://yoursite.com/2016/08/01/%E6%B5%85%E8%B0%88CoordinatorLayout/"/>
     <id>http://yoursite.com/2016/08/01/浅谈CoordinatorLayout/</id>
@@ -285,45 +437,6 @@
     <summary type="html">
     
       &lt;h4 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h4&gt;&lt;p&gt;这是一篇重新写的东西，之前写过一点，但是烂尾了，我也很久没有去写点东西了，也是很惭愧，之前打算的事情也没有坚持下来。最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了&lt;code&gt;ListView&lt;/code&gt;再加上&lt;code&gt;addHead&lt;/code&gt;的方式，然后动态的去控制&lt;code&gt;Head&lt;/code&gt;的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下&lt;code&gt;CoordinatorLayout&lt;/code&gt;的处理嵌套滑动的原理，没有效果图也影响不大。
-    
-    </summary>
-    
-    
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RxJava和Retrofit的那些事</title>
-    <link href="http://yoursite.com/2016/08/01/RxJava%E5%92%8CRetrofit%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
-    <id>http://yoursite.com/2016/08/01/RxJava和Retrofit的那些事/</id>
-    <published>2016-08-01T14:24:32.000Z</published>
-    <updated>2017-02-03T10:24:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>##关于Retrofit<br>这是一个最近很火的网络请求库，官网在这<a href="http://square.github.io/retrofit/" target="_blank" rel="external">官网</a>,当然这也是一个开源的项目<a href="https://github.com/square/retrofit" target="_blank" rel="external">GitHub地址</a>。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。<a id="more"></a></p>
-<p>为什么要用Retrofit呢，因为他除了提供给我们常见的请求Callback形式，还封装了Observable的请求形式，这就很方便的支持了Rxjava,而Rxjava的强大就是体现在异步任务上。下面来简单的介绍一下使用。</p>
-<p>对于RxJava的语法就不说了，有一篇写了关于这方面的，下面就直接开始了。</p>
-<p>以github的开放API作为数据来源，我们要去获取某个项目的contributors，以square的retrofit为例，可以调用这个<code>https://api.github.com/repos/square/retrofit/contributors</code>返回的json是这样的array</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">login: &quot;JakeWharton&quot;,</div><div class="line">id: 66577,</div><div class="line">avatar_url: &quot;https://avatars.githubusercontent.com/u/66577?v=3&quot;,</div><div class="line">gravatar_id: &quot;&quot;,</div><div class="line">url: &quot;https://api.github.com/users/JakeWharton&quot;,</div><div class="line">html_url: &quot;https://github.com/JakeWharton&quot;,</div><div class="line">followers_url: &quot;https://api.github.com/users/JakeWharton/followers&quot;,</div><div class="line">following_url: &quot;https://api.github.com/users/JakeWharton/following&#123;/other_user&#125;&quot;,</div><div class="line">gists_url: &quot;https://api.github.com/users/JakeWharton/gists&#123;/gist_id&#125;&quot;,</div><div class="line">starred_url: &quot;https://api.github.com/users/JakeWharton/starred&#123;/owner&#125;&#123;/repo&#125;&quot;,</div><div class="line">subscriptions_url: &quot;https://api.github.com/users/JakeWharton/subscriptions&quot;,</div><div class="line">organizations_url: &quot;https://api.github.com/users/JakeWharton/orgs&quot;,</div><div class="line">repos_url: &quot;https://api.github.com/users/JakeWharton/repos&quot;,</div><div class="line">events_url: &quot;https://api.github.com/users/JakeWharton/events&#123;/privacy&#125;&quot;,</div><div class="line">received_events_url: &quot;https://api.github.com/users/JakeWharton/received_events&quot;,</div><div class="line">type: &quot;User&quot;,</div><div class="line">site_admin: false,</div><div class="line">contributions: 619</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
-<p>这里我们只使用到<code>login</code>和<code>contributions</code></p>
-<p> 1.定义一个接口，这个看代码就明白了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public interface GithubApi &#123;</div><div class="line"> @GET(&quot;/repos/&#123;owner&#125;/&#123;repo&#125;/contributors&quot;)</div><div class="line">    Observable&lt;List&lt;Contributor&gt;&gt; contributors(@Path(&quot;owner&quot;) String owner,</div><div class="line">                                               @Path(&quot;repo&quot;) String repo);</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
-<p>通过注解来提供参数，这里注解有很多，还有<code>@Query</code>，<code>@QueryMap</code>，<code>@Body</code>等等，也可以通过<code>@Headers</code>设置请求头。参数基于base url,其实就是拼接成的。这个返回的是一个<code>Observable</code>，这样就很方便的去发布一个事件了。</p>
-<p> 2.设置<code>RestAdapter</code>和<code>service</code>,先用<code>Endpoint(API)</code>并调用buid()方法来创建一个RestAdapter对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RestAdapter adapter = new RestAdapter.Builder().setEndpoint(</div><div class="line">              &quot;https://api.github.com/&quot;).setLogLevel(RestAdapter.LogLevel.FULL).build();</div></pre></td></tr></table></figure>
-<p>然后使用我们的adapter来创建一个服务适配器(service for adapter)。<code>adapter.create(GithubApi.class);</code><br>完整的代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">private GithubApi _createGithubApi() &#123;</div><div class="line">      RestAdapter adapter = new RestAdapter.Builder().setEndpoint(</div><div class="line">            &quot;https://api.github.com/&quot;).setLogLevel(RestAdapter.LogLevel.FULL).build();</div><div class="line"></div><div class="line">      return adapter.create(GithubApi.class);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p> 3.这就到了Rxjava的地方了，上一步获取到了GithubApi对象，就可以去调用函数了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">_subscriptions.add(</div><div class="line">                _api.contributors(_username.getText().toString(), _repo.getText().toString())//事件源</div><div class="line">                        .subscribeOn(Schedulers.io())</div><div class="line">                        .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                        .subscribe(new Observer&lt;List&lt;Contributor&gt;&gt;() &#123;//订阅者</div><div class="line">                            @Override</div><div class="line">                            public void onCompleted() &#123;</div><div class="line">                                </div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            @Override</div><div class="line">                            public void onError(Throwable e) &#123;</div><div class="line">                               </div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            @Override</div><div class="line">                            public void onNext(List&lt;Contributor&gt; contributors) &#123;</div><div class="line">                                for (Contributor c : contributors) &#123;</div><div class="line">                                    _adapter.add(format(&quot;%s has made %d contributions to %s&quot;,</div><div class="line">                                            c.login,</div><div class="line">                                            c.contributions,</div><div class="line">                                            _repo.getText().toString()));</div><div class="line">                                &#125;</div><div class="line">                            &#125;</div><div class="line">                        &#125;));</div></pre></td></tr></table></figure>
-<p>当然这是一个比较简单的处理过程，并没有用到一下通配符，但是基本的流程就是这样的。</p>
-<p>到现在发现我们并没有去解析json数据就自动生成了bean类，这是因为Retrofit已经集成了Gson，并且默认使用Gson来进行解析，当然你也可以自己去定义。在创建<code>RestAdapter</code>的时候使用<code>setConverter(new GsonConverter(gson))</code>。默认是使用okhttp进行加载的，当然你也可以去配置一些关于<code>OkHttpClient</code>的数据，然后通过<code>setClient(new OkClient(client))</code>进行设置进去。</p>
-<p>现在<code>Retrofit</code>的2.0版本已经出了，主要就是 取消了同步和异步，可以取消正在进行中的业务，取消了Gson的依赖等等，具体可以看这里<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0915/3460.html" target="_blank" rel="external">Retrofit 2.0：有史以来最大的改进</a><br>这篇参考了GitHub上的项目<a href="https://github.com/70kg/RxJava-Android-Samples" target="_blank" rel="external">RxJava-Android-Samples</a>，这里只是拣取了关于Retrofit的部分，有兴趣可以看看其他的。</p>
-<p>参考：<br><a href="http://www.tuicool.com/articles/26jUZjv" target="_blank" rel="external">http://www.tuicool.com/articles/26jUZjv</a><br><a href="http://www.cnblogs.com/angeldevil/p/3757335.html" target="_blank" rel="external">http://www.cnblogs.com/angeldevil/p/3757335.html</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;##关于Retrofit&lt;br&gt;这是一个最近很火的网络请求库，官网在这&lt;a href=&quot;http://square.github.io/retrofit/&quot;&gt;官网&lt;/a&gt;,当然这也是一个开源的项目&lt;a href=&quot;https://github.com/square/retrofit&quot;&gt;GitHub地址&lt;/a&gt;。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。
     
     </summary>
     
@@ -1277,7 +1390,7 @@ public static &lt;T&gt; Generator&lt;T&gt; create(Class&lt;T&gt; type,Object[] a
     <link href="http://yoursite.com/2016/07/09/%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6/"/>
     <id>http://yoursite.com/2016/07/09/触摸事件/</id>
     <published>2016-07-09T08:54:38.000Z</published>
-    <updated>2017-02-03T10:24:28.000Z</updated>
+    <updated>2017-02-03T10:47:03.000Z</updated>
     
     <content type="html"><![CDATA[<p>##扯<br>这是一篇很早之前就应该写完的东西，这是一篇很早之前就应该写完的东西，这是一篇很早之前就应该写完的东西。其实触摸事件说简单也不复杂，说复杂也不简单。如果只是简单的从爹传给儿子，儿子不处理再传给爹，这样确实没什么意思。还是去代码里面看看是怎么回事。<a id="more"></a></p>
 <p>##View的触摸事件</p>
