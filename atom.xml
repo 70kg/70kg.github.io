@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-02T00:49:22.000Z</updated>
+  <updated>2017-05-08T15:08:57.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,23 +16,60 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Instant-Run与Tinker中Application替换</title>
+    <link href="http://yoursite.com/2017/05/08/Instant-Run%E4%B8%8ETinker%E4%B8%ADApplication%E6%9B%BF%E6%8D%A2/"/>
+    <id>http://yoursite.com/2017/05/08/Instant-Run与Tinker中Application替换/</id>
+    <published>2017-05-08T14:58:02.000Z</published>
+    <updated>2017-05-08T15:08:57.000Z</updated>
+    
+    <content type="html"><![CDATA[<ul>
+<li>为什么要替换application</li>
+</ul>
+<p>因为5.0以下开始只会去加载第一个dex,如果appliaction不在第一个dex,则无法启动。如果把自己的appliaction放在第一个dex中，而自己的application没有使用multidex,则只会去加载原始加载生成的dex,也是会报错。所以办法就是去代理掉原始的application，将app启动的application设置为这个代理的application，在这个代理的application中可以确保使用multidex功能。而且这个代理的application可以轻松的放在第一个patched.dex中，无需去解析依赖关系。<a id="more"></a></p>
+<ul>
+<li>替换操作的差异</li>
+</ul>
+<p>Instant run 是在attachBaseContext的时候再去反射创建原始的application，然后再反射替换掉Framework中已经初始化的application(这个时候还是代理的application),还原回去我们原始的application。接下来就是正常的流程，在app中去get application也不会有问题。</p>
+<p>Tinker使用的是静态代理，使用代理方案代码会更复杂一些，因为要去模拟出一个applicationLike的接口，在tinker中，我们真正的application只需要实现这个接口，并不需要去继承Android中的application，因为会在代理的application中反射调用我们的application生命周期方法。也就是说tinker中只有一个真正的application。</p>
+<ul>
+<li>优缺点</li>
+</ul>
+<p>在instant run中application的替换的透明的，两个application都是真正的Android application。好处就是透明，坏处也是使用了反射替换运行期的application，兼容性不如静态代理好，类似tinker中反射插入dex就分了好多个版本实习，这个会更复杂。tinker更加稳定。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;为什么要替换application&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;因为5.0以下开始只会去加载第一个dex,如果appliaction不在第一个dex,则无法启动。如果把自己的appliaction放在第一个dex中，而自己的application没有使用multidex,则只会去加载原始加载生成的dex,也是会报错。所以办法就是去代理掉原始的application，将app启动的application设置为这个代理的application，在这个代理的application中可以确保使用multidex功能。而且这个代理的application可以轻松的放在第一个patched.dex中，无需去解析依赖关系。
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Express + React 搭建简易web微博</title>
     <link href="http://yoursite.com/2017/03/02/%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93web%E5%BE%AE%E5%8D%9A/"/>
     <id>http://yoursite.com/2017/03/02/搭建简易web微博/</id>
     <published>2017-03-02T00:47:52.000Z</published>
-    <updated>2017-03-02T00:49:22.000Z</updated>
+    <updated>2017-05-08T15:08:15.000Z</updated>
     
-    <content type="html"><![CDATA[<p>好久没写点东西了，最近找了点时间玩了玩这两个东西，写了个简单的web微博，目前还只能看。但愿我有时间继续玩下去，谢谢前端还挺好玩的。</p>
+    <content type="html"><![CDATA[<p>好久没写点东西了，最近找了点时间玩了玩这两个东西，写了个简单的web微博，因为js的跨域问题，所以只能使用Node来中转一下，这样玩法也更丰富，随便处理数据。目前还只能看。但愿我有时间继续玩下去，感觉前端还挺好玩的。<a id="more"></a></p>
 <p>Git地址在下面。其他的懒得写了，其实没什么难度，这篇是用于充数的，说明我还没忘记写东西。<br><a href="https://coding.net/u/70kg/p/express/git" target="_blank" rel="external">Express</a><br><a href="https://coding.net/u/70kg/p/React/git" target="_blank" rel="external">React</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;好久没写点东西了，最近找了点时间玩了玩这两个东西，写了个简单的web微博，目前还只能看。但愿我有时间继续玩下去，谢谢前端还挺好玩的。&lt;/p&gt;
-&lt;p&gt;Git地址在下面。其他的懒得写了，其实没什么难度，这篇是用于充数的，说明我还没忘记写东西。&lt;br&gt;&lt;a href=&quot;https
+      &lt;p&gt;好久没写点东西了，最近找了点时间玩了玩这两个东西，写了个简单的web微博，因为js的跨域问题，所以只能使用Node来中转一下，这样玩法也更丰富，随便处理数据。目前还只能看。但愿我有时间继续玩下去，感觉前端还挺好玩的。
     
     </summary>
     
+    
+      <category term="React" scheme="http://yoursite.com/tags/React/"/>
     
   </entry>
   
@@ -386,48 +423,6 @@
   </entry>
   
   <entry>
-    <title>浅谈CoordinatorLayout</title>
-    <link href="http://yoursite.com/2016/08/01/%E6%B5%85%E8%B0%88CoordinatorLayout/"/>
-    <id>http://yoursite.com/2016/08/01/浅谈CoordinatorLayout/</id>
-    <published>2016-08-01T14:24:32.000Z</published>
-    <updated>2017-02-03T10:24:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h4><p>这是一篇重新写的东西，之前写过一点，但是烂尾了，我也很久没有去写点东西了，也是很惭愧，之前打算的事情也没有坚持下来。最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了<code>ListView</code>再加上<code>addHead</code>的方式，然后动态的去控制<code>Head</code>的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下<code>CoordinatorLayout</code>的处理嵌套滑动的原理，没有效果图也影响不大。<a id="more"></a></p>
-<h4 id="开始吧"><a href="#开始吧" class="headerlink" title="开始吧"></a>开始吧</h4><p>感觉好久没有写点东西，写起来很是生疏，不知道该怎么去写一篇博客了，那就先写出来点大纲吧，说到哪是哪。这篇主要分这几部分吧</p>
-<ul>
-<li>为什么要有<code>CoordinatorLayout</code> </li>
-<li><code>CoordinatorLayout</code>是怎么实现嵌套滑动的事件分发的</li>
-<li><code>AppBarLayout</code>的一些东西</li>
-</ul>
-<h4 id="为什么要有CoordinatorLayout"><a href="#为什么要有CoordinatorLayout" class="headerlink" title="为什么要有CoordinatorLayout"></a>为什么要有<code>CoordinatorLayout</code></h4><p>先来回想一下<code>Android</code>系统的事件分发有什么不足的地方，当然我觉得<code>Android</code>的事件分发写的也是十分的巧妙。这里就不去再多说事件分发的东西，说一下这样的一个场景，就是下面一个类似<code>list</code>的可滚动区域，上面是一个头，这种场景在很多的个人中心的地方比较常见。如果要去实现这样的效果，传统的做法就是外面包一层parent，当然直接去处理list的滑动事件应该也是可以的，我觉得包一层比较好写点，让这个parent去分发事件和处理事件。好吧，我有点不知道说什么了，还是直接说事件分发的不足的地方吧，就是一个view消费了事件，与此同时，其他的view的没有机会去接触到这个事件了，这样当遇到上面说的情况，就是嵌套滑动的时候，我们需要上下两个view都能同时接触到这个事件，处理不处理就让他们自己去决定了。这样我觉得实现嵌套滑动的情况就好多了，因为都有机会去消费掉这个事件，无论事件是在哪个view上面，其实就是类似再外面包了一层parent的效果，这就是<code>CoordinatorLayout</code> 帮我们做的事件，靠，我写的好烂啊。。真的说不清楚这些。</p>
-<h4 id="CoordinatorLayout是怎么实现嵌套滑动的事件分发的"><a href="#CoordinatorLayout是怎么实现嵌套滑动的事件分发的" class="headerlink" title="CoordinatorLayout是怎么实现嵌套滑动的事件分发的"></a><code>CoordinatorLayout</code>是怎么实现嵌套滑动的事件分发的</h4><p>先说一下两个接口吧，<code>NestedScrollingParent</code>和<code>NestedScrollingChild</code>，这两个接口看名字就比较容易理解他们的作用，就是一个给嵌套滑动的parent实现的，一个是给child实现，在选择的系统中，只有<code>CoordinatorLayout</code>实现了parent，所以下面说到parent就理解成<code>CoordinatorLayout</code>就OK啦，而child这个接口其实方法已经在<code>View</code>这个类里面帮我们实现好了，也就是说想要去成为一个可以嵌套滑动的child，仅仅去实现这个child接口就OK了，其他的<code>View</code>已经帮你写完了。下面还是以<code>RecycleView</code>为例子，它是实现了这个child的接口，还是回到情景里面说吧，说一下到底是怎么传递事件的。</p>
-<ul>
-<li>在<code>ReclceView</code>上down -&gt; <code>parent.onStartNestedScroll</code> -&gt;遍历有<code>Behavior</code>的直接子view -&gt;child的<code>Behavior.onStartNestedScroll</code>。<br>这里说一下<code>onStartNestedScroll</code>这个方法是有boolean的返回值，<code>true</code>的意思是要去处理这个事件，同时还会去调用<code>parent.onNestedScrollAccepted</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedScrollAccepted</code>.这个方法里面可以做一些view配置的初始化。如果不需要当然可以不去重写。</li>
-<li>在<code>RecycleView</code>上move -&gt; <code>dispatchNestedPreScroll</code>(也是child这个接口里面的)-&gt;<code>parent.onNestedPreScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedPreScroll</code>,同时之后还有一个流程也是在move的时候触发的 -&gt;<code>dispatchNestedScroll</code>(也是child这个接口里面的) -&gt;<code>parent.onNestedScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedScroll</code>.。这两个的主要区别的pre那个方法里面可以去处理消费了多少的滑动距离，比如手指滑动了12px,你可以选择把consumed[1]赋值为2，那么head就移动(消费)了2px，剩下的10px就给了下面的recycleview，而在<code>onNestedScroll</code>方法中还有机会去已经消费的和没有消费的距离再进行一次处理。</li>
-<li>在<code>RecycleView</code>上面up -&gt; <code>stopNestedScroll</code>(也是child这个接口里面的) -&gt;<code>parent.onStopNestedScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onStopNestedScroll</code>。</li>
-<li>还有两个关于<code>Fling</code>的方法，就不说了，一个套路。</li>
-</ul>
-<p>还有就是再说一下<code>CoordinatorLayout</code>的<code>onInterceptTouchEvent</code>和<code>onTouchEvent</code>，这里贴一下代码吧</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">for (int i = 0; i &lt; childCount; i++) &#123;</div><div class="line">       final View child = topmostChildList.get(i);</div><div class="line">       final LayoutParams lp = (LayoutParams) child.getLayoutParams();</div><div class="line">       final Behavior b = lp.getBehavior();</div><div class="line"></div><div class="line">       if ((intercepted || newBlock) &amp;&amp; action != MotionEvent.ACTION_DOWN) &#123;</div><div class="line">           // Cancel all behaviors beneath the one that intercepted.</div><div class="line">           // If the event is &quot;down&quot; then we don&apos;t have anything to cancel yet.</div><div class="line">           if (b != null) &#123;</div><div class="line">               if (cancelEvent == null) &#123;</div><div class="line">                   final long now = SystemClock.uptimeMillis();</div><div class="line">                   cancelEvent = MotionEvent.obtain(now, now,</div><div class="line">                           MotionEvent.ACTION_CANCEL, 0.0f, 0.0f, 0);</div><div class="line">               &#125;</div><div class="line">               switch (type) &#123;</div><div class="line">                   case TYPE_ON_INTERCEPT:</div><div class="line">                       b.onInterceptTouchEvent(this, child, cancelEvent);</div><div class="line">                       break;</div><div class="line">                   case TYPE_ON_TOUCH:</div><div class="line">                       b.onTouchEvent(this, child, cancelEvent);</div><div class="line">                       break;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           continue;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       if (!intercepted &amp;&amp; b != null) &#123;</div><div class="line">           switch (type) &#123;</div><div class="line">               case TYPE_ON_INTERCEPT:</div><div class="line">                   intercepted = b.onInterceptTouchEvent(this, child, ev);</div><div class="line">                   break;</div><div class="line">               case TYPE_ON_TOUCH:</div><div class="line">                   intercepted = b.onTouchEvent(this, child, ev);</div><div class="line">                   break;</div><div class="line">           &#125;</div><div class="line">           if (intercepted) &#123;</div><div class="line">               mBehaviorTouchView = child;</div><div class="line">           &#125;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
-<p>可以看出，每个直接的childview都会接受到拦截事件，即使你的手势不是在这个child上面触发的。</p>
-<ul>
-<li>还有个方法就是<code>layoutDependsOn</code>这个方法是在哪里调用的，这个是在onpredraw的时候就调用了，也就是没显示之前就已经开始准备各个view直接的依赖关系。当然内部实现也是在parent里面去便利child来实现的，也就只有parent可以获取到所有的child。</li>
-</ul>
-<h4 id="AppBarLayout的一些东西"><a href="#AppBarLayout的一些东西" class="headerlink" title="AppBarLayout的一些东西"></a><code>AppBarLayout</code>的一些东西</h4><p>我觉得<code>AppBarLayout</code>这个组件还是十分重要的，特别是里面的两个<code>Behavior</code>的实现，给了我们很好的参考的例子。具体的还是去看源码吧，太多了要说也是再开一篇。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h4&gt;&lt;p&gt;这是一篇重新写的东西，之前写过一点，但是烂尾了，我也很久没有去写点东西了，也是很惭愧，之前打算的事情也没有坚持下来。最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了&lt;code&gt;ListView&lt;/code&gt;再加上&lt;code&gt;addHead&lt;/code&gt;的方式，然后动态的去控制&lt;code&gt;Head&lt;/code&gt;的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下&lt;code&gt;CoordinatorLayout&lt;/code&gt;的处理嵌套滑动的原理，没有效果图也影响不大。
-    
-    </summary>
-    
-    
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
     <title>自定义控件学习笔记</title>
     <link href="http://yoursite.com/2016/08/01/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>http://yoursite.com/2016/08/01/自定义控件学习笔记/</id>
@@ -471,6 +466,48 @@ canvas.restore();
       &lt;p&gt;#Canvas&lt;/p&gt;
 &lt;p&gt;##canvas简介&lt;br&gt;&amp;emsp;&amp;emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，&lt;code&gt;Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
         Canvas canvas = new Canvas(bitmap);&lt;/code&gt;这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅谈CoordinatorLayout</title>
+    <link href="http://yoursite.com/2016/08/01/%E6%B5%85%E8%B0%88CoordinatorLayout/"/>
+    <id>http://yoursite.com/2016/08/01/浅谈CoordinatorLayout/</id>
+    <published>2016-08-01T14:24:32.000Z</published>
+    <updated>2017-02-03T10:24:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h4><p>这是一篇重新写的东西，之前写过一点，但是烂尾了，我也很久没有去写点东西了，也是很惭愧，之前打算的事情也没有坚持下来。最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了<code>ListView</code>再加上<code>addHead</code>的方式，然后动态的去控制<code>Head</code>的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下<code>CoordinatorLayout</code>的处理嵌套滑动的原理，没有效果图也影响不大。<a id="more"></a></p>
+<h4 id="开始吧"><a href="#开始吧" class="headerlink" title="开始吧"></a>开始吧</h4><p>感觉好久没有写点东西，写起来很是生疏，不知道该怎么去写一篇博客了，那就先写出来点大纲吧，说到哪是哪。这篇主要分这几部分吧</p>
+<ul>
+<li>为什么要有<code>CoordinatorLayout</code> </li>
+<li><code>CoordinatorLayout</code>是怎么实现嵌套滑动的事件分发的</li>
+<li><code>AppBarLayout</code>的一些东西</li>
+</ul>
+<h4 id="为什么要有CoordinatorLayout"><a href="#为什么要有CoordinatorLayout" class="headerlink" title="为什么要有CoordinatorLayout"></a>为什么要有<code>CoordinatorLayout</code></h4><p>先来回想一下<code>Android</code>系统的事件分发有什么不足的地方，当然我觉得<code>Android</code>的事件分发写的也是十分的巧妙。这里就不去再多说事件分发的东西，说一下这样的一个场景，就是下面一个类似<code>list</code>的可滚动区域，上面是一个头，这种场景在很多的个人中心的地方比较常见。如果要去实现这样的效果，传统的做法就是外面包一层parent，当然直接去处理list的滑动事件应该也是可以的，我觉得包一层比较好写点，让这个parent去分发事件和处理事件。好吧，我有点不知道说什么了，还是直接说事件分发的不足的地方吧，就是一个view消费了事件，与此同时，其他的view的没有机会去接触到这个事件了，这样当遇到上面说的情况，就是嵌套滑动的时候，我们需要上下两个view都能同时接触到这个事件，处理不处理就让他们自己去决定了。这样我觉得实现嵌套滑动的情况就好多了，因为都有机会去消费掉这个事件，无论事件是在哪个view上面，其实就是类似再外面包了一层parent的效果，这就是<code>CoordinatorLayout</code> 帮我们做的事件，靠，我写的好烂啊。。真的说不清楚这些。</p>
+<h4 id="CoordinatorLayout是怎么实现嵌套滑动的事件分发的"><a href="#CoordinatorLayout是怎么实现嵌套滑动的事件分发的" class="headerlink" title="CoordinatorLayout是怎么实现嵌套滑动的事件分发的"></a><code>CoordinatorLayout</code>是怎么实现嵌套滑动的事件分发的</h4><p>先说一下两个接口吧，<code>NestedScrollingParent</code>和<code>NestedScrollingChild</code>，这两个接口看名字就比较容易理解他们的作用，就是一个给嵌套滑动的parent实现的，一个是给child实现，在选择的系统中，只有<code>CoordinatorLayout</code>实现了parent，所以下面说到parent就理解成<code>CoordinatorLayout</code>就OK啦，而child这个接口其实方法已经在<code>View</code>这个类里面帮我们实现好了，也就是说想要去成为一个可以嵌套滑动的child，仅仅去实现这个child接口就OK了，其他的<code>View</code>已经帮你写完了。下面还是以<code>RecycleView</code>为例子，它是实现了这个child的接口，还是回到情景里面说吧，说一下到底是怎么传递事件的。</p>
+<ul>
+<li>在<code>ReclceView</code>上down -&gt; <code>parent.onStartNestedScroll</code> -&gt;遍历有<code>Behavior</code>的直接子view -&gt;child的<code>Behavior.onStartNestedScroll</code>。<br>这里说一下<code>onStartNestedScroll</code>这个方法是有boolean的返回值，<code>true</code>的意思是要去处理这个事件，同时还会去调用<code>parent.onNestedScrollAccepted</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedScrollAccepted</code>.这个方法里面可以做一些view配置的初始化。如果不需要当然可以不去重写。</li>
+<li>在<code>RecycleView</code>上move -&gt; <code>dispatchNestedPreScroll</code>(也是child这个接口里面的)-&gt;<code>parent.onNestedPreScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedPreScroll</code>,同时之后还有一个流程也是在move的时候触发的 -&gt;<code>dispatchNestedScroll</code>(也是child这个接口里面的) -&gt;<code>parent.onNestedScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedScroll</code>.。这两个的主要区别的pre那个方法里面可以去处理消费了多少的滑动距离，比如手指滑动了12px,你可以选择把consumed[1]赋值为2，那么head就移动(消费)了2px，剩下的10px就给了下面的recycleview，而在<code>onNestedScroll</code>方法中还有机会去已经消费的和没有消费的距离再进行一次处理。</li>
+<li>在<code>RecycleView</code>上面up -&gt; <code>stopNestedScroll</code>(也是child这个接口里面的) -&gt;<code>parent.onStopNestedScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onStopNestedScroll</code>。</li>
+<li>还有两个关于<code>Fling</code>的方法，就不说了，一个套路。</li>
+</ul>
+<p>还有就是再说一下<code>CoordinatorLayout</code>的<code>onInterceptTouchEvent</code>和<code>onTouchEvent</code>，这里贴一下代码吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">for (int i = 0; i &lt; childCount; i++) &#123;</div><div class="line">       final View child = topmostChildList.get(i);</div><div class="line">       final LayoutParams lp = (LayoutParams) child.getLayoutParams();</div><div class="line">       final Behavior b = lp.getBehavior();</div><div class="line"></div><div class="line">       if ((intercepted || newBlock) &amp;&amp; action != MotionEvent.ACTION_DOWN) &#123;</div><div class="line">           // Cancel all behaviors beneath the one that intercepted.</div><div class="line">           // If the event is &quot;down&quot; then we don&apos;t have anything to cancel yet.</div><div class="line">           if (b != null) &#123;</div><div class="line">               if (cancelEvent == null) &#123;</div><div class="line">                   final long now = SystemClock.uptimeMillis();</div><div class="line">                   cancelEvent = MotionEvent.obtain(now, now,</div><div class="line">                           MotionEvent.ACTION_CANCEL, 0.0f, 0.0f, 0);</div><div class="line">               &#125;</div><div class="line">               switch (type) &#123;</div><div class="line">                   case TYPE_ON_INTERCEPT:</div><div class="line">                       b.onInterceptTouchEvent(this, child, cancelEvent);</div><div class="line">                       break;</div><div class="line">                   case TYPE_ON_TOUCH:</div><div class="line">                       b.onTouchEvent(this, child, cancelEvent);</div><div class="line">                       break;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           continue;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       if (!intercepted &amp;&amp; b != null) &#123;</div><div class="line">           switch (type) &#123;</div><div class="line">               case TYPE_ON_INTERCEPT:</div><div class="line">                   intercepted = b.onInterceptTouchEvent(this, child, ev);</div><div class="line">                   break;</div><div class="line">               case TYPE_ON_TOUCH:</div><div class="line">                   intercepted = b.onTouchEvent(this, child, ev);</div><div class="line">                   break;</div><div class="line">           &#125;</div><div class="line">           if (intercepted) &#123;</div><div class="line">               mBehaviorTouchView = child;</div><div class="line">           &#125;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<p>可以看出，每个直接的childview都会接受到拦截事件，即使你的手势不是在这个child上面触发的。</p>
+<ul>
+<li>还有个方法就是<code>layoutDependsOn</code>这个方法是在哪里调用的，这个是在onpredraw的时候就调用了，也就是没显示之前就已经开始准备各个view直接的依赖关系。当然内部实现也是在parent里面去便利child来实现的，也就只有parent可以获取到所有的child。</li>
+</ul>
+<h4 id="AppBarLayout的一些东西"><a href="#AppBarLayout的一些东西" class="headerlink" title="AppBarLayout的一些东西"></a><code>AppBarLayout</code>的一些东西</h4><p>我觉得<code>AppBarLayout</code>这个组件还是十分重要的，特别是里面的两个<code>Behavior</code>的实现，给了我们很好的参考的例子。具体的还是去看源码吧，太多了要说也是再开一篇。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h4&gt;&lt;p&gt;这是一篇重新写的东西，之前写过一点，但是烂尾了，我也很久没有去写点东西了，也是很惭愧，之前打算的事情也没有坚持下来。最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了&lt;code&gt;ListView&lt;/code&gt;再加上&lt;code&gt;addHead&lt;/code&gt;的方式，然后动态的去控制&lt;code&gt;Head&lt;/code&gt;的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下&lt;code&gt;CoordinatorLayout&lt;/code&gt;的处理嵌套滑动的原理，没有效果图也影响不大。
     
     </summary>
     
@@ -1204,66 +1241,6 @@ public static &lt;T&gt; Generator&lt;T&gt; create(Class&lt;T&gt; type,Object[] a
   </entry>
   
   <entry>
-    <title>Android Binder 浅析</title>
-    <link href="http://yoursite.com/2016/07/09/Android%20Binder%20%E6%B5%85%E6%9E%90/"/>
-    <id>http://yoursite.com/2016/07/09/Android Binder 浅析/</id>
-    <published>2016-07-09T15:33:41.000Z</published>
-    <updated>2017-02-03T10:24:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>##开头废话<br>先说一下为什么要写这篇博客吧，起源于我对主席的书进行二周目的时候，看到了第二章IPC，然后去试着手写了一遍AIDL,再然后就有点困惑这里面是啥玩意，再然后就发现这里面的坑有点大了。。从<code>AIDL</code>到<code>Binder</code>，然后看到了Android系统里面那么多的binder使用，又去翻了一点<code>activity</code>的启动，从中又看到了<code>Binder</code>在进程间通讯的影子，从<code>AMS</code>到<code>activityThread</code>的通信等等。我觉得是很有必要写一些我的认识，可能还是有些云里雾里的，就当了解吧。<a id="more"></a></p>
-<p>###从AIDL开始<br>先说一下平时写AIDL都是怎么写的，用主席的那个例子</p>
-<ol>
-<li>定义一个可序列化的实体类<br>这个就不多说了，这里选择实现<code>Parcelable</code>接口来进行序列化，</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">package com.demos.aidl;</div><div class="line">public class Book implements Parcelable &#123;</div><div class="line">    public int bookId;</div><div class="line">    public String bookName;</div><div class="line">    ....</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>这个类有两个字段，明白意思就好了。</p>
-<p>2.定义<code>Book</code>的aidl文件<br>虽然是在同一个包里面，但是还是要去声明一个这样的文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">package com.demos.aidl;</div><div class="line">parcelable Book;</div></pre></td></tr></table></figure>
-<p> 3.定义AIDL接口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">package com.demos.aidl;</div><div class="line">import com.demos.aidl.Book;</div><div class="line">interface IBookManager &#123;</div><div class="line">     List&lt;Book&gt; getBookList();</div><div class="line">     void addBook(in Book book);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里注意<code>import</code>Book进来，虽然是一个包里面的。</p>
-<p> 4.build一下，然后在<code>build/generated/source/aidl/debug/com.demos.aidl</code>x里面就有了个<code>IBookManager</code>这么一个JAVA文件了。这就是系统帮助我们生成的。<br> 5.使用</p>
-<p> 在<code>client</code>端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">private ServiceConnection mConnection = new ServiceConnection() &#123;</div><div class="line">      public void onServiceConnected(ComponentName className, IBinder service) &#123;</div><div class="line">          IBookManager bookManager = IBookManager.Stub.asInterface(service);</div><div class="line">           List&lt;Book&gt; list = bookManager.getBookList();</div><div class="line">           .....</div><div class="line">          &#125;</div><div class="line">Intent intent = new Intent(this, BookManagerService.class);</div><div class="line">      bindService(intent, mConnection, Context.BIND_AUTO_CREATE);</div></pre></td></tr></table></figure></p>
-<p>然后在<code>Server</code>端</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">private Binder mBinder = new IBookManager.Stub() &#123;</div><div class="line">        @Override</div><div class="line">        public List&lt;Book&gt; getBookList() throws RemoteException &#123;</div><div class="line">            return mBookList;</div><div class="line">        &#125;</div><div class="line">        @Override</div><div class="line">        public void addBook(Book book) throws RemoteException &#123;</div><div class="line">            mBookList.add(book);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>这样就基本是一个很简单的进程间通信了。前面是系统给我们自动生成的一个<code>IBookManager</code>接口，这个接口里面都是些什么东西呢。进去看看的话，刚开始看不出什么东西，(因为它的排版很烂啊)，下面来排个版简单的分析一下这东西。</p>
-<p>###分析aidl生成接口<br>首先它是一个接口<code>public interface IBookManager extends android.os.IInterface</code>，要去进行进程间通信，都要去遵循<code>IInterface</code>这个接口，然后里面还有一个很重要的类<code>public static abstract class Stub extends android.os.Binder implements com.demos.aidl.IBookManager</code>这个内部类继承自<code>Binder</code>还实现了我们定义的aidl接口。回过头看在客户端是怎么获得<code>IBookManager</code>的？<code>IBookManager.Stub.asInterface(service);</code>下面就是实现的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public static com.demos.aidl.IBookManager asInterface(android.os.IBinder obj)</div><div class="line">&#123;</div><div class="line">    if ((obj==null)) &#123;</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">    android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);</div><div class="line">    if (((iin!=null)&amp;&amp;(iin instanceof com.demos.aidl.IBookManager))) &#123;</div><div class="line">        //如果客户端和服务端在同一个进程，就直接返回服务端的IBookManager，不用跨进程调用了</div><div class="line">        return ((com.demos.aidl.IBookManager)iin);</div><div class="line">    &#125;   //否则返回的是一个代理类</div><div class="line">    return new com.demos.aidl.IBookManager.Stub.Proxy(obj);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>下面去看看这个代理类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">//这个是运行在客户端进程</div><div class="line">private static class Proxy implements com.demos.aidl.IBookManager</div><div class="line">&#123;   //远程的IBinder对象</div><div class="line">    private android.os.IBinder mRemote;</div><div class="line">    Proxy(android.os.IBinder remote)&#123;</div><div class="line">        mRemote = remote;</div><div class="line">    &#125;</div><div class="line">   .....</div><div class="line">@Override public java.util.List&lt;com.demos.aidl.Book&gt; getBookList() throws android.os.RemoteException</div><div class="line">&#123;</div><div class="line">    android.os.Parcel _data = android.os.Parcel.obtain();</div><div class="line">    android.os.Parcel _reply = android.os.Parcel.obtain();</div><div class="line">    java.util.List&lt;com.demos.aidl.Book&gt; _result;</div><div class="line">    try &#123;</div><div class="line">        _data.writeInterfaceToken(DESCRIPTOR);</div><div class="line">        //这个是把参数等信息传递给远程的IBinder</div><div class="line">        mRemote.transact(Stub.TRANSACTION_getBookList,_data, _reply, 0);</div><div class="line">        _reply.readException();</div><div class="line">        _result = _reply.createTypedArrayList(com.demos.aidl.Book.CREATOR);</div><div class="line">    &#125;</div><div class="line">    finally &#123;</div><div class="line">    _reply.recycle();</div><div class="line">    _data.recycle();</div><div class="line">    &#125;</div><div class="line">return _result;</div><div class="line">&#125;</div><div class="line">.....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其实这个东西什么正事没干，就是把参数什么的传递给远程真正干活的，真正干活的在哪？还是在前面的那个<code>Stub</code>类里面，有一个<code>onTransact</code>方法，参数和上面的<code>mRemote.transact</code>方法的参数相对应，看一下吧</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">//这个是运行在服务端进程</div><div class="line">@Override public boolean onTransact(int code, android.os.Parcel data, android.os.Parcel reply, int flags) throws android.os.RemoteException</div><div class="line">&#123;   //根据code来进行判断执行哪个方法</div><div class="line">    switch (code)&#123;</div><div class="line">        case INTERFACE_TRANSACTION:&#123;</div><div class="line">            reply.writeString(DESCRIPTOR);</div><div class="line">            return true;</div><div class="line">    &#125;</div><div class="line">        case TRANSACTION_getBookList:&#123;</div><div class="line">            data.enforceInterface(DESCRIPTOR);</div><div class="line">            //调用了getBookList方法，这个方法是要自己在service里面去实现的</div><div class="line">            java.util.List&lt;com.demos.aidl.Book&gt; _result =               this.getBookList();</div><div class="line">            reply.writeNoException();</div><div class="line">            reply.writeTypedList(_result);</div><div class="line">            return true;</div><div class="line">    &#125;</div><div class="line">    ....</div><div class="line">    return super.onTransact(code, data, reply, flags);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样基本上就大概理清楚了，手写<code>AIDL</code>就不写了，写出来基本上是一样的。</p>
-<p>##概述多进程<br>在Android中，打开一个APP可以认为是开启了一个进程，当然四大组件也可以再开新的进程，不同的进程之间是不同的虚拟机，所以可以认识他们互相不知道对方的存在，也就没法去直接的交流。那么如果想要跨进程通信，其实有很多的办法，比如管道，System V，Socket等，那么Android为什么还要去自己搞一个binder呢，既然自己费那么大劲搞了一个，肯定有无可比拟的优势，这里我只知道由于性能和安全的考虑，它就选择了binder😂。</p>
-<p>###binder基本模型<br>既然两个进程之间无法直接通信，那么怎么办。在Linux中，内核是可以获取两个进程的全部信息的，那么就好办了，把进程a想说的话告诉内核，内核再告诉b就好了。。。其实实现起来还是很复杂的。好吧，正经点说，首先系统有一个<code>ServiceManager</code>的进程，简称SM,这个是负责管理<code>Service</code>的，当一个<code>Server</code>建立的时候，会去和SM通信，在SM里面进行注册，比如我是张三，我的地址是0x12138。当<code>Client</code>想要和<code>Server</code>进行通信的时候，先去询问SM,我怎么联系张三，SM告诉它这个号码，然后就去联系了。其实还是有点不恰当，，大概就这么理解吧。这里注意到，SM其实也是一个进程，一个<code>Server</code>想要和它进行通信就涉及到了跨进程通信的问题，这就成了鸡-蛋的问题，其实这两者之间也是使用了<code>Binder</code>,不过系统给我们预先造了一个”鸡”,和普通的跨进程通信还不太一样，这里理解就好。</p>
-<p>###Binder跨进程原理<br>这里还是简单的说，因为我也不是特别的理解。就拿上面举的那个book的例子开始说，可以看到<code>Stub</code>是继承自<code>Binder</code>并且实现了<code>IBookManager</code>接口，而<code>Binder</code>是实现了<code>IBinder</code>接口，其实在<code>Binder</code>里面有一个内部类<code>BinderProxy</code>，它也是实现了<code>IBinder</code>接口。这样在来看在<code>Client</code>里面的使用，<code>public void onServiceConnected(ComponentName className, IBinder service)</code>这里的<code>service</code>是<code>sub</code>呢还是<code>BinderProxy</code>呢，在前面说了，如果是在同一个进程，就返回<code>Server</code>里面的<code>Binder</code>本体，否在就返回一个<code>BinderProxy</code>对象，在<code>asInterface(android.os.IBinder obj)</code>这个<code>obj</code>如果是跨进程的，肯定是一个<code>BinderProxy</code>对象了，然后就去调用这个对象的<code>transact</code>方法，把需要调用方法的code，数据，返回值，还有一个是不是双向RPC的flag位传进去，我们看一下在<code>BinderProxy</code>里面，这个方法是怎么实现的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public boolean transact(int code, Parcel data, Parcel reply, int flags) throws RemoteException &#123;</div><div class="line">       Binder.checkParcel(this, code, data, &quot;Unreasonably large binder buffer&quot;);</div><div class="line">       return transactNative(code, data, reply, flags);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>可以看到是调用了<code>Native</code>的方法，后面就是一些cpp的东西，我也看不太懂，也就是进去了<code>Binder</code>驱动里面去折腾东西，然后<code>Binder</code>驱动把那些参数什么的给<code>Server</code>的<code>onTransact</code>方法，然后在根据code去调用<code>Server</code>中重写的<code>IBookManager</code>中的方法。然后在<code>onTransact</code>方法中最后再把写好的返回参数在返回给<code>Binder</code>驱动，可以在最后看到<code>return super.onTransact(code, data, reply, flags);</code>，再然后就是<code>Binder</code>驱动把结果告诉等待的<code>Client</code>端。这样就基本完成了一次跨进程通信。</p>
-<p>这里稍微总结一下，可以看到，无论是<code>sub</code>还是<code>BinderProxy</code>都是实现了<code>IBinder</code>接口，以至于客户端根本无法分辨出是不是在进行跨进程通信，也就是说<code>Client</code>看起来就和同进程的<code>Server</code>进行通信一样，只需要轻轻松松的调用<code>getBookList</code>就能获得想要的结果，也不用去在乎<code>Server</code>是在什么地方，底层了一切<code>Binder</code>驱动都给我们封装好了。还有就是在跨进程通信的时候，并没有把方法传过去，仅仅是传递了一个方法的code,然后在<code>Server</code>中根据这个code来调用对应的方法.</p>
-<p>###在Android中的提现<br>在Android的源码中，使用<code>Binder</code>来进行进程间通讯也是很常见的，来看一个关于启动<code>activity</code>的东西</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">class ActivityManagerProxy implements IActivityManager&#123;&#125;</div><div class="line"></div><div class="line">public abstract class ActivityManagerNative extends Binder implements IActivityManager&#123;&#125;</div><div class="line"></div><div class="line">public final class ActivityManagerService extends ActivityManagerNative&#123;&#125;</div></pre></td></tr></table></figure>
-<p>这个三个类的继承实现关系是不是有点眼熟，对，就和前面写的那个book例子一样的，<code>ActivityManagerProxy</code>就相当于那个内部类<code>Proxy</code>，<code>ActivityManagerNative</code>就相当于里面的<code>Stub</code>，而实现类<code>ActivityManagerService</code>简称AMS就是<code>Server</code>了。在细说一下，在执行<code>startActivity</code>的时候，会到<code>mInstrumentation.execStartActivity()</code>，就是凯子哥说的那个老板娘😂，然后就是<code>ActivityManagerNative.getDefault().startActivity</code>，这里<code>getDefault</code>返回一个<code>IActivityManager</code>对象，就是使用<code>asInterface(IBinder obj)</code>获得的，是不是更熟悉了，就是前面判断是不是同一个进程的地方，这里肯定是跨进程了，返回的是一个<code>ActivityManagerProxy</code>对象，然后在<code>ActivityManagerProxy</code>里面有<code>startActivity</code>方法，里面有这么一句<code>mRemote.transact(START_ACTIVITY_TRANSACTION, data, reply, 0);</code>又熟悉了吧。好吧，就说到这里了。</p>
-<p>##结尾<br>以上只是我自己了解的浅见，肯定有不合理的地方，也只是我自己的理解，以后还会继续学习这方面的东西，毕竟现在也只是一知半解的。</p>
-<p>参考：</p>
-<p><a href="http://weishu.me/2016/01/12/binder-index-for-newer/" target="_blank" rel="external">《Binder学习指南》</a></p>
-<p><a href="http://blog.csdn.net/zhaokaiqiang1992/article/details/49428287" target="_blank" rel="external">【凯子哥带你学Framework】Activity启动过程全解析</a></p>
-<p><a href="http://blog.csdn.net/universus/article/details/6211589" target="_blank" rel="external">Android Bander设计与实现 - 设计篇</a>  没看太明白😂</p>
-<p><a href="http://blog.csdn.net/luoshengyang/article/details/6618363" target="_blank" rel="external"> Android进程间通信（IPC）机制Binder简要介绍和学习计划</a>  老罗的也是经典</p>
-<p><a href="https://github.com/70kg/Demos/tree/master/app/src/main/java/com/demos/aidl" target="_blank" rel="external">还有我的手写AIDL😂</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;##开头废话&lt;br&gt;先说一下为什么要写这篇博客吧，起源于我对主席的书进行二周目的时候，看到了第二章IPC，然后去试着手写了一遍AIDL,再然后就有点困惑这里面是啥玩意，再然后就发现这里面的坑有点大了。。从&lt;code&gt;AIDL&lt;/code&gt;到&lt;code&gt;Binder&lt;/code&gt;，然后看到了Android系统里面那么多的binder使用，又去翻了一点&lt;code&gt;activity&lt;/code&gt;的启动，从中又看到了&lt;code&gt;Binder&lt;/code&gt;在进程间通讯的影子，从&lt;code&gt;AMS&lt;/code&gt;到&lt;code&gt;activityThread&lt;/code&gt;的通信等等。我觉得是很有必要写一些我的认识，可能还是有些云里雾里的，就当了解吧。
-    
-    </summary>
-    
-    
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
     <title>View的绘制过程</title>
     <link href="http://yoursite.com/2016/07/09/View%E7%9A%84%E7%BB%98%E5%88%B6%E8%BF%87%E7%A8%8B/"/>
     <id>http://yoursite.com/2016/07/09/View的绘制过程/</id>
@@ -1349,6 +1326,66 @@ public static &lt;T&gt; Generator&lt;T&gt; create(Class&lt;T&gt; type,Object[] a
     <summary type="html">
     
       &lt;p&gt;&amp;emsp;&amp;emsp;这次来说一说view的绘制过程，同样也算是个笔记的东西，梳理一下大致的过程，忽略了内部很多的条件判断等。上次说了&lt;code&gt;setcontentview&lt;/code&gt;和&lt;code&gt;infalter&lt;/code&gt;的一些简单过程，这个是用来把view从XML文件的格式解析和加载，但是具体view的怎么绘制到界面上的并没有提及，还有上次留下的问题，有时间学习了&lt;code&gt;activity&lt;/code&gt;的启动流程再来说一下，现在开始吧。
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android Binder 浅析</title>
+    <link href="http://yoursite.com/2016/07/09/Android%20Binder%20%E6%B5%85%E6%9E%90/"/>
+    <id>http://yoursite.com/2016/07/09/Android Binder 浅析/</id>
+    <published>2016-07-09T15:33:41.000Z</published>
+    <updated>2017-02-03T10:24:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>##开头废话<br>先说一下为什么要写这篇博客吧，起源于我对主席的书进行二周目的时候，看到了第二章IPC，然后去试着手写了一遍AIDL,再然后就有点困惑这里面是啥玩意，再然后就发现这里面的坑有点大了。。从<code>AIDL</code>到<code>Binder</code>，然后看到了Android系统里面那么多的binder使用，又去翻了一点<code>activity</code>的启动，从中又看到了<code>Binder</code>在进程间通讯的影子，从<code>AMS</code>到<code>activityThread</code>的通信等等。我觉得是很有必要写一些我的认识，可能还是有些云里雾里的，就当了解吧。<a id="more"></a></p>
+<p>###从AIDL开始<br>先说一下平时写AIDL都是怎么写的，用主席的那个例子</p>
+<ol>
+<li>定义一个可序列化的实体类<br>这个就不多说了，这里选择实现<code>Parcelable</code>接口来进行序列化，</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">package com.demos.aidl;</div><div class="line">public class Book implements Parcelable &#123;</div><div class="line">    public int bookId;</div><div class="line">    public String bookName;</div><div class="line">    ....</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这个类有两个字段，明白意思就好了。</p>
+<p>2.定义<code>Book</code>的aidl文件<br>虽然是在同一个包里面，但是还是要去声明一个这样的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">package com.demos.aidl;</div><div class="line">parcelable Book;</div></pre></td></tr></table></figure>
+<p> 3.定义AIDL接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">package com.demos.aidl;</div><div class="line">import com.demos.aidl.Book;</div><div class="line">interface IBookManager &#123;</div><div class="line">     List&lt;Book&gt; getBookList();</div><div class="line">     void addBook(in Book book);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里注意<code>import</code>Book进来，虽然是一个包里面的。</p>
+<p> 4.build一下，然后在<code>build/generated/source/aidl/debug/com.demos.aidl</code>x里面就有了个<code>IBookManager</code>这么一个JAVA文件了。这就是系统帮助我们生成的。<br> 5.使用</p>
+<p> 在<code>client</code>端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">private ServiceConnection mConnection = new ServiceConnection() &#123;</div><div class="line">      public void onServiceConnected(ComponentName className, IBinder service) &#123;</div><div class="line">          IBookManager bookManager = IBookManager.Stub.asInterface(service);</div><div class="line">           List&lt;Book&gt; list = bookManager.getBookList();</div><div class="line">           .....</div><div class="line">          &#125;</div><div class="line">Intent intent = new Intent(this, BookManagerService.class);</div><div class="line">      bindService(intent, mConnection, Context.BIND_AUTO_CREATE);</div></pre></td></tr></table></figure></p>
+<p>然后在<code>Server</code>端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">private Binder mBinder = new IBookManager.Stub() &#123;</div><div class="line">        @Override</div><div class="line">        public List&lt;Book&gt; getBookList() throws RemoteException &#123;</div><div class="line">            return mBookList;</div><div class="line">        &#125;</div><div class="line">        @Override</div><div class="line">        public void addBook(Book book) throws RemoteException &#123;</div><div class="line">            mBookList.add(book);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这样就基本是一个很简单的进程间通信了。前面是系统给我们自动生成的一个<code>IBookManager</code>接口，这个接口里面都是些什么东西呢。进去看看的话，刚开始看不出什么东西，(因为它的排版很烂啊)，下面来排个版简单的分析一下这东西。</p>
+<p>###分析aidl生成接口<br>首先它是一个接口<code>public interface IBookManager extends android.os.IInterface</code>，要去进行进程间通信，都要去遵循<code>IInterface</code>这个接口，然后里面还有一个很重要的类<code>public static abstract class Stub extends android.os.Binder implements com.demos.aidl.IBookManager</code>这个内部类继承自<code>Binder</code>还实现了我们定义的aidl接口。回过头看在客户端是怎么获得<code>IBookManager</code>的？<code>IBookManager.Stub.asInterface(service);</code>下面就是实现的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public static com.demos.aidl.IBookManager asInterface(android.os.IBinder obj)</div><div class="line">&#123;</div><div class="line">    if ((obj==null)) &#123;</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">    android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);</div><div class="line">    if (((iin!=null)&amp;&amp;(iin instanceof com.demos.aidl.IBookManager))) &#123;</div><div class="line">        //如果客户端和服务端在同一个进程，就直接返回服务端的IBookManager，不用跨进程调用了</div><div class="line">        return ((com.demos.aidl.IBookManager)iin);</div><div class="line">    &#125;   //否则返回的是一个代理类</div><div class="line">    return new com.demos.aidl.IBookManager.Stub.Proxy(obj);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面去看看这个代理类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">//这个是运行在客户端进程</div><div class="line">private static class Proxy implements com.demos.aidl.IBookManager</div><div class="line">&#123;   //远程的IBinder对象</div><div class="line">    private android.os.IBinder mRemote;</div><div class="line">    Proxy(android.os.IBinder remote)&#123;</div><div class="line">        mRemote = remote;</div><div class="line">    &#125;</div><div class="line">   .....</div><div class="line">@Override public java.util.List&lt;com.demos.aidl.Book&gt; getBookList() throws android.os.RemoteException</div><div class="line">&#123;</div><div class="line">    android.os.Parcel _data = android.os.Parcel.obtain();</div><div class="line">    android.os.Parcel _reply = android.os.Parcel.obtain();</div><div class="line">    java.util.List&lt;com.demos.aidl.Book&gt; _result;</div><div class="line">    try &#123;</div><div class="line">        _data.writeInterfaceToken(DESCRIPTOR);</div><div class="line">        //这个是把参数等信息传递给远程的IBinder</div><div class="line">        mRemote.transact(Stub.TRANSACTION_getBookList,_data, _reply, 0);</div><div class="line">        _reply.readException();</div><div class="line">        _result = _reply.createTypedArrayList(com.demos.aidl.Book.CREATOR);</div><div class="line">    &#125;</div><div class="line">    finally &#123;</div><div class="line">    _reply.recycle();</div><div class="line">    _data.recycle();</div><div class="line">    &#125;</div><div class="line">return _result;</div><div class="line">&#125;</div><div class="line">.....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其实这个东西什么正事没干，就是把参数什么的传递给远程真正干活的，真正干活的在哪？还是在前面的那个<code>Stub</code>类里面，有一个<code>onTransact</code>方法，参数和上面的<code>mRemote.transact</code>方法的参数相对应，看一下吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">//这个是运行在服务端进程</div><div class="line">@Override public boolean onTransact(int code, android.os.Parcel data, android.os.Parcel reply, int flags) throws android.os.RemoteException</div><div class="line">&#123;   //根据code来进行判断执行哪个方法</div><div class="line">    switch (code)&#123;</div><div class="line">        case INTERFACE_TRANSACTION:&#123;</div><div class="line">            reply.writeString(DESCRIPTOR);</div><div class="line">            return true;</div><div class="line">    &#125;</div><div class="line">        case TRANSACTION_getBookList:&#123;</div><div class="line">            data.enforceInterface(DESCRIPTOR);</div><div class="line">            //调用了getBookList方法，这个方法是要自己在service里面去实现的</div><div class="line">            java.util.List&lt;com.demos.aidl.Book&gt; _result =               this.getBookList();</div><div class="line">            reply.writeNoException();</div><div class="line">            reply.writeTypedList(_result);</div><div class="line">            return true;</div><div class="line">    &#125;</div><div class="line">    ....</div><div class="line">    return super.onTransact(code, data, reply, flags);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样基本上就大概理清楚了，手写<code>AIDL</code>就不写了，写出来基本上是一样的。</p>
+<p>##概述多进程<br>在Android中，打开一个APP可以认为是开启了一个进程，当然四大组件也可以再开新的进程，不同的进程之间是不同的虚拟机，所以可以认识他们互相不知道对方的存在，也就没法去直接的交流。那么如果想要跨进程通信，其实有很多的办法，比如管道，System V，Socket等，那么Android为什么还要去自己搞一个binder呢，既然自己费那么大劲搞了一个，肯定有无可比拟的优势，这里我只知道由于性能和安全的考虑，它就选择了binder😂。</p>
+<p>###binder基本模型<br>既然两个进程之间无法直接通信，那么怎么办。在Linux中，内核是可以获取两个进程的全部信息的，那么就好办了，把进程a想说的话告诉内核，内核再告诉b就好了。。。其实实现起来还是很复杂的。好吧，正经点说，首先系统有一个<code>ServiceManager</code>的进程，简称SM,这个是负责管理<code>Service</code>的，当一个<code>Server</code>建立的时候，会去和SM通信，在SM里面进行注册，比如我是张三，我的地址是0x12138。当<code>Client</code>想要和<code>Server</code>进行通信的时候，先去询问SM,我怎么联系张三，SM告诉它这个号码，然后就去联系了。其实还是有点不恰当，，大概就这么理解吧。这里注意到，SM其实也是一个进程，一个<code>Server</code>想要和它进行通信就涉及到了跨进程通信的问题，这就成了鸡-蛋的问题，其实这两者之间也是使用了<code>Binder</code>,不过系统给我们预先造了一个”鸡”,和普通的跨进程通信还不太一样，这里理解就好。</p>
+<p>###Binder跨进程原理<br>这里还是简单的说，因为我也不是特别的理解。就拿上面举的那个book的例子开始说，可以看到<code>Stub</code>是继承自<code>Binder</code>并且实现了<code>IBookManager</code>接口，而<code>Binder</code>是实现了<code>IBinder</code>接口，其实在<code>Binder</code>里面有一个内部类<code>BinderProxy</code>，它也是实现了<code>IBinder</code>接口。这样在来看在<code>Client</code>里面的使用，<code>public void onServiceConnected(ComponentName className, IBinder service)</code>这里的<code>service</code>是<code>sub</code>呢还是<code>BinderProxy</code>呢，在前面说了，如果是在同一个进程，就返回<code>Server</code>里面的<code>Binder</code>本体，否在就返回一个<code>BinderProxy</code>对象，在<code>asInterface(android.os.IBinder obj)</code>这个<code>obj</code>如果是跨进程的，肯定是一个<code>BinderProxy</code>对象了，然后就去调用这个对象的<code>transact</code>方法，把需要调用方法的code，数据，返回值，还有一个是不是双向RPC的flag位传进去，我们看一下在<code>BinderProxy</code>里面，这个方法是怎么实现的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public boolean transact(int code, Parcel data, Parcel reply, int flags) throws RemoteException &#123;</div><div class="line">       Binder.checkParcel(this, code, data, &quot;Unreasonably large binder buffer&quot;);</div><div class="line">       return transactNative(code, data, reply, flags);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>可以看到是调用了<code>Native</code>的方法，后面就是一些cpp的东西，我也看不太懂，也就是进去了<code>Binder</code>驱动里面去折腾东西，然后<code>Binder</code>驱动把那些参数什么的给<code>Server</code>的<code>onTransact</code>方法，然后在根据code去调用<code>Server</code>中重写的<code>IBookManager</code>中的方法。然后在<code>onTransact</code>方法中最后再把写好的返回参数在返回给<code>Binder</code>驱动，可以在最后看到<code>return super.onTransact(code, data, reply, flags);</code>，再然后就是<code>Binder</code>驱动把结果告诉等待的<code>Client</code>端。这样就基本完成了一次跨进程通信。</p>
+<p>这里稍微总结一下，可以看到，无论是<code>sub</code>还是<code>BinderProxy</code>都是实现了<code>IBinder</code>接口，以至于客户端根本无法分辨出是不是在进行跨进程通信，也就是说<code>Client</code>看起来就和同进程的<code>Server</code>进行通信一样，只需要轻轻松松的调用<code>getBookList</code>就能获得想要的结果，也不用去在乎<code>Server</code>是在什么地方，底层了一切<code>Binder</code>驱动都给我们封装好了。还有就是在跨进程通信的时候，并没有把方法传过去，仅仅是传递了一个方法的code,然后在<code>Server</code>中根据这个code来调用对应的方法.</p>
+<p>###在Android中的提现<br>在Android的源码中，使用<code>Binder</code>来进行进程间通讯也是很常见的，来看一个关于启动<code>activity</code>的东西</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">class ActivityManagerProxy implements IActivityManager&#123;&#125;</div><div class="line"></div><div class="line">public abstract class ActivityManagerNative extends Binder implements IActivityManager&#123;&#125;</div><div class="line"></div><div class="line">public final class ActivityManagerService extends ActivityManagerNative&#123;&#125;</div></pre></td></tr></table></figure>
+<p>这个三个类的继承实现关系是不是有点眼熟，对，就和前面写的那个book例子一样的，<code>ActivityManagerProxy</code>就相当于那个内部类<code>Proxy</code>，<code>ActivityManagerNative</code>就相当于里面的<code>Stub</code>，而实现类<code>ActivityManagerService</code>简称AMS就是<code>Server</code>了。在细说一下，在执行<code>startActivity</code>的时候，会到<code>mInstrumentation.execStartActivity()</code>，就是凯子哥说的那个老板娘😂，然后就是<code>ActivityManagerNative.getDefault().startActivity</code>，这里<code>getDefault</code>返回一个<code>IActivityManager</code>对象，就是使用<code>asInterface(IBinder obj)</code>获得的，是不是更熟悉了，就是前面判断是不是同一个进程的地方，这里肯定是跨进程了，返回的是一个<code>ActivityManagerProxy</code>对象，然后在<code>ActivityManagerProxy</code>里面有<code>startActivity</code>方法，里面有这么一句<code>mRemote.transact(START_ACTIVITY_TRANSACTION, data, reply, 0);</code>又熟悉了吧。好吧，就说到这里了。</p>
+<p>##结尾<br>以上只是我自己了解的浅见，肯定有不合理的地方，也只是我自己的理解，以后还会继续学习这方面的东西，毕竟现在也只是一知半解的。</p>
+<p>参考：</p>
+<p><a href="http://weishu.me/2016/01/12/binder-index-for-newer/" target="_blank" rel="external">《Binder学习指南》</a></p>
+<p><a href="http://blog.csdn.net/zhaokaiqiang1992/article/details/49428287" target="_blank" rel="external">【凯子哥带你学Framework】Activity启动过程全解析</a></p>
+<p><a href="http://blog.csdn.net/universus/article/details/6211589" target="_blank" rel="external">Android Bander设计与实现 - 设计篇</a>  没看太明白😂</p>
+<p><a href="http://blog.csdn.net/luoshengyang/article/details/6618363" target="_blank" rel="external"> Android进程间通信（IPC）机制Binder简要介绍和学习计划</a>  老罗的也是经典</p>
+<p><a href="https://github.com/70kg/Demos/tree/master/app/src/main/java/com/demos/aidl" target="_blank" rel="external">还有我的手写AIDL😂</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;##开头废话&lt;br&gt;先说一下为什么要写这篇博客吧，起源于我对主席的书进行二周目的时候，看到了第二章IPC，然后去试着手写了一遍AIDL,再然后就有点困惑这里面是啥玩意，再然后就发现这里面的坑有点大了。。从&lt;code&gt;AIDL&lt;/code&gt;到&lt;code&gt;Binder&lt;/code&gt;，然后看到了Android系统里面那么多的binder使用，又去翻了一点&lt;code&gt;activity&lt;/code&gt;的启动，从中又看到了&lt;code&gt;Binder&lt;/code&gt;在进程间通讯的影子，从&lt;code&gt;AMS&lt;/code&gt;到&lt;code&gt;activityThread&lt;/code&gt;的通信等等。我觉得是很有必要写一些我的认识，可能还是有些云里雾里的，就当了解吧。
     
     </summary>
     
