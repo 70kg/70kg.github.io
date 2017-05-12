@@ -20,14 +20,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (mFirstTouchTarget == null) &#123;</div><div class="line">            //没有处理的view  move的时候再来执行一次</div><div class="line">               handled = dispatchTransformedTouchEvent(ev, canceled, null,</div><div class="line">                       TouchTarget.ALL_POINTER_IDS);</div><div class="line">           &#125; else &#123;</div><div class="line">           ....分发给对应的view</div><div class="line">           &#125;</div></pre></td></tr></table></figure>
 <p>剩下的结论就不写了，再去想想那些大神的总结，是不是更加有道理了。其实最重要的判断就是view的<code>onTouchEvent</code>是不是返回true,也就是有没有去消耗事件，决定了整个事件的走向。</p>
 <p>这篇其实写的挺差劲的，写的可以更加有条理更加清晰一些，但是自己的表达能力，理解能力确实有限，以后再来读一读今天写的，或许再重构一遍也不一定啦。</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2016/07/09/Volley源码解析/" class="prev">上一篇</a><a href="/2016/03/04/《Android开发艺术探索》笔记-1/" class="next">下一篇</a></div><div data-thread-key="2016/07/09/触摸事件/" data-title="View触摸事件" data-url="http://yoursite.com/2016/07/09/触摸事件/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"70kg"};
-(function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();
-
-</script><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">70kg</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-81769413-1",'auto');ga('send','pageview');</script></body></html>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/07/09/Volley源码解析/" class="prev">PREV</a><a href="/2016/03/04/《Android开发艺术探索》笔记-1/" class="next">NEXT</a></div><div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div><script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script><script>var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "2016/07/09/触摸事件/",
+    productKey: "f39e35695dd943529768f0f9c5440f14",
+    target: "cloud-tie-wrapper"
+};
+var yunManualLoad = true;
+Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);</script><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">70kg</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-81769413-1",'auto');ga('send','pageview');</script></body></html>
