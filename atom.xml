@@ -48,12 +48,13 @@
     <link href="http://yoursite.com/2017/05/08/Instant-Run%E4%B8%8ETinker%E4%B8%ADApplication%E6%9B%BF%E6%8D%A2/"/>
     <id>http://yoursite.com/2017/05/08/Instant-Run与Tinker中Application替换/</id>
     <published>2017-05-08T14:58:02.000Z</published>
-    <updated>2017-05-08T15:08:57.000Z</updated>
+    <updated>2017-05-16T01:02:20.000Z</updated>
     
     <content type="html"><![CDATA[<ul>
 <li>为什么要替换application</li>
 </ul>
-<p>因为5.0以下开始只会去加载第一个dex,如果appliaction不在第一个dex,则无法启动。如果把自己的appliaction放在第一个dex中，而自己的application没有使用multidex,则只会去加载原始加载生成的dex,也是会报错。所以办法就是去代理掉原始的application，将app启动的application设置为这个代理的application，在这个代理的application中可以确保使用multidex功能。而且这个代理的application可以轻松的放在第一个patched.dex中，无需去解析依赖关系。<a id="more"></a></p>
+<p>因为5.0以下开始只会去加载第一个dex,如果appliaction不在第一个dex,则无法启动。如果把自己的appliaction放在第一个dex中，而自己的application没有使用multidex,则只会去加载原始加载生成的dex,也是会报错。所以办法就是去代理掉原始的application，将app启动的application设置为这个代理的application，在这个代理的application中可以确保使用multidex功能。</p>
+<p>还有因为补丁是在appliaction中加载，这样会导致无法对appliaction的修复，还有因为 Android N 的混合编译的影响 ，Tinker 使用了类似 Instant-run 中 IncrementalClassLoader （具体实现过程还是有差距），新建一个classLoader，去 “替换”掉原始的 PathClassLoader 去加载所有dex。这些都需要在appliaction中进行修改。<br><a id="more"></a></p>
 <ul>
 <li>替换操作的差异</li>
 </ul>
@@ -70,7 +71,8 @@
       &lt;ul&gt;
 &lt;li&gt;为什么要替换application&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;因为5.0以下开始只会去加载第一个dex,如果appliaction不在第一个dex,则无法启动。如果把自己的appliaction放在第一个dex中，而自己的application没有使用multidex,则只会去加载原始加载生成的dex,也是会报错。所以办法就是去代理掉原始的application，将app启动的application设置为这个代理的application，在这个代理的application中可以确保使用multidex功能。而且这个代理的application可以轻松的放在第一个patched.dex中，无需去解析依赖关系。
+&lt;p&gt;因为5.0以下开始只会去加载第一个dex,如果appliaction不在第一个dex,则无法启动。如果把自己的appliaction放在第一个dex中，而自己的application没有使用multidex,则只会去加载原始加载生成的dex,也是会报错。所以办法就是去代理掉原始的application，将app启动的application设置为这个代理的application，在这个代理的application中可以确保使用multidex功能。&lt;/p&gt;
+&lt;p&gt;还有因为补丁是在appliaction中加载，这样会导致无法对appliaction的修复，还有因为 Android N 的混合编译的影响 ，Tinker 使用了类似 Instant-run 中 IncrementalClassLoader （具体实现过程还是有差距），新建一个classLoader，去 “替换”掉原始的 PathClassLoader 去加载所有dex。这些都需要在appliaction中进行修改。&lt;br&gt;
     
     </summary>
     
