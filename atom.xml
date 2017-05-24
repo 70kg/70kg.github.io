@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-14T12:36:03.000Z</updated>
+  <updated>2017-05-23T00:19:32.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,74 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Tinker补丁构建走读</title>
+    <link href="http://yoursite.com/2017/05/23/Tinker%E8%A1%A5%E4%B8%81%E6%9E%84%E5%BB%BA%E8%B5%B0%E8%AF%BB/"/>
+    <id>http://yoursite.com/2017/05/23/Tinker补丁构建走读/</id>
+    <published>2017-05-23T00:18:44.000Z</published>
+    <updated>2017-05-23T00:19:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Tinker简单问答"><a href="#Tinker简单问答" class="headerlink" title="Tinker简单问答"></a>Tinker简单问答</h2><h4 id="为什么要替换-Application"><a href="#为什么要替换-Application" class="headerlink" title="为什么要替换 Application"></a>为什么要替换 Application</h4><p>看上一篇和 Instant Run 的对比，可能考虑不全</p>
+<ul>
+<li>确保 Multidex 开启</li>
+<li>保证应用 Application 类可修复</li>
+<li>7.0 混合编译的影响，要去替换掉原始 PathClassLoader 的加载功能<a id="more"></a></li>
+</ul>
+<h4 id="为什么还要在-dexElements-前面插入而不是直接替换？"><a href="#为什么还要在-dexElements-前面插入而不是直接替换？" class="headerlink" title="为什么还要在 dexElements 前面插入而不是直接替换？"></a>为什么还要在 dexElements 前面插入而不是直接替换？</h4><p>因为 Tinker 是全量合成 dex ，比如在补丁前dex顺序是这样的：oldDex1 -&gt; oldDex2 -&gt; oldDex3..，那么假如修改了dex1中的文件，那么补丁顺序是这样的newDex1 -&gt; oldDex1 -&gt; oldDex2… 那为什么不直接使用newDex1去替换调oldDex呢？我觉得:</p>
+<ul>
+<li>运行期去替换调正在使用的dex是有风险的(也是我瞎猜)</li>
+<li>考虑到版本回退和以后的增量升级，在前面插入确实比替换更加方便安全</li>
+</ul>
+<h2 id="Tinker补丁构建走读"><a href="#Tinker补丁构建走读" class="headerlink" title="Tinker补丁构建走读"></a>Tinker补丁构建走读</h2><p>Tinker的补丁加载网上资料很多了，读起来也没太大难度，这里就不多说了。关于补丁构建的整个过程倒是不多，这里简单走读一下。</p>
+<h4 id="TinkerPatchSchemaTask"><a href="#TinkerPatchSchemaTask" class="headerlink" title="TinkerPatchSchemaTask"></a>TinkerPatchSchemaTask</h4><p>关于代码的变动  dex的patch  资源的patch</p>
+<p>这个 Task 主要是用于 oldApk和 newApk 的差分，生成patch，包括dex,res,so的差分，主要起作用的类如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> ManifestDecoder manifestDecoder;<span class="comment">//检测是否增加了四大组件  关于dexMode的检测提示</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> UniqueDexDiffDecoder dexPatchDecoder;<span class="comment">//dex 的patch</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> BsDiffDecoder soPatchDecoder;<span class="comment">//so 的patch</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ResDiffDecoder resPatchDecoder;<span class="comment">//资源的patch</span></div></pre></td></tr></table></figure>
+<p>这个 Task 也是最关键的，可以从 <code>ApkDecoder</code> 这个类开始，首先会先把两个apk解压到<code>build/outputs/tinkerPatch/{variant}/apkName</code>目录下，在打patch 过程中<code>tinkerPatch</code> 目录下会生成很多过程文件，类似最终的patch apk,用于查看资源合成结果的 <code>resources_out.zip</code>，还有一下log.txt。关键的patch从</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Files.walkFileTree(mNewApkDir.toPath(), <span class="keyword">new</span> ApkFilesVisitor(config, mNewApkDir.toPath(), mOldApkDir.toPath(), dexPatchDecoder, soPatchDecoder, resPatchDecoder));</div></pre></td></tr></table></figure>
+<p>这里开始，遍历newApk解压后的目录，根据<code>Pattern</code>去匹配使用上面四个中哪个<code>Decoder</code>去处理这两个新旧文件。</p>
+<ul>
+<li>dex查分</li>
+</ul>
+<p>从<code>UniqueDexDiffDecoder dexPatchDecoder;</code>处理dex开始，这里假如我们oldApk只有一个classes.dex,来到<code>DexDiffDecoder.patch</code>，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//不是为了对比 是为了检查dex的一些规则</span></div><div class="line">           excludedClassModifiedChecker.checkIfExcludedClassWasModifiedInNewDex(oldFile, newFile);</div></pre></td></tr></table></figure>
+<p>这里去检查一下第一个dex中的一些限制，例如tinker的一些loader类一定要在第一个dex中等限制。<br>如果新增了一个dex<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//new add file 在new apk中多了一个dex 直接复制</span></div><div class="line">        <span class="keyword">if</span> (oldFile == <span class="keyword">null</span> || !oldFile.exists() || oldFile.length() == <span class="number">0</span>) &#123;</div><div class="line">            hasDexChanged = <span class="keyword">true</span>;</div><div class="line">            copyNewDexAndLogToDexMeta(newFile, newMd5, dexDiffOut);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure></p>
+<p>然后正常的修改了dex</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * Before starting real diff works, we collect added class descriptor</div><div class="line">     * and deleted class descriptor for further analysing in &#123;<span class="doctag">@code</span> checkCrossDexMovingClasses&#125;.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">collectAddedOrDeletedClasses</span><span class="params">(File oldFile, File newFile)</span></span></div></pre></td></tr></table></figure>
+<p>把对应的dex保存在<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// collect current old dex file and corresponding new dex file for further processing.</span></div><div class="line">       oldAndNewDexFilePairList.add(<span class="keyword">new</span> AbstractMap.SimpleEntry&lt;&gt;(oldFile, newFile));</div></pre></td></tr></table></figure></p>
+<p>然后走到<code>dexPatchDecoder.onAllPatchesEnd();//开始生成 保存patch文件</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (config.mIsProtectedApp) &#123;<span class="comment">//仅仅在加固的时候使用 只将变化的类合成补丁</span></div><div class="line">            generateChangedClassesDexFile();</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            generatePatchInfoFile();</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>然后来到这个</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">            DexPatchGenerator dexPatchGen = <span class="keyword">new</span> DexPatchGenerator(oldDexFile, newDexFile);</div><div class="line">            dexPatchGen.setAdditionalRemovingClassPatterns(config.mDexLoaderPattern);<span class="comment">//查分时候排除dex.loader闭包中的类</span></div><div class="line"></div><div class="line">            logWriter.writeLineToInfoFile(</div><div class="line">                    String.format(</div><div class="line">                            <span class="string">"Start diff between [%s] as old and [%s] as new:"</span>,</div><div class="line">                            getRelativeStringBy(oldDexFile, config.mTempUnzipOldDir),</div><div class="line">                            getRelativeStringBy(newDexFile, config.mTempUnzipNewDir)</div><div class="line">                    )</div><div class="line">            );</div><div class="line"></div><div class="line">            dexPatchGen.executeAndSaveTo(dexDiffOut);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> TinkerPatchException(e);</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>这里就是具体的dexDiff算法了，我也看不懂，就当个黑盒，反正会生产处一个查分dex保存，然后后面还会在合成一个全量dex用来查看，保存一下log日志之类的，大致的dex查分就完成了。</p>
+<ul>
+<li>res 查分<br>回到遍历newApk目录的地方，还是根据<code>Pattern</code>去匹配资源文件，在这个方法中进行查分</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//处理修改的资源</span></div><div class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">dealWithModeFile</span><span class="params">(String name, String newMd5, File oldFile, File newFile, File outputFile)</span></span></div></pre></td></tr></table></figure>
+<p>还是使用了BSD进行差分，输出log，修改的文件复制到tinker_result的目录下。然后到<code>onAllPatchesEnd</code>，和dex一样，还是会生成全量的<code>resources_out.zip</code>去查看合成结果，还有log输出。</p>
+<ul>
+<li>so查分<br>这个也是使用了BSD查分，没太多好说的。</li>
+</ul>
+<h4 id="TinkerManifestTask"><a href="#TinkerManifestTask" class="headerlink" title="TinkerManifestTask"></a>TinkerManifestTask</h4><p>自动添加/修改tinker_id，运行时检查补丁版本</p>
+<h4 id="TinkerResourceIdTask"><a href="#TinkerResourceIdTask" class="headerlink" title="TinkerResourceIdTask"></a>TinkerResourceIdTask</h4><p>R.txt 的保存 ids.xml public.xml的处理，用于处理资源改变时ID变动问题，将基础包的R.txt处理成ids.xml，public.xml，保存到<code>intermediates/res/merged/{variant}/values/</code>下，用于打包时候的资源ID分配。保证资源ID的不变动。</p>
+<h4 id="TinkerProguardConfigTask"><a href="#TinkerProguardConfigTask" class="headerlink" title="TinkerProguardConfigTask"></a>TinkerProguardConfigTask</h4><p>混淆的处理，主要的作用是将tinker中默认的混淆信息和基准包的mapping信息加入混淆列表。</p>
+<h4 id="TinkerMultidexConfigTask"><a href="#TinkerMultidexConfigTask" class="headerlink" title="TinkerMultidexConfigTask"></a>TinkerMultidexConfigTask</h4><p>主要将dex.loader中配置的class也keep进main dex.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Tinker简单问答&quot;&gt;&lt;a href=&quot;#Tinker简单问答&quot; class=&quot;headerlink&quot; title=&quot;Tinker简单问答&quot;&gt;&lt;/a&gt;Tinker简单问答&lt;/h2&gt;&lt;h4 id=&quot;为什么要替换-Application&quot;&gt;&lt;a href=&quot;#为什么要替换-Application&quot; class=&quot;headerlink&quot; title=&quot;为什么要替换 Application&quot;&gt;&lt;/a&gt;为什么要替换 Application&lt;/h4&gt;&lt;p&gt;看上一篇和 Instant Run 的对比，可能考虑不全&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;确保 Multidex 开启&lt;/li&gt;
+&lt;li&gt;保证应用 Application 类可修复&lt;/li&gt;
+&lt;li&gt;7.0 混合编译的影响，要去替换掉原始 PathClassLoader 的加载功能
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+  </entry>
   
   <entry>
     <title>由View.post引发的问题</title>
@@ -48,7 +116,7 @@
     <link href="http://yoursite.com/2017/05/08/Instant-Run%E4%B8%8ETinker%E4%B8%ADApplication%E6%9B%BF%E6%8D%A2/"/>
     <id>http://yoursite.com/2017/05/08/Instant-Run与Tinker中Application替换/</id>
     <published>2017-05-08T14:58:02.000Z</published>
-    <updated>2017-05-16T01:02:20.000Z</updated>
+    <updated>2017-05-16T01:02:21.000Z</updated>
     
     <content type="html"><![CDATA[<ul>
 <li>为什么要替换application</li>
@@ -453,6 +521,58 @@
   </entry>
   
   <entry>
+    <title>自定义控件学习笔记</title>
+    <link href="http://yoursite.com/2016/08/01/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://yoursite.com/2016/08/01/自定义控件学习笔记/</id>
+    <published>2016-08-01T14:24:32.000Z</published>
+    <updated>2017-02-03T10:24:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>#Canvas</p>
+<p>##canvas简介<br>&emsp;&emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，<code>Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
+        Canvas canvas = new Canvas(bitmap);</code>这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。<a id="more"></a></p>
+<p>##canvas的主要方法<br>&emsp;&emsp;canvas主要有几种方法，draw…这类方法是用来画一下东西的，clip…就是用来裁剪的，还有scale,translate，skew，rotate是用来进行画布的变换，还有saveXXX和restoreXXX构成的画布锁定和还原。</p>
+<p>##裁剪画布<br>&emsp;&emsp;裁剪画布可以裁剪规则区域<code>canvas.clipRect</code>和裁剪不规则的区域<code>canvas.clippath</code>，第一个就是传进去一个矩形，然后裁剪剩下矩形区域的画布，第二个就是按路径裁剪。还有就是Region.Op，中文就是区域，这个在API21弃用了，但是还是写一下吧，这个就跟图形的组合模式差不多，Region.Op是个枚举类，<br><img src="http://img.blog.csdn.net/20141216162324031?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>使用举例：</p>
+<pre><code>// 填充颜色  
+canvas.drawColor(Color.BLUE);  
+
+canvas.save();  
+
+// 裁剪区域A  
+canvas.clipRegion(mRegionA);  
+
+// 再通过组合方式裁剪区域B  
+canvas.clipRegion(mRegionB, Region.Op.DIFFERENCE);  
+
+// 填充颜色  
+canvas.drawColor(Color.RED);  
+
+canvas.restore(); 
+</code></pre><p>Rect、Cricle、Ovel等封闭的曲线都可以使用Region.Op。Region和Rect有什么区别呢？首先最重要的一点，Region表示的是一个区域，而Rect表示的是一个矩形，这是最根本的区别之一，其次，Region有个很特别的地方是它不受Canvas的变换影响，Canvas的local不会直接影响到Region自身。</p>
+<p>##Path<br>&emsp;&emsp;使用路径可以做出很多很有意思的图形或者动画，<br>先从简单的开始，<code>path.lineto()</code>这个是用来画直线，如果不设置起点，则是默认从（0.0）为起点，可以使用<code>path。moveto(x,y)</code>来将起点移动到合适的位置。要绘制一个闭合的图形，可以使用<code>paht.close()</code>可以自动将最后一个点和最初的一个点进行连接构成封闭的图形。</p>
+<p>###贝塞尔曲线<br>&emsp;&emsp;要绘制贝塞尔曲线可以使用<code>quadTo(float x1, float y1, float x2, float y2)</code>前两个是控制点，后两个是终点。控制点就像一个磁铁，去吸引橡皮条上的另一个磁铁，橡皮条弯曲成一个曲线就类似控制点控制的贝塞尔曲线。<img src="http://img.blog.csdn.net/20141216160213685" alt=""><br>再来两张动图吧，这个的从<a href="http://blog.csdn.net/aigestudio/article/details/41960507" target="_blank" rel="external">爱歌</a>的<a href="http://blog.csdn.net/column/details/androidcustomview.html" target="_blank" rel="external">Android自定义控件其实很简单</a>专栏里面偷得，这篇博客也是看着他的博客总结的。</p>
+<ul>
+<li>一阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216154914760" alt=""></li>
+<li>二阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155508803" alt=""></li>
+<li>三阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155707332" alt=""></li>
+<li>四阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155817984" alt=""></li>
+<li>五阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155848359" alt=""><br>看着就挺爽的。在Android中除了上面提到的<code>quadTo(float x1, float y1, float x2, float y2)</code>来绘制二阶贝塞尔曲线，还有<code>cubicTo(float x1, float y1, float x2, float y2, float x3, float y3)</code>来实现三阶贝塞尔曲线。类似下面的<img src="http://img.blog.csdn.net/20141216160322419" alt=""><br>我们使用贝塞尔曲线主要就是要去控制它的起点终点和控制点。之前看网上写过一个类似QQ气泡拖拽消失的例子，地址：<a href="https://github.com/70kg/Android-Studio-Project/blob/master/app/src/main/java/com/com/mr_wrong/Bezier/BezierView.java" target="_blank" rel="external">我的GitHub</a>原理比较简单，就是计算各个点的坐标比较复杂一些。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;#Canvas&lt;/p&gt;
+&lt;p&gt;##canvas简介&lt;br&gt;&amp;emsp;&amp;emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，&lt;code&gt;Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
+        Canvas canvas = new Canvas(bitmap);&lt;/code&gt;这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
     <title>浅谈CoordinatorLayout</title>
     <link href="http://yoursite.com/2016/08/01/%E6%B5%85%E8%B0%88CoordinatorLayout/"/>
     <id>http://yoursite.com/2016/08/01/浅谈CoordinatorLayout/</id>
@@ -525,58 +645,6 @@
     <summary type="html">
     
       &lt;p&gt;##关于Retrofit&lt;br&gt;这是一个最近很火的网络请求库，官网在这&lt;a href=&quot;http://square.github.io/retrofit/&quot;&gt;官网&lt;/a&gt;,当然这也是一个开源的项目&lt;a href=&quot;https://github.com/square/retrofit&quot;&gt;GitHub地址&lt;/a&gt;。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。
-    
-    </summary>
-    
-    
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>自定义控件学习笔记</title>
-    <link href="http://yoursite.com/2016/08/01/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    <id>http://yoursite.com/2016/08/01/自定义控件学习笔记/</id>
-    <published>2016-08-01T14:24:32.000Z</published>
-    <updated>2017-02-03T10:24:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>#Canvas</p>
-<p>##canvas简介<br>&emsp;&emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，<code>Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
-        Canvas canvas = new Canvas(bitmap);</code>这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。<a id="more"></a></p>
-<p>##canvas的主要方法<br>&emsp;&emsp;canvas主要有几种方法，draw…这类方法是用来画一下东西的，clip…就是用来裁剪的，还有scale,translate，skew，rotate是用来进行画布的变换，还有saveXXX和restoreXXX构成的画布锁定和还原。</p>
-<p>##裁剪画布<br>&emsp;&emsp;裁剪画布可以裁剪规则区域<code>canvas.clipRect</code>和裁剪不规则的区域<code>canvas.clippath</code>，第一个就是传进去一个矩形，然后裁剪剩下矩形区域的画布，第二个就是按路径裁剪。还有就是Region.Op，中文就是区域，这个在API21弃用了，但是还是写一下吧，这个就跟图形的组合模式差不多，Region.Op是个枚举类，<br><img src="http://img.blog.csdn.net/20141216162324031?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>使用举例：</p>
-<pre><code>// 填充颜色  
-canvas.drawColor(Color.BLUE);  
-
-canvas.save();  
-
-// 裁剪区域A  
-canvas.clipRegion(mRegionA);  
-
-// 再通过组合方式裁剪区域B  
-canvas.clipRegion(mRegionB, Region.Op.DIFFERENCE);  
-
-// 填充颜色  
-canvas.drawColor(Color.RED);  
-
-canvas.restore(); 
-</code></pre><p>Rect、Cricle、Ovel等封闭的曲线都可以使用Region.Op。Region和Rect有什么区别呢？首先最重要的一点，Region表示的是一个区域，而Rect表示的是一个矩形，这是最根本的区别之一，其次，Region有个很特别的地方是它不受Canvas的变换影响，Canvas的local不会直接影响到Region自身。</p>
-<p>##Path<br>&emsp;&emsp;使用路径可以做出很多很有意思的图形或者动画，<br>先从简单的开始，<code>path.lineto()</code>这个是用来画直线，如果不设置起点，则是默认从（0.0）为起点，可以使用<code>path。moveto(x,y)</code>来将起点移动到合适的位置。要绘制一个闭合的图形，可以使用<code>paht.close()</code>可以自动将最后一个点和最初的一个点进行连接构成封闭的图形。</p>
-<p>###贝塞尔曲线<br>&emsp;&emsp;要绘制贝塞尔曲线可以使用<code>quadTo(float x1, float y1, float x2, float y2)</code>前两个是控制点，后两个是终点。控制点就像一个磁铁，去吸引橡皮条上的另一个磁铁，橡皮条弯曲成一个曲线就类似控制点控制的贝塞尔曲线。<img src="http://img.blog.csdn.net/20141216160213685" alt=""><br>再来两张动图吧，这个的从<a href="http://blog.csdn.net/aigestudio/article/details/41960507" target="_blank" rel="external">爱歌</a>的<a href="http://blog.csdn.net/column/details/androidcustomview.html" target="_blank" rel="external">Android自定义控件其实很简单</a>专栏里面偷得，这篇博客也是看着他的博客总结的。</p>
-<ul>
-<li>一阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216154914760" alt=""></li>
-<li>二阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155508803" alt=""></li>
-<li>三阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155707332" alt=""></li>
-<li>四阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155817984" alt=""></li>
-<li>五阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155848359" alt=""><br>看着就挺爽的。在Android中除了上面提到的<code>quadTo(float x1, float y1, float x2, float y2)</code>来绘制二阶贝塞尔曲线，还有<code>cubicTo(float x1, float y1, float x2, float y2, float x3, float y3)</code>来实现三阶贝塞尔曲线。类似下面的<img src="http://img.blog.csdn.net/20141216160322419" alt=""><br>我们使用贝塞尔曲线主要就是要去控制它的起点终点和控制点。之前看网上写过一个类似QQ气泡拖拽消失的例子，地址：<a href="https://github.com/70kg/Android-Studio-Project/blob/master/app/src/main/java/com/com/mr_wrong/Bezier/BezierView.java" target="_blank" rel="external">我的GitHub</a>原理比较简单，就是计算各个点的坐标比较复杂一些。</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;#Canvas&lt;/p&gt;
-&lt;p&gt;##canvas简介&lt;br&gt;&amp;emsp;&amp;emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，&lt;code&gt;Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
-        Canvas canvas = new Canvas(bitmap);&lt;/code&gt;这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。
     
     </summary>
     
@@ -1465,48 +1533,6 @@ public static &lt;T&gt; Generator&lt;T&gt; create(Class&lt;T&gt; type,Object[] a
     <summary type="html">
     
       &lt;p&gt;&amp;emsp;&amp;emsp;这篇博客想写挺久的了，因为之前接触到网络请求的第一个流行的库就是&lt;code&gt;Volley&lt;/code&gt;，在使用的时候也感觉到它的功能和拓展性的强大，但是一直没有去探究他内部的流程，同时可以发现网上对&lt;code&gt;Volley&lt;/code&gt;这个框架设计的评价都非常好，所以去了解内部的实现还是很有必要的。下面开始吧。
-    
-    </summary>
-    
-    
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>View触摸事件</title>
-    <link href="http://yoursite.com/2016/07/09/%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6/"/>
-    <id>http://yoursite.com/2016/07/09/触摸事件/</id>
-    <published>2016-07-09T08:54:38.000Z</published>
-    <updated>2017-02-03T10:47:03.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>##扯<br>这是一篇很早之前就应该写完的东西，这是一篇很早之前就应该写完的东西，这是一篇很早之前就应该写完的东西。其实触摸事件说简单也不复杂，说复杂也不简单。如果只是简单的从爹传给儿子，儿子不处理再传给爹，这样确实没什么意思。还是去代码里面看看是怎么回事。<a id="more"></a></p>
-<p>##View的触摸事件</p>
-<p>###dispatchTouchEvent<br>首先都知道触摸事件是从<code>dispatchTouchEvent</code>方法开始的，那就先去<code>View</code>的这个方法看看。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">....</div><div class="line"> if (onFilterTouchEventForSecurity(event)) &#123;</div><div class="line">            //noinspection SimplifiableIfStatement</div><div class="line">            ListenerInfo li = mListenerInfo;</div><div class="line">            if (li != null &amp;&amp; li.mOnTouchListener != null</div><div class="line">                    &amp;&amp; (mViewFlags &amp; ENABLED_MASK) == ENABLED</div><div class="line">                    &amp;&amp; li.mOnTouchListener.onTouch(this, event)) &#123;</div><div class="line">                result = true;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            if (!result &amp;&amp; onTouchEvent(event)) &#123;</div><div class="line">                result = true;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (!result &amp;&amp; mInputEventConsistencyVerifier != null) &#123;</div><div class="line">            mInputEventConsistencyVerifier.onUnhandledEvent(event, 0);</div><div class="line">        &#125;</div><div class="line">        .....</div></pre></td></tr></table></figure>
-<p>先是判断没有被遮挡，然后就有了<code>ListenerInfo</code>，这个类是用来存放各种<code>Listener</code>,重点看这句话的判断，首先<code>li</code>一般不是空，后面的是通过view的<code>setOnTouchListener</code>设置进来的，后面的是View是不是<code>ENABLED</code>，默认都是true,再后面就是去看前面设置的<code>ENABLED</code>的<code>onTouch</code>方法返回值。也就是说如果View设置了<code>setOnTouchListener</code>并且View的状态是<code>ENABLED</code>并且返回true,那么就直接返回true,否则还得去下面的<code>if (!result &amp;&amp; onTouchEvent(event))</code>里面判断，如果view的<code>onTouchEvent</code>返回true,那么就整体返回true,否则就是false.<br>总结一下就是：如果设置了<code>setOnTouchListener</code>，那么要去先执行<code>setOnTouchListener</code>的<code>onTouch</code>方法，根据这个方法的返回值判断是不是要去执行下面的判断，如果返回true,意味着在<code>onTouch</code>方法中view已经消耗完了事件，就不会再去调用view的<code>onTouchEvent</code>方法。如果没有设置<code>setOnTouchListener</code>，或者<code>onTouch</code>返回false,意味着还没消耗完事件，再需要去<code>onTouchEvent</code>方法里面转一圈，然后再去决定返回值。下面再来说说view的<code>onTouchEvent</code>方法。</p>
-<p>###onTouchEvent<br>首先是这个</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">if ((viewFlags &amp; ENABLED_MASK) == DISABLED) &#123;</div><div class="line">            if (action == MotionEvent.ACTION_UP &amp;&amp; (mPrivateFlags &amp; PFLAG_PRESSED) != 0) &#123;</div><div class="line">                setPressed(false);</div><div class="line">            &#125;</div><div class="line">            // A disabled view that is clickable still consumes the touch</div><div class="line">            // events, it just doesn&apos;t respond to them.</div><div class="line">            return (((viewFlags &amp; CLICKABLE) == CLICKABLE</div><div class="line">                    || (viewFlags &amp; LONG_CLICKABLE) == LONG_CLICKABLE)</div><div class="line">                    || (viewFlags &amp; CONTEXT_CLICKABLE) == CONTEXT_CLICKABLE);</div><div class="line">        &#125;</div><div class="line">        ...</div></pre></td></tr></table></figure>
-<p>如果是<code>DISABLED</code>并且是<code>CLICKABLE</code>，那直接返回true,如果不是<code>CLICKABLE</code>那就直接返回false,这两个都是可以在XML或者代码里面设置的。那么如果不是是<code>DISABLED</code>并且是<code>CLICKABLE</code>，就进入下面的switch语句，在down和move里面主要就是设置和重置之类的，主要在up的时候，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">case MotionEvent.ACTION_UP:</div><div class="line">//是不是按过了</div><div class="line">                   boolean prepressed = (mPrivateFlags &amp; PFLAG_PREPRESSED) != 0;</div><div class="line">                   if ((mPrivateFlags &amp; PFLAG_PRESSED) != 0 || prepressed) &#123;</div><div class="line">                       boolean focusTaken = false;</div><div class="line">                       if (isFocusable() &amp;&amp; isFocusableInTouchMode() &amp;&amp; !isFocused()) &#123;</div><div class="line">                       //尝试获取焦点</div><div class="line">                           focusTaken = requestFocus();</div><div class="line">                       &#125;</div><div class="line"></div><div class="line">                       if (prepressed) &#123;</div><div class="line">                          </div><div class="line">                           setPressed(true, x, y);</div><div class="line">                      &#125;</div><div class="line"></div><div class="line">                       if (!mHasPerformedLongPress &amp;&amp; !mIgnoreNextUpEvent) &#123;</div><div class="line">                       //不是长按的</div><div class="line">                           removeLongPressCallback();</div><div class="line"></div><div class="line">                        </div><div class="line">                           if (!focusTaken) &#123;</div><div class="line">                              </div><div class="line">                               if (mPerformClick == null) &#123;</div><div class="line">                                   mPerformClick = new PerformClick();</div><div class="line">                               &#125;</div><div class="line">                               if (!post(mPerformClick)) &#123;</div><div class="line">                               //这里执行点击事件</div><div class="line">                                   performClick();</div><div class="line">                               &#125;</div><div class="line">                           &#125;</div><div class="line">                       &#125;</div><div class="line"></div><div class="line">                      。。。</div><div class="line">                   break;</div></pre></td></tr></table></figure>
-<p>这里可以看到，我们设置的<code>onClickListener</code>是在up的时候触发的。关于<code>dispatchTouchEvent</code>的返回值以及后面的事情，下面会说到。</p>
-<p>##ViewGroup的dispatchTouchEvent<br>这是一个非常长的一个方法，就不贴那么多代码了，找些重要的说一下，首先</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if (actionMasked == MotionEvent.ACTION_DOWN) &#123;</div><div class="line">                cancelAndClearTouchTargets(ev);</div><div class="line">                //重置 重要的是把mFirstTouchTarget置为空</div><div class="line">                resetTouchState();</div><div class="line">            &#125;</div></pre></td></tr></table></figure>
-<p>然后就是去判断是否拦截</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">final boolean intercepted;</div><div class="line">            if (actionMasked == MotionEvent.ACTION_DOWN</div><div class="line">                    || mFirstTouchTarget != null) &#123;</div><div class="line">                final boolean disallowIntercept = (mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT) != 0;</div><div class="line">                if (!disallowIntercept) &#123;</div><div class="line">                    intercepted = onInterceptTouchEvent(ev);</div><div class="line">                    ev.setAction(action); // restore action in case it was changed</div><div class="line">                &#125; else &#123;</div><div class="line">                    intercepted = false;</div><div class="line">                &#125;</div><div class="line">            &#125; else &#123;</div><div class="line">                // There are no touch targets and this action is not an initial down</div><div class="line">                // so this view group continues to intercept touches.</div><div class="line">                intercepted = true;</div><div class="line">            &#125;</div></pre></td></tr></table></figure>
-<p>这样说一下，当是down或者<code>mFirstTouchTarget != null</code>的时候才有机会执行<code>onInterceptTouchEvent(ev)</code>方法，而前面的<code>disallowIntercept</code>参数是根据我们在外面调用<code>disallowIntercept</code>方法决定的。意思就是如果是down或者<code>mFirstTouchTarget != null</code>(找到处理事件的view了),并且外部没有请求不去拦截事件，那么就去调用<code>onInterceptTouchEvent</code>，如果外部请求拦截了，那<code>intercepted = false;</code>否则就是true（不是down并且没有找到处理事件的view）。下面就是<code>if (!canceled &amp;&amp; !intercepted)</code>，不是取消事件并且没拦截，就进入下面的判断<code>if (actionMasked == MotionEvent.ACTION_DOWN
-                        || (split &amp;&amp; actionMasked == MotionEvent.ACTION_POINTER_DOWN)
-                        || actionMasked == MotionEvent.ACTION_HOVER_MOVE) {</code>这里可以理解为down的判断，然后就是倒序遍历整个的childView,倒序是为了显示在最上面的view最先被调用。下面就是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">newTouchTarget = getTouchTarget(child);</div><div class="line">                           if (newTouchTarget != null) &#123;</div><div class="line">                               // Child is already receiving touch within its bounds.</div><div class="line">                               // Give it the new pointer in addition to the ones it is handling.</div><div class="line">                               newTouchTarget.pointerIdBits |= idBitsToAssign;</div><div class="line">                               break;</div><div class="line">                           &#125;</div></pre></td></tr></table></figure>
-<p>如果找到了接收Touch事件的子View，就直接break,刚开始应该是没有的，那就进入下面的<code>if (dispatchTransformedTouchEvent(ev, false, child, idBitsToAssign))</code>这是一个很重要的判断，如果返回true,意味着子view消耗掉了事件，接下来就是给newTouchTarget赋值，给alreadyDispatchedToNewTouchTarget赋值为true，执行break，因为该for循环遍历子View判断哪个子View接受Touch事件，既然已经找到了就跳出该外层for循环。如果返回false,就不会执行上面的，也就没法给<code>mFirstTouchTarget</code>赋值，所以如果子view不去处理down事件，那么其余的事件是不会传给它的。回到前面这个重要的判断，进去是递归调用了<code>dispatchTouchEvent()</code>方法，如果child==null.也就是viewgroup，就去执行<code>super.dispatchTouchEvent(event);</code>也就是view的<code>dispatchTouchEvent</code>方法，当做一个正常的view进行分发。如果child不是Null，那就执行<code>child.dispatchTouchEvent(event);</code>,进入下一级的分发。down结束了，下面就是move事件，在down结束的时候，<code>mFirstTouchTarget</code>可能是Null，没找到处理的view，不为空，找到了处理的view，把剩下的事件分发给这个view就好了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (mFirstTouchTarget == null) &#123;</div><div class="line">            //没有处理的view  move的时候再来执行一次</div><div class="line">               handled = dispatchTransformedTouchEvent(ev, canceled, null,</div><div class="line">                       TouchTarget.ALL_POINTER_IDS);</div><div class="line">           &#125; else &#123;</div><div class="line">           ....分发给对应的view</div><div class="line">           &#125;</div></pre></td></tr></table></figure>
-<p>剩下的结论就不写了，再去想想那些大神的总结，是不是更加有道理了。其实最重要的判断就是view的<code>onTouchEvent</code>是不是返回true,也就是有没有去消耗事件，决定了整个事件的走向。</p>
-<p>这篇其实写的挺差劲的，写的可以更加有条理更加清晰一些，但是自己的表达能力，理解能力确实有限，以后再来读一读今天写的，或许再重构一遍也不一定啦。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;##扯&lt;br&gt;这是一篇很早之前就应该写完的东西，这是一篇很早之前就应该写完的东西，这是一篇很早之前就应该写完的东西。其实触摸事件说简单也不复杂，说复杂也不简单。如果只是简单的从爹传给儿子，儿子不处理再传给爹，这样确实没什么意思。还是去代码里面看看是怎么回事。
     
     </summary>
     
