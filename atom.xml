@@ -521,6 +521,48 @@
   </entry>
   
   <entry>
+    <title>浅谈CoordinatorLayout</title>
+    <link href="http://yoursite.com/2016/08/01/%E6%B5%85%E8%B0%88CoordinatorLayout/"/>
+    <id>http://yoursite.com/2016/08/01/浅谈CoordinatorLayout/</id>
+    <published>2016-08-01T14:24:32.000Z</published>
+    <updated>2017-02-03T10:24:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h4><p>这是一篇重新写的东西，之前写过一点，但是烂尾了，我也很久没有去写点东西了，也是很惭愧，之前打算的事情也没有坚持下来。最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了<code>ListView</code>再加上<code>addHead</code>的方式，然后动态的去控制<code>Head</code>的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下<code>CoordinatorLayout</code>的处理嵌套滑动的原理，没有效果图也影响不大。<a id="more"></a></p>
+<h4 id="开始吧"><a href="#开始吧" class="headerlink" title="开始吧"></a>开始吧</h4><p>感觉好久没有写点东西，写起来很是生疏，不知道该怎么去写一篇博客了，那就先写出来点大纲吧，说到哪是哪。这篇主要分这几部分吧</p>
+<ul>
+<li>为什么要有<code>CoordinatorLayout</code> </li>
+<li><code>CoordinatorLayout</code>是怎么实现嵌套滑动的事件分发的</li>
+<li><code>AppBarLayout</code>的一些东西</li>
+</ul>
+<h4 id="为什么要有CoordinatorLayout"><a href="#为什么要有CoordinatorLayout" class="headerlink" title="为什么要有CoordinatorLayout"></a>为什么要有<code>CoordinatorLayout</code></h4><p>先来回想一下<code>Android</code>系统的事件分发有什么不足的地方，当然我觉得<code>Android</code>的事件分发写的也是十分的巧妙。这里就不去再多说事件分发的东西，说一下这样的一个场景，就是下面一个类似<code>list</code>的可滚动区域，上面是一个头，这种场景在很多的个人中心的地方比较常见。如果要去实现这样的效果，传统的做法就是外面包一层parent，当然直接去处理list的滑动事件应该也是可以的，我觉得包一层比较好写点，让这个parent去分发事件和处理事件。好吧，我有点不知道说什么了，还是直接说事件分发的不足的地方吧，就是一个view消费了事件，与此同时，其他的view的没有机会去接触到这个事件了，这样当遇到上面说的情况，就是嵌套滑动的时候，我们需要上下两个view都能同时接触到这个事件，处理不处理就让他们自己去决定了。这样我觉得实现嵌套滑动的情况就好多了，因为都有机会去消费掉这个事件，无论事件是在哪个view上面，其实就是类似再外面包了一层parent的效果，这就是<code>CoordinatorLayout</code> 帮我们做的事件，靠，我写的好烂啊。。真的说不清楚这些。</p>
+<h4 id="CoordinatorLayout是怎么实现嵌套滑动的事件分发的"><a href="#CoordinatorLayout是怎么实现嵌套滑动的事件分发的" class="headerlink" title="CoordinatorLayout是怎么实现嵌套滑动的事件分发的"></a><code>CoordinatorLayout</code>是怎么实现嵌套滑动的事件分发的</h4><p>先说一下两个接口吧，<code>NestedScrollingParent</code>和<code>NestedScrollingChild</code>，这两个接口看名字就比较容易理解他们的作用，就是一个给嵌套滑动的parent实现的，一个是给child实现，在选择的系统中，只有<code>CoordinatorLayout</code>实现了parent，所以下面说到parent就理解成<code>CoordinatorLayout</code>就OK啦，而child这个接口其实方法已经在<code>View</code>这个类里面帮我们实现好了，也就是说想要去成为一个可以嵌套滑动的child，仅仅去实现这个child接口就OK了，其他的<code>View</code>已经帮你写完了。下面还是以<code>RecycleView</code>为例子，它是实现了这个child的接口，还是回到情景里面说吧，说一下到底是怎么传递事件的。</p>
+<ul>
+<li>在<code>ReclceView</code>上down -&gt; <code>parent.onStartNestedScroll</code> -&gt;遍历有<code>Behavior</code>的直接子view -&gt;child的<code>Behavior.onStartNestedScroll</code>。<br>这里说一下<code>onStartNestedScroll</code>这个方法是有boolean的返回值，<code>true</code>的意思是要去处理这个事件，同时还会去调用<code>parent.onNestedScrollAccepted</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedScrollAccepted</code>.这个方法里面可以做一些view配置的初始化。如果不需要当然可以不去重写。</li>
+<li>在<code>RecycleView</code>上move -&gt; <code>dispatchNestedPreScroll</code>(也是child这个接口里面的)-&gt;<code>parent.onNestedPreScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedPreScroll</code>,同时之后还有一个流程也是在move的时候触发的 -&gt;<code>dispatchNestedScroll</code>(也是child这个接口里面的) -&gt;<code>parent.onNestedScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedScroll</code>.。这两个的主要区别的pre那个方法里面可以去处理消费了多少的滑动距离，比如手指滑动了12px,你可以选择把consumed[1]赋值为2，那么head就移动(消费)了2px，剩下的10px就给了下面的recycleview，而在<code>onNestedScroll</code>方法中还有机会去已经消费的和没有消费的距离再进行一次处理。</li>
+<li>在<code>RecycleView</code>上面up -&gt; <code>stopNestedScroll</code>(也是child这个接口里面的) -&gt;<code>parent.onStopNestedScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onStopNestedScroll</code>。</li>
+<li>还有两个关于<code>Fling</code>的方法，就不说了，一个套路。</li>
+</ul>
+<p>还有就是再说一下<code>CoordinatorLayout</code>的<code>onInterceptTouchEvent</code>和<code>onTouchEvent</code>，这里贴一下代码吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">for (int i = 0; i &lt; childCount; i++) &#123;</div><div class="line">       final View child = topmostChildList.get(i);</div><div class="line">       final LayoutParams lp = (LayoutParams) child.getLayoutParams();</div><div class="line">       final Behavior b = lp.getBehavior();</div><div class="line"></div><div class="line">       if ((intercepted || newBlock) &amp;&amp; action != MotionEvent.ACTION_DOWN) &#123;</div><div class="line">           // Cancel all behaviors beneath the one that intercepted.</div><div class="line">           // If the event is &quot;down&quot; then we don&apos;t have anything to cancel yet.</div><div class="line">           if (b != null) &#123;</div><div class="line">               if (cancelEvent == null) &#123;</div><div class="line">                   final long now = SystemClock.uptimeMillis();</div><div class="line">                   cancelEvent = MotionEvent.obtain(now, now,</div><div class="line">                           MotionEvent.ACTION_CANCEL, 0.0f, 0.0f, 0);</div><div class="line">               &#125;</div><div class="line">               switch (type) &#123;</div><div class="line">                   case TYPE_ON_INTERCEPT:</div><div class="line">                       b.onInterceptTouchEvent(this, child, cancelEvent);</div><div class="line">                       break;</div><div class="line">                   case TYPE_ON_TOUCH:</div><div class="line">                       b.onTouchEvent(this, child, cancelEvent);</div><div class="line">                       break;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           continue;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       if (!intercepted &amp;&amp; b != null) &#123;</div><div class="line">           switch (type) &#123;</div><div class="line">               case TYPE_ON_INTERCEPT:</div><div class="line">                   intercepted = b.onInterceptTouchEvent(this, child, ev);</div><div class="line">                   break;</div><div class="line">               case TYPE_ON_TOUCH:</div><div class="line">                   intercepted = b.onTouchEvent(this, child, ev);</div><div class="line">                   break;</div><div class="line">           &#125;</div><div class="line">           if (intercepted) &#123;</div><div class="line">               mBehaviorTouchView = child;</div><div class="line">           &#125;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<p>可以看出，每个直接的childview都会接受到拦截事件，即使你的手势不是在这个child上面触发的。</p>
+<ul>
+<li>还有个方法就是<code>layoutDependsOn</code>这个方法是在哪里调用的，这个是在onpredraw的时候就调用了，也就是没显示之前就已经开始准备各个view直接的依赖关系。当然内部实现也是在parent里面去便利child来实现的，也就只有parent可以获取到所有的child。</li>
+</ul>
+<h4 id="AppBarLayout的一些东西"><a href="#AppBarLayout的一些东西" class="headerlink" title="AppBarLayout的一些东西"></a><code>AppBarLayout</code>的一些东西</h4><p>我觉得<code>AppBarLayout</code>这个组件还是十分重要的，特别是里面的两个<code>Behavior</code>的实现，给了我们很好的参考的例子。具体的还是去看源码吧，太多了要说也是再开一篇。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h4&gt;&lt;p&gt;这是一篇重新写的东西，之前写过一点，但是烂尾了，我也很久没有去写点东西了，也是很惭愧，之前打算的事情也没有坚持下来。最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了&lt;code&gt;ListView&lt;/code&gt;再加上&lt;code&gt;addHead&lt;/code&gt;的方式，然后动态的去控制&lt;code&gt;Head&lt;/code&gt;的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下&lt;code&gt;CoordinatorLayout&lt;/code&gt;的处理嵌套滑动的原理，没有效果图也影响不大。
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
     <title>自定义控件学习笔记</title>
     <link href="http://yoursite.com/2016/08/01/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>http://yoursite.com/2016/08/01/自定义控件学习笔记/</id>
@@ -564,48 +606,6 @@ canvas.restore();
       &lt;p&gt;#Canvas&lt;/p&gt;
 &lt;p&gt;##canvas简介&lt;br&gt;&amp;emsp;&amp;emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，&lt;code&gt;Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
         Canvas canvas = new Canvas(bitmap);&lt;/code&gt;这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。
-    
-    </summary>
-    
-    
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈CoordinatorLayout</title>
-    <link href="http://yoursite.com/2016/08/01/%E6%B5%85%E8%B0%88CoordinatorLayout/"/>
-    <id>http://yoursite.com/2016/08/01/浅谈CoordinatorLayout/</id>
-    <published>2016-08-01T14:24:32.000Z</published>
-    <updated>2017-02-03T10:24:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h4><p>这是一篇重新写的东西，之前写过一点，但是烂尾了，我也很久没有去写点东西了，也是很惭愧，之前打算的事情也没有坚持下来。最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了<code>ListView</code>再加上<code>addHead</code>的方式，然后动态的去控制<code>Head</code>的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下<code>CoordinatorLayout</code>的处理嵌套滑动的原理，没有效果图也影响不大。<a id="more"></a></p>
-<h4 id="开始吧"><a href="#开始吧" class="headerlink" title="开始吧"></a>开始吧</h4><p>感觉好久没有写点东西，写起来很是生疏，不知道该怎么去写一篇博客了，那就先写出来点大纲吧，说到哪是哪。这篇主要分这几部分吧</p>
-<ul>
-<li>为什么要有<code>CoordinatorLayout</code> </li>
-<li><code>CoordinatorLayout</code>是怎么实现嵌套滑动的事件分发的</li>
-<li><code>AppBarLayout</code>的一些东西</li>
-</ul>
-<h4 id="为什么要有CoordinatorLayout"><a href="#为什么要有CoordinatorLayout" class="headerlink" title="为什么要有CoordinatorLayout"></a>为什么要有<code>CoordinatorLayout</code></h4><p>先来回想一下<code>Android</code>系统的事件分发有什么不足的地方，当然我觉得<code>Android</code>的事件分发写的也是十分的巧妙。这里就不去再多说事件分发的东西，说一下这样的一个场景，就是下面一个类似<code>list</code>的可滚动区域，上面是一个头，这种场景在很多的个人中心的地方比较常见。如果要去实现这样的效果，传统的做法就是外面包一层parent，当然直接去处理list的滑动事件应该也是可以的，我觉得包一层比较好写点，让这个parent去分发事件和处理事件。好吧，我有点不知道说什么了，还是直接说事件分发的不足的地方吧，就是一个view消费了事件，与此同时，其他的view的没有机会去接触到这个事件了，这样当遇到上面说的情况，就是嵌套滑动的时候，我们需要上下两个view都能同时接触到这个事件，处理不处理就让他们自己去决定了。这样我觉得实现嵌套滑动的情况就好多了，因为都有机会去消费掉这个事件，无论事件是在哪个view上面，其实就是类似再外面包了一层parent的效果，这就是<code>CoordinatorLayout</code> 帮我们做的事件，靠，我写的好烂啊。。真的说不清楚这些。</p>
-<h4 id="CoordinatorLayout是怎么实现嵌套滑动的事件分发的"><a href="#CoordinatorLayout是怎么实现嵌套滑动的事件分发的" class="headerlink" title="CoordinatorLayout是怎么实现嵌套滑动的事件分发的"></a><code>CoordinatorLayout</code>是怎么实现嵌套滑动的事件分发的</h4><p>先说一下两个接口吧，<code>NestedScrollingParent</code>和<code>NestedScrollingChild</code>，这两个接口看名字就比较容易理解他们的作用，就是一个给嵌套滑动的parent实现的，一个是给child实现，在选择的系统中，只有<code>CoordinatorLayout</code>实现了parent，所以下面说到parent就理解成<code>CoordinatorLayout</code>就OK啦，而child这个接口其实方法已经在<code>View</code>这个类里面帮我们实现好了，也就是说想要去成为一个可以嵌套滑动的child，仅仅去实现这个child接口就OK了，其他的<code>View</code>已经帮你写完了。下面还是以<code>RecycleView</code>为例子，它是实现了这个child的接口，还是回到情景里面说吧，说一下到底是怎么传递事件的。</p>
-<ul>
-<li>在<code>ReclceView</code>上down -&gt; <code>parent.onStartNestedScroll</code> -&gt;遍历有<code>Behavior</code>的直接子view -&gt;child的<code>Behavior.onStartNestedScroll</code>。<br>这里说一下<code>onStartNestedScroll</code>这个方法是有boolean的返回值，<code>true</code>的意思是要去处理这个事件，同时还会去调用<code>parent.onNestedScrollAccepted</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedScrollAccepted</code>.这个方法里面可以做一些view配置的初始化。如果不需要当然可以不去重写。</li>
-<li>在<code>RecycleView</code>上move -&gt; <code>dispatchNestedPreScroll</code>(也是child这个接口里面的)-&gt;<code>parent.onNestedPreScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedPreScroll</code>,同时之后还有一个流程也是在move的时候触发的 -&gt;<code>dispatchNestedScroll</code>(也是child这个接口里面的) -&gt;<code>parent.onNestedScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedScroll</code>.。这两个的主要区别的pre那个方法里面可以去处理消费了多少的滑动距离，比如手指滑动了12px,你可以选择把consumed[1]赋值为2，那么head就移动(消费)了2px，剩下的10px就给了下面的recycleview，而在<code>onNestedScroll</code>方法中还有机会去已经消费的和没有消费的距离再进行一次处理。</li>
-<li>在<code>RecycleView</code>上面up -&gt; <code>stopNestedScroll</code>(也是child这个接口里面的) -&gt;<code>parent.onStopNestedScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onStopNestedScroll</code>。</li>
-<li>还有两个关于<code>Fling</code>的方法，就不说了，一个套路。</li>
-</ul>
-<p>还有就是再说一下<code>CoordinatorLayout</code>的<code>onInterceptTouchEvent</code>和<code>onTouchEvent</code>，这里贴一下代码吧</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">for (int i = 0; i &lt; childCount; i++) &#123;</div><div class="line">       final View child = topmostChildList.get(i);</div><div class="line">       final LayoutParams lp = (LayoutParams) child.getLayoutParams();</div><div class="line">       final Behavior b = lp.getBehavior();</div><div class="line"></div><div class="line">       if ((intercepted || newBlock) &amp;&amp; action != MotionEvent.ACTION_DOWN) &#123;</div><div class="line">           // Cancel all behaviors beneath the one that intercepted.</div><div class="line">           // If the event is &quot;down&quot; then we don&apos;t have anything to cancel yet.</div><div class="line">           if (b != null) &#123;</div><div class="line">               if (cancelEvent == null) &#123;</div><div class="line">                   final long now = SystemClock.uptimeMillis();</div><div class="line">                   cancelEvent = MotionEvent.obtain(now, now,</div><div class="line">                           MotionEvent.ACTION_CANCEL, 0.0f, 0.0f, 0);</div><div class="line">               &#125;</div><div class="line">               switch (type) &#123;</div><div class="line">                   case TYPE_ON_INTERCEPT:</div><div class="line">                       b.onInterceptTouchEvent(this, child, cancelEvent);</div><div class="line">                       break;</div><div class="line">                   case TYPE_ON_TOUCH:</div><div class="line">                       b.onTouchEvent(this, child, cancelEvent);</div><div class="line">                       break;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           continue;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       if (!intercepted &amp;&amp; b != null) &#123;</div><div class="line">           switch (type) &#123;</div><div class="line">               case TYPE_ON_INTERCEPT:</div><div class="line">                   intercepted = b.onInterceptTouchEvent(this, child, ev);</div><div class="line">                   break;</div><div class="line">               case TYPE_ON_TOUCH:</div><div class="line">                   intercepted = b.onTouchEvent(this, child, ev);</div><div class="line">                   break;</div><div class="line">           &#125;</div><div class="line">           if (intercepted) &#123;</div><div class="line">               mBehaviorTouchView = child;</div><div class="line">           &#125;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
-<p>可以看出，每个直接的childview都会接受到拦截事件，即使你的手势不是在这个child上面触发的。</p>
-<ul>
-<li>还有个方法就是<code>layoutDependsOn</code>这个方法是在哪里调用的，这个是在onpredraw的时候就调用了，也就是没显示之前就已经开始准备各个view直接的依赖关系。当然内部实现也是在parent里面去便利child来实现的，也就只有parent可以获取到所有的child。</li>
-</ul>
-<h4 id="AppBarLayout的一些东西"><a href="#AppBarLayout的一些东西" class="headerlink" title="AppBarLayout的一些东西"></a><code>AppBarLayout</code>的一些东西</h4><p>我觉得<code>AppBarLayout</code>这个组件还是十分重要的，特别是里面的两个<code>Behavior</code>的实现，给了我们很好的参考的例子。具体的还是去看源码吧，太多了要说也是再开一篇。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h4&gt;&lt;p&gt;这是一篇重新写的东西，之前写过一点，但是烂尾了，我也很久没有去写点东西了，也是很惭愧，之前打算的事情也没有坚持下来。最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了&lt;code&gt;ListView&lt;/code&gt;再加上&lt;code&gt;addHead&lt;/code&gt;的方式，然后动态的去控制&lt;code&gt;Head&lt;/code&gt;的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下&lt;code&gt;CoordinatorLayout&lt;/code&gt;的处理嵌套滑动的原理，没有效果图也影响不大。
     
     </summary>
     
