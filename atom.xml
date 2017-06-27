@@ -585,49 +585,36 @@
   </entry>
   
   <entry>
-    <title>自定义控件学习笔记</title>
-    <link href="http://yoursite.com/2016/08/01/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    <id>http://yoursite.com/2016/08/01/自定义控件学习笔记/</id>
+    <title>RxJava和Retrofit的那些事</title>
+    <link href="http://yoursite.com/2016/08/01/RxJava%E5%92%8CRetrofit%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
+    <id>http://yoursite.com/2016/08/01/RxJava和Retrofit的那些事/</id>
     <published>2016-08-01T14:24:32.000Z</published>
     <updated>2017-02-03T10:24:28.000Z</updated>
     
-    <content type="html"><![CDATA[<p>#Canvas</p>
-<p>##canvas简介<br>&emsp;&emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，<code>Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
-        Canvas canvas = new Canvas(bitmap);</code>这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。<a id="more"></a></p>
-<p>##canvas的主要方法<br>&emsp;&emsp;canvas主要有几种方法，draw…这类方法是用来画一下东西的，clip…就是用来裁剪的，还有scale,translate，skew，rotate是用来进行画布的变换，还有saveXXX和restoreXXX构成的画布锁定和还原。</p>
-<p>##裁剪画布<br>&emsp;&emsp;裁剪画布可以裁剪规则区域<code>canvas.clipRect</code>和裁剪不规则的区域<code>canvas.clippath</code>，第一个就是传进去一个矩形，然后裁剪剩下矩形区域的画布，第二个就是按路径裁剪。还有就是Region.Op，中文就是区域，这个在API21弃用了，但是还是写一下吧，这个就跟图形的组合模式差不多，Region.Op是个枚举类，<br><img src="http://img.blog.csdn.net/20141216162324031?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>使用举例：</p>
-<pre><code>// 填充颜色  
-canvas.drawColor(Color.BLUE);  
-
-canvas.save();  
-
-// 裁剪区域A  
-canvas.clipRegion(mRegionA);  
-
-// 再通过组合方式裁剪区域B  
-canvas.clipRegion(mRegionB, Region.Op.DIFFERENCE);  
-
-// 填充颜色  
-canvas.drawColor(Color.RED);  
-
-canvas.restore(); 
-</code></pre><p>Rect、Cricle、Ovel等封闭的曲线都可以使用Region.Op。Region和Rect有什么区别呢？首先最重要的一点，Region表示的是一个区域，而Rect表示的是一个矩形，这是最根本的区别之一，其次，Region有个很特别的地方是它不受Canvas的变换影响，Canvas的local不会直接影响到Region自身。</p>
-<p>##Path<br>&emsp;&emsp;使用路径可以做出很多很有意思的图形或者动画，<br>先从简单的开始，<code>path.lineto()</code>这个是用来画直线，如果不设置起点，则是默认从（0.0）为起点，可以使用<code>path。moveto(x,y)</code>来将起点移动到合适的位置。要绘制一个闭合的图形，可以使用<code>paht.close()</code>可以自动将最后一个点和最初的一个点进行连接构成封闭的图形。</p>
-<p>###贝塞尔曲线<br>&emsp;&emsp;要绘制贝塞尔曲线可以使用<code>quadTo(float x1, float y1, float x2, float y2)</code>前两个是控制点，后两个是终点。控制点就像一个磁铁，去吸引橡皮条上的另一个磁铁，橡皮条弯曲成一个曲线就类似控制点控制的贝塞尔曲线。<img src="http://img.blog.csdn.net/20141216160213685" alt=""><br>再来两张动图吧，这个的从<a href="http://blog.csdn.net/aigestudio/article/details/41960507" target="_blank" rel="external">爱歌</a>的<a href="http://blog.csdn.net/column/details/androidcustomview.html" target="_blank" rel="external">Android自定义控件其实很简单</a>专栏里面偷得，这篇博客也是看着他的博客总结的。</p>
-<ul>
-<li>一阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216154914760" alt=""></li>
-<li>二阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155508803" alt=""></li>
-<li>三阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155707332" alt=""></li>
-<li>四阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155817984" alt=""></li>
-<li>五阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155848359" alt=""><br>看着就挺爽的。在Android中除了上面提到的<code>quadTo(float x1, float y1, float x2, float y2)</code>来绘制二阶贝塞尔曲线，还有<code>cubicTo(float x1, float y1, float x2, float y2, float x3, float y3)</code>来实现三阶贝塞尔曲线。类似下面的<img src="http://img.blog.csdn.net/20141216160322419" alt=""><br>我们使用贝塞尔曲线主要就是要去控制它的起点终点和控制点。之前看网上写过一个类似QQ气泡拖拽消失的例子，地址：<a href="https://github.com/70kg/Android-Studio-Project/blob/master/app/src/main/java/com/com/mr_wrong/Bezier/BezierView.java" target="_blank" rel="external">我的GitHub</a>原理比较简单，就是计算各个点的坐标比较复杂一些。</li>
-</ul>
+    <content type="html"><![CDATA[<p>##关于Retrofit<br>这是一个最近很火的网络请求库，官网在这<a href="http://square.github.io/retrofit/" target="_blank" rel="external">官网</a>,当然这也是一个开源的项目<a href="https://github.com/square/retrofit" target="_blank" rel="external">GitHub地址</a>。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。<a id="more"></a></p>
+<p>为什么要用Retrofit呢，因为他除了提供给我们常见的请求Callback形式，还封装了Observable的请求形式，这就很方便的支持了Rxjava,而Rxjava的强大就是体现在异步任务上。下面来简单的介绍一下使用。</p>
+<p>对于RxJava的语法就不说了，有一篇写了关于这方面的，下面就直接开始了。</p>
+<p>以github的开放API作为数据来源，我们要去获取某个项目的contributors，以square的retrofit为例，可以调用这个<code>https://api.github.com/repos/square/retrofit/contributors</code>返回的json是这样的array</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">login: &quot;JakeWharton&quot;,</div><div class="line">id: 66577,</div><div class="line">avatar_url: &quot;https://avatars.githubusercontent.com/u/66577?v=3&quot;,</div><div class="line">gravatar_id: &quot;&quot;,</div><div class="line">url: &quot;https://api.github.com/users/JakeWharton&quot;,</div><div class="line">html_url: &quot;https://github.com/JakeWharton&quot;,</div><div class="line">followers_url: &quot;https://api.github.com/users/JakeWharton/followers&quot;,</div><div class="line">following_url: &quot;https://api.github.com/users/JakeWharton/following&#123;/other_user&#125;&quot;,</div><div class="line">gists_url: &quot;https://api.github.com/users/JakeWharton/gists&#123;/gist_id&#125;&quot;,</div><div class="line">starred_url: &quot;https://api.github.com/users/JakeWharton/starred&#123;/owner&#125;&#123;/repo&#125;&quot;,</div><div class="line">subscriptions_url: &quot;https://api.github.com/users/JakeWharton/subscriptions&quot;,</div><div class="line">organizations_url: &quot;https://api.github.com/users/JakeWharton/orgs&quot;,</div><div class="line">repos_url: &quot;https://api.github.com/users/JakeWharton/repos&quot;,</div><div class="line">events_url: &quot;https://api.github.com/users/JakeWharton/events&#123;/privacy&#125;&quot;,</div><div class="line">received_events_url: &quot;https://api.github.com/users/JakeWharton/received_events&quot;,</div><div class="line">type: &quot;User&quot;,</div><div class="line">site_admin: false,</div><div class="line">contributions: 619</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>这里我们只使用到<code>login</code>和<code>contributions</code></p>
+<p> 1.定义一个接口，这个看代码就明白了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public interface GithubApi &#123;</div><div class="line"> @GET(&quot;/repos/&#123;owner&#125;/&#123;repo&#125;/contributors&quot;)</div><div class="line">    Observable&lt;List&lt;Contributor&gt;&gt; contributors(@Path(&quot;owner&quot;) String owner,</div><div class="line">                                               @Path(&quot;repo&quot;) String repo);</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
+<p>通过注解来提供参数，这里注解有很多，还有<code>@Query</code>，<code>@QueryMap</code>，<code>@Body</code>等等，也可以通过<code>@Headers</code>设置请求头。参数基于base url,其实就是拼接成的。这个返回的是一个<code>Observable</code>，这样就很方便的去发布一个事件了。</p>
+<p> 2.设置<code>RestAdapter</code>和<code>service</code>,先用<code>Endpoint(API)</code>并调用buid()方法来创建一个RestAdapter对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RestAdapter adapter = new RestAdapter.Builder().setEndpoint(</div><div class="line">              &quot;https://api.github.com/&quot;).setLogLevel(RestAdapter.LogLevel.FULL).build();</div></pre></td></tr></table></figure>
+<p>然后使用我们的adapter来创建一个服务适配器(service for adapter)。<code>adapter.create(GithubApi.class);</code><br>完整的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">private GithubApi _createGithubApi() &#123;</div><div class="line">      RestAdapter adapter = new RestAdapter.Builder().setEndpoint(</div><div class="line">            &quot;https://api.github.com/&quot;).setLogLevel(RestAdapter.LogLevel.FULL).build();</div><div class="line"></div><div class="line">      return adapter.create(GithubApi.class);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p> 3.这就到了Rxjava的地方了，上一步获取到了GithubApi对象，就可以去调用函数了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">_subscriptions.add(</div><div class="line">                _api.contributors(_username.getText().toString(), _repo.getText().toString())//事件源</div><div class="line">                        .subscribeOn(Schedulers.io())</div><div class="line">                        .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                        .subscribe(new Observer&lt;List&lt;Contributor&gt;&gt;() &#123;//订阅者</div><div class="line">                            @Override</div><div class="line">                            public void onCompleted() &#123;</div><div class="line">                                </div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            @Override</div><div class="line">                            public void onError(Throwable e) &#123;</div><div class="line">                               </div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            @Override</div><div class="line">                            public void onNext(List&lt;Contributor&gt; contributors) &#123;</div><div class="line">                                for (Contributor c : contributors) &#123;</div><div class="line">                                    _adapter.add(format(&quot;%s has made %d contributions to %s&quot;,</div><div class="line">                                            c.login,</div><div class="line">                                            c.contributions,</div><div class="line">                                            _repo.getText().toString()));</div><div class="line">                                &#125;</div><div class="line">                            &#125;</div><div class="line">                        &#125;));</div></pre></td></tr></table></figure>
+<p>当然这是一个比较简单的处理过程，并没有用到一下通配符，但是基本的流程就是这样的。</p>
+<p>到现在发现我们并没有去解析json数据就自动生成了bean类，这是因为Retrofit已经集成了Gson，并且默认使用Gson来进行解析，当然你也可以自己去定义。在创建<code>RestAdapter</code>的时候使用<code>setConverter(new GsonConverter(gson))</code>。默认是使用okhttp进行加载的，当然你也可以去配置一些关于<code>OkHttpClient</code>的数据，然后通过<code>setClient(new OkClient(client))</code>进行设置进去。</p>
+<p>现在<code>Retrofit</code>的2.0版本已经出了，主要就是 取消了同步和异步，可以取消正在进行中的业务，取消了Gson的依赖等等，具体可以看这里<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0915/3460.html" target="_blank" rel="external">Retrofit 2.0：有史以来最大的改进</a><br>这篇参考了GitHub上的项目<a href="https://github.com/70kg/RxJava-Android-Samples" target="_blank" rel="external">RxJava-Android-Samples</a>，这里只是拣取了关于Retrofit的部分，有兴趣可以看看其他的。</p>
+<p>参考：<br><a href="http://www.tuicool.com/articles/26jUZjv" target="_blank" rel="external">http://www.tuicool.com/articles/26jUZjv</a><br><a href="http://www.cnblogs.com/angeldevil/p/3757335.html" target="_blank" rel="external">http://www.cnblogs.com/angeldevil/p/3757335.html</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;#Canvas&lt;/p&gt;
-&lt;p&gt;##canvas简介&lt;br&gt;&amp;emsp;&amp;emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，&lt;code&gt;Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
-        Canvas canvas = new Canvas(bitmap);&lt;/code&gt;这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。
+      &lt;p&gt;##关于Retrofit&lt;br&gt;这是一个最近很火的网络请求库，官网在这&lt;a href=&quot;http://square.github.io/retrofit/&quot;&gt;官网&lt;/a&gt;,当然这也是一个开源的项目&lt;a href=&quot;https://github.com/square/retrofit&quot;&gt;GitHub地址&lt;/a&gt;。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。
     
     </summary>
     
@@ -679,36 +666,49 @@ canvas.restore();
   </entry>
   
   <entry>
-    <title>RxJava和Retrofit的那些事</title>
-    <link href="http://yoursite.com/2016/08/01/RxJava%E5%92%8CRetrofit%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
-    <id>http://yoursite.com/2016/08/01/RxJava和Retrofit的那些事/</id>
+    <title>自定义控件学习笔记</title>
+    <link href="http://yoursite.com/2016/08/01/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://yoursite.com/2016/08/01/自定义控件学习笔记/</id>
     <published>2016-08-01T14:24:32.000Z</published>
     <updated>2017-02-03T10:24:28.000Z</updated>
     
-    <content type="html"><![CDATA[<p>##关于Retrofit<br>这是一个最近很火的网络请求库，官网在这<a href="http://square.github.io/retrofit/" target="_blank" rel="external">官网</a>,当然这也是一个开源的项目<a href="https://github.com/square/retrofit" target="_blank" rel="external">GitHub地址</a>。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。<a id="more"></a></p>
-<p>为什么要用Retrofit呢，因为他除了提供给我们常见的请求Callback形式，还封装了Observable的请求形式，这就很方便的支持了Rxjava,而Rxjava的强大就是体现在异步任务上。下面来简单的介绍一下使用。</p>
-<p>对于RxJava的语法就不说了，有一篇写了关于这方面的，下面就直接开始了。</p>
-<p>以github的开放API作为数据来源，我们要去获取某个项目的contributors，以square的retrofit为例，可以调用这个<code>https://api.github.com/repos/square/retrofit/contributors</code>返回的json是这样的array</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">login: &quot;JakeWharton&quot;,</div><div class="line">id: 66577,</div><div class="line">avatar_url: &quot;https://avatars.githubusercontent.com/u/66577?v=3&quot;,</div><div class="line">gravatar_id: &quot;&quot;,</div><div class="line">url: &quot;https://api.github.com/users/JakeWharton&quot;,</div><div class="line">html_url: &quot;https://github.com/JakeWharton&quot;,</div><div class="line">followers_url: &quot;https://api.github.com/users/JakeWharton/followers&quot;,</div><div class="line">following_url: &quot;https://api.github.com/users/JakeWharton/following&#123;/other_user&#125;&quot;,</div><div class="line">gists_url: &quot;https://api.github.com/users/JakeWharton/gists&#123;/gist_id&#125;&quot;,</div><div class="line">starred_url: &quot;https://api.github.com/users/JakeWharton/starred&#123;/owner&#125;&#123;/repo&#125;&quot;,</div><div class="line">subscriptions_url: &quot;https://api.github.com/users/JakeWharton/subscriptions&quot;,</div><div class="line">organizations_url: &quot;https://api.github.com/users/JakeWharton/orgs&quot;,</div><div class="line">repos_url: &quot;https://api.github.com/users/JakeWharton/repos&quot;,</div><div class="line">events_url: &quot;https://api.github.com/users/JakeWharton/events&#123;/privacy&#125;&quot;,</div><div class="line">received_events_url: &quot;https://api.github.com/users/JakeWharton/received_events&quot;,</div><div class="line">type: &quot;User&quot;,</div><div class="line">site_admin: false,</div><div class="line">contributions: 619</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
-<p>这里我们只使用到<code>login</code>和<code>contributions</code></p>
-<p> 1.定义一个接口，这个看代码就明白了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public interface GithubApi &#123;</div><div class="line"> @GET(&quot;/repos/&#123;owner&#125;/&#123;repo&#125;/contributors&quot;)</div><div class="line">    Observable&lt;List&lt;Contributor&gt;&gt; contributors(@Path(&quot;owner&quot;) String owner,</div><div class="line">                                               @Path(&quot;repo&quot;) String repo);</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
-<p>通过注解来提供参数，这里注解有很多，还有<code>@Query</code>，<code>@QueryMap</code>，<code>@Body</code>等等，也可以通过<code>@Headers</code>设置请求头。参数基于base url,其实就是拼接成的。这个返回的是一个<code>Observable</code>，这样就很方便的去发布一个事件了。</p>
-<p> 2.设置<code>RestAdapter</code>和<code>service</code>,先用<code>Endpoint(API)</code>并调用buid()方法来创建一个RestAdapter对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RestAdapter adapter = new RestAdapter.Builder().setEndpoint(</div><div class="line">              &quot;https://api.github.com/&quot;).setLogLevel(RestAdapter.LogLevel.FULL).build();</div></pre></td></tr></table></figure>
-<p>然后使用我们的adapter来创建一个服务适配器(service for adapter)。<code>adapter.create(GithubApi.class);</code><br>完整的代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">private GithubApi _createGithubApi() &#123;</div><div class="line">      RestAdapter adapter = new RestAdapter.Builder().setEndpoint(</div><div class="line">            &quot;https://api.github.com/&quot;).setLogLevel(RestAdapter.LogLevel.FULL).build();</div><div class="line"></div><div class="line">      return adapter.create(GithubApi.class);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p> 3.这就到了Rxjava的地方了，上一步获取到了GithubApi对象，就可以去调用函数了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">_subscriptions.add(</div><div class="line">                _api.contributors(_username.getText().toString(), _repo.getText().toString())//事件源</div><div class="line">                        .subscribeOn(Schedulers.io())</div><div class="line">                        .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                        .subscribe(new Observer&lt;List&lt;Contributor&gt;&gt;() &#123;//订阅者</div><div class="line">                            @Override</div><div class="line">                            public void onCompleted() &#123;</div><div class="line">                                </div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            @Override</div><div class="line">                            public void onError(Throwable e) &#123;</div><div class="line">                               </div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            @Override</div><div class="line">                            public void onNext(List&lt;Contributor&gt; contributors) &#123;</div><div class="line">                                for (Contributor c : contributors) &#123;</div><div class="line">                                    _adapter.add(format(&quot;%s has made %d contributions to %s&quot;,</div><div class="line">                                            c.login,</div><div class="line">                                            c.contributions,</div><div class="line">                                            _repo.getText().toString()));</div><div class="line">                                &#125;</div><div class="line">                            &#125;</div><div class="line">                        &#125;));</div></pre></td></tr></table></figure>
-<p>当然这是一个比较简单的处理过程，并没有用到一下通配符，但是基本的流程就是这样的。</p>
-<p>到现在发现我们并没有去解析json数据就自动生成了bean类，这是因为Retrofit已经集成了Gson，并且默认使用Gson来进行解析，当然你也可以自己去定义。在创建<code>RestAdapter</code>的时候使用<code>setConverter(new GsonConverter(gson))</code>。默认是使用okhttp进行加载的，当然你也可以去配置一些关于<code>OkHttpClient</code>的数据，然后通过<code>setClient(new OkClient(client))</code>进行设置进去。</p>
-<p>现在<code>Retrofit</code>的2.0版本已经出了，主要就是 取消了同步和异步，可以取消正在进行中的业务，取消了Gson的依赖等等，具体可以看这里<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0915/3460.html" target="_blank" rel="external">Retrofit 2.0：有史以来最大的改进</a><br>这篇参考了GitHub上的项目<a href="https://github.com/70kg/RxJava-Android-Samples" target="_blank" rel="external">RxJava-Android-Samples</a>，这里只是拣取了关于Retrofit的部分，有兴趣可以看看其他的。</p>
-<p>参考：<br><a href="http://www.tuicool.com/articles/26jUZjv" target="_blank" rel="external">http://www.tuicool.com/articles/26jUZjv</a><br><a href="http://www.cnblogs.com/angeldevil/p/3757335.html" target="_blank" rel="external">http://www.cnblogs.com/angeldevil/p/3757335.html</a></p>
+    <content type="html"><![CDATA[<p>#Canvas</p>
+<p>##canvas简介<br>&emsp;&emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，<code>Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
+        Canvas canvas = new Canvas(bitmap);</code>这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。<a id="more"></a></p>
+<p>##canvas的主要方法<br>&emsp;&emsp;canvas主要有几种方法，draw…这类方法是用来画一下东西的，clip…就是用来裁剪的，还有scale,translate，skew，rotate是用来进行画布的变换，还有saveXXX和restoreXXX构成的画布锁定和还原。</p>
+<p>##裁剪画布<br>&emsp;&emsp;裁剪画布可以裁剪规则区域<code>canvas.clipRect</code>和裁剪不规则的区域<code>canvas.clippath</code>，第一个就是传进去一个矩形，然后裁剪剩下矩形区域的画布，第二个就是按路径裁剪。还有就是Region.Op，中文就是区域，这个在API21弃用了，但是还是写一下吧，这个就跟图形的组合模式差不多，Region.Op是个枚举类，<br><img src="http://img.blog.csdn.net/20141216162324031?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWlnZXN0dWRpbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>使用举例：</p>
+<pre><code>// 填充颜色  
+canvas.drawColor(Color.BLUE);  
+
+canvas.save();  
+
+// 裁剪区域A  
+canvas.clipRegion(mRegionA);  
+
+// 再通过组合方式裁剪区域B  
+canvas.clipRegion(mRegionB, Region.Op.DIFFERENCE);  
+
+// 填充颜色  
+canvas.drawColor(Color.RED);  
+
+canvas.restore(); 
+</code></pre><p>Rect、Cricle、Ovel等封闭的曲线都可以使用Region.Op。Region和Rect有什么区别呢？首先最重要的一点，Region表示的是一个区域，而Rect表示的是一个矩形，这是最根本的区别之一，其次，Region有个很特别的地方是它不受Canvas的变换影响，Canvas的local不会直接影响到Region自身。</p>
+<p>##Path<br>&emsp;&emsp;使用路径可以做出很多很有意思的图形或者动画，<br>先从简单的开始，<code>path.lineto()</code>这个是用来画直线，如果不设置起点，则是默认从（0.0）为起点，可以使用<code>path。moveto(x,y)</code>来将起点移动到合适的位置。要绘制一个闭合的图形，可以使用<code>paht.close()</code>可以自动将最后一个点和最初的一个点进行连接构成封闭的图形。</p>
+<p>###贝塞尔曲线<br>&emsp;&emsp;要绘制贝塞尔曲线可以使用<code>quadTo(float x1, float y1, float x2, float y2)</code>前两个是控制点，后两个是终点。控制点就像一个磁铁，去吸引橡皮条上的另一个磁铁，橡皮条弯曲成一个曲线就类似控制点控制的贝塞尔曲线。<img src="http://img.blog.csdn.net/20141216160213685" alt=""><br>再来两张动图吧，这个的从<a href="http://blog.csdn.net/aigestudio/article/details/41960507" target="_blank" rel="external">爱歌</a>的<a href="http://blog.csdn.net/column/details/androidcustomview.html" target="_blank" rel="external">Android自定义控件其实很简单</a>专栏里面偷得，这篇博客也是看着他的博客总结的。</p>
+<ul>
+<li>一阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216154914760" alt=""></li>
+<li>二阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155508803" alt=""></li>
+<li>三阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155707332" alt=""></li>
+<li>四阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155817984" alt=""></li>
+<li>五阶贝塞尔曲线<br><img src="http://img.blog.csdn.net/20141216155848359" alt=""><br>看着就挺爽的。在Android中除了上面提到的<code>quadTo(float x1, float y1, float x2, float y2)</code>来绘制二阶贝塞尔曲线，还有<code>cubicTo(float x1, float y1, float x2, float y2, float x3, float y3)</code>来实现三阶贝塞尔曲线。类似下面的<img src="http://img.blog.csdn.net/20141216160322419" alt=""><br>我们使用贝塞尔曲线主要就是要去控制它的起点终点和控制点。之前看网上写过一个类似QQ气泡拖拽消失的例子，地址：<a href="https://github.com/70kg/Android-Studio-Project/blob/master/app/src/main/java/com/com/mr_wrong/Bezier/BezierView.java" target="_blank" rel="external">我的GitHub</a>原理比较简单，就是计算各个点的坐标比较复杂一些。</li>
+</ul>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;##关于Retrofit&lt;br&gt;这是一个最近很火的网络请求库，官网在这&lt;a href=&quot;http://square.github.io/retrofit/&quot;&gt;官网&lt;/a&gt;,当然这也是一个开源的项目&lt;a href=&quot;https://github.com/square/retrofit&quot;&gt;GitHub地址&lt;/a&gt;。可能你对这个不是很熟悉，但是说起他的兄弟，okhttp估计就比较熟悉了，还有大名鼎鼎的依赖注入dagger和图片加载库picasso还有检查内存泄露的LeakCanary都是出自Square公司。当然这只是在JAVA和Android端，在js和Python上也有很棒的项目，有兴趣就自己看了，扯远了。。
+      &lt;p&gt;#Canvas&lt;/p&gt;
+&lt;p&gt;##canvas简介&lt;br&gt;&amp;emsp;&amp;emsp;每个canvas都有bitmap为其保存像素，canvas有两个构造函数，无参函数和一个bitmap参数的函数，&lt;code&gt;Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);  
+        Canvas canvas = new Canvas(bitmap);&lt;/code&gt;这样就创建了一个canvas对象，Android推荐使用有参函数。其实无参和有参数的构造函数都是需要创建一个bitmap，无参会默认创建一个。一个canvas需要一个bitmap来保存像素信息，当然也是可以没有bitmap，但是画的东西没有地方保存，也就没有意义。
     
     </summary>
     
