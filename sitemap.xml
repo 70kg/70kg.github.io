@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/07/07/Handler/</loc>
+    
+    <lastmod>2017-07-07T00:30:01.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/about/index.html</loc>
     
     <lastmod>2017-06-28T15:13:51.000Z</lastmod>
@@ -72,27 +79,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/07/09/Android%20Binder%20%E6%B5%85%E6%9E%90/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/12/15/Promise%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/07/09/View%E7%9A%84%E7%BB%98%E5%88%B6%E8%BF%87%E7%A8%8B/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2016/07/09/Java/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
@@ -100,14 +86,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/07/09/transition%E4%BB%8B%E7%BB%8D/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/03/04/%E3%80%8AAndroid%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2%E3%80%8B%E7%AC%94%E8%AE%B0-1/</loc>
+    <loc>http://yoursite.com/2016/07/09/Volley%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -121,7 +100,21 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/12/25/Redux-2/</loc>
+    <loc>http://yoursite.com/2016/07/09/View%E7%9A%84%E7%BB%98%E5%88%B6%E8%BF%87%E7%A8%8B/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/03/04/%E3%80%8AAndroid%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2%E3%80%8B%E7%AC%94%E8%AE%B0-1/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/12/15/Promise%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -129,6 +122,20 @@
   
   <url>
     <loc>http://yoursite.com/2016/08/01/%E6%B5%85%E8%B0%88CoordinatorLayout/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/12/25/Redux-2/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/08/01/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -149,7 +156,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/08/01/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <loc>http://yoursite.com/2016/08/01/RxJava%E5%92%8CRetrofit%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -163,6 +170,13 @@
   </url>
   
   <url>
+    <loc>http://yoursite.com/2016/07/09/Android%20Binder%20%E6%B5%85%E6%9E%90/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/11/16/Router%E8%AE%BE%E8%AE%A1/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
@@ -170,14 +184,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/08/01/RxJava%E5%92%8CRetrofit%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/07/09/Volley%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    <loc>http://yoursite.com/2016/07/09/transition%E4%BB%8B%E7%BB%8D/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
