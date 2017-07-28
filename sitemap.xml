@@ -67,7 +67,7 @@
   <url>
     <loc>http://yoursite.com/2017/07/07/Handler/</loc>
     
-    <lastmod>2017-07-07T00:30:01.000Z</lastmod>
+    <lastmod>2017-07-08T06:59:13.000Z</lastmod>
     
   </url>
   
@@ -121,7 +121,28 @@
   </url>
   
   <url>
+    <loc>http://yoursite.com/2016/08/01/RxJava%E5%92%8CRetrofit%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/03/04/%E3%80%8AAndroid%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2%E3%80%8B%E7%AC%94%E8%AE%B0-1/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/11/16/Router%E8%AE%BE%E8%AE%A1/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/12/05/Redux-1/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -142,14 +163,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/03/04/%E3%80%8AAndroid%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2%E3%80%8B%E7%AC%94%E8%AE%B0-1/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/08/01/RxJava%E5%92%8CRetrofit%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</loc>
+    <loc>http://yoursite.com/2016/12/15/Promise%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -164,20 +178,6 @@
   
   <url>
     <loc>http://yoursite.com/2016/12/25/Redux-2/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/12/15/Promise%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/12/05/Redux-1/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     

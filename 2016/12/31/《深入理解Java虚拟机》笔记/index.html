@@ -86,7 +86,7 @@
 <h3 id="同步指令"><a href="#同步指令" class="headerlink" title="同步指令"></a>同步指令</h3><p>支持方法级同步和方法内部一段指令序列的同步，是使用管程(Monitor)支持。</p>
 <p>方法级的同步是隐式的,即无须通过字节码指令来控制,它实现在方法调用和返回操作 之中。虚拟机可以从方法常量池的方法表结构中的ACC_SYNCHRONIZED访问标志得知一个 方法是否声明为同步方法。当方法调用时,调用指令将会检查方法的ACC_SYNCHRONIZED 访问标志是否被设置,如果设置了,执行线程就要求先成功持有管程,然后才能执行方法, 最后当方法完成(无论是正常完成还是非正常完成)时释放管程。在方法执行期间,执行线 程持有了管程,其他任何线程都无法再获取到同一个管程。如果一个同步方法执行期间抛出 了异常,并且在方法内部无法处理此异常,那么这个同步方法所持有的管程将在异常抛到同 步方法之外时自动释放。</p>
 <p>同步一段指令集序列通常是由Java语言中的synchronized语句块来表示的,Java虚拟机的 指令集中有monitorenter和monitorexit两条指令来支持synchronized关键字的语义,正确实现 synchronized关键字需要Javac编译器与Java虚拟机两者共同协作支持。</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/03/02/搭建简易web微博/" class="prev">上一篇</a><a href="/2016/12/25/Redux-2/" class="next">下一篇</a></div><div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div><script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script><script>var cloudTieConfig = {
+</div></article></div></main><footer><div class="paginator"><a href="/2017/03/02/搭建简易web微博/" class="prev">PREV</a><a href="/2016/12/25/Redux-2/" class="next">NEXT</a></div><div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div><script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script><script>var cloudTieConfig = {
     url: document.location.href,
     sourceId: "2016/12/31/《深入理解Java虚拟机》笔记/",
     productKey: "f39e35695dd943529768f0f9c5440f14",
