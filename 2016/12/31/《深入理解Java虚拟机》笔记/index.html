@@ -1,20 +1,20 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 《深入理解Java虚拟机》笔记 · 70kg</title><meta name="description" content="《深入理解Java虚拟机》笔记 - 70kg"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="70kg"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/应聘Android开发工程师_王鹏.pdf" target="_self" class="nav-list-link">RESUME</a></li><li class="nav-list-item"><a href="/book/" target="_self" class="nav-list-link">BOOKS</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">《深入理解Java虚拟机》笔记</h1><div class="post-info">Dec 31, 2016</div><div class="post-content"><h1 id="自动内存管理机制"><a href="#自动内存管理机制" class="headerlink" title="自动内存管理机制"></a>自动内存管理机制</h1><h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><ul>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 《深入理解Java虚拟机》笔记 · 70kg</title><meta name="description" content="《深入理解Java虚拟机》笔记 - 70kg"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="70kg"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/应聘Android开发工程师_王鹏.pdf" target="_self" class="nav-list-link">RESUME</a></li><li class="nav-list-item"><a href="/book/" target="_self" class="nav-list-link">BOOKS</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">《深入理解Java虚拟机》笔记</h1><div class="post-info">Dec 31, 2016</div><div class="post-content"><h2 id="自动内存管理机制"><a href="#自动内存管理机制" class="headerlink" title="自动内存管理机制"></a>自动内存管理机制</h2><h4 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h4><ul>
 <li>通过改变这个计数器的指决定执行的下一条指令</li>
 <li>线程私有 每条线程独立</li>
-<li>不会 oom <a id="more"></a><h3 id="Java-虚拟机栈"><a href="#Java-虚拟机栈" class="headerlink" title="Java 虚拟机栈"></a>Java 虚拟机栈</h3>存放基本类型和引用和   returnAddress类型(指向了一条字节码指令的地址）<br>描述 Java 方法执行的内存模型<h3 id="Java-堆"><a href="#Java-堆" class="headerlink" title="Java 堆"></a>Java 堆</h3></li>
+<li>不会 oom <a id="more"></a><h4 id="Java-虚拟机栈"><a href="#Java-虚拟机栈" class="headerlink" title="Java 虚拟机栈"></a>Java 虚拟机栈</h4>存放基本类型和引用和   returnAddress类型(指向了一条字节码指令的地址）<br>描述 Java 方法执行的内存模型<h4 id="Java-堆"><a href="#Java-堆" class="headerlink" title="Java 堆"></a>Java 堆</h4></li>
 <li>存放对象实例</li>
 <li>线程共享，内存最大</li>
 <li>GC 的主要区域</li>
-<li>基于分代回收，大致分为新生代和老年代<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3></li>
+<li>基于分代回收，大致分为新生代和老年代<h4 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h4></li>
 <li>线程共享</li>
-<li>类信息，常量，静态变量<h2 id="虚拟机对象"><a href="#虚拟机对象" class="headerlink" title="虚拟机对象"></a>虚拟机对象</h2><h3 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h3>new指令的参数是否能在常量池中定位到一个类的符号引用-&gt;是否已经加载，解析初始化-&gt;分配内存(指针碰撞，空闲列表)-&gt;初始化为零值-&gt;为对象进行必要设置-&gt;&lt; init &gt; 方法。(ps：new 关键字其实为new和init两个方法)</li>
+<li>类信息，常量，静态变量<h2 id="虚拟机对象"><a href="#虚拟机对象" class="headerlink" title="虚拟机对象"></a>虚拟机对象</h2><h4 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h4>new指令的参数是否能在常量池中定位到一个类的符号引用-&gt;是否已经加载，解析初始化-&gt;分配内存(指针碰撞，空闲列表)-&gt;初始化为零值-&gt;为对象进行必要设置-&gt;&lt; init &gt; 方法。(ps：new 关键字其实为new和init两个方法)</li>
 </ul>
 <h3 id="对象的内存分布"><a href="#对象的内存分布" class="headerlink" title="对象的内存分布"></a>对象的内存分布</h3><ul>
 <li>对象头<br>1.分用于存储对象自身的运行时数据,e.g.哈希码(HashCode)、GC分代年龄、锁状态标志、线程持有的锁、偏向线程ID、偏向时 间戳等<br>2.类型指针,对象指向它的类元数据的指针,虚拟机通过这个指 针来确定这个对象是哪个类的实例.</li>
 <li>实例数据</li>
 <li>对其填充</li>
 </ul>
-<h3 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p>使用栈上的引用去操作堆上的实例。</p>
+<h4 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h4><p>使用栈上的引用去操作堆上的实例。</p>
 <ol>
 <li>句柄<br>在堆中有一块内存区域作为句柄池，栈中的引用存储的是对象的句柄地址，句柄中包括对象的实例数据(实例池)和类型数据(方法区)。<br>好处：GC 时只会改变句柄中实例指针，不会影响栈中的指向。<ol>
 <li>直接指针<br>栈中的引用直接指向对象地址。<br>好处：速度快，省一次指针定向</li>
@@ -86,8 +86,6 @@
 <h3 id="同步指令"><a href="#同步指令" class="headerlink" title="同步指令"></a>同步指令</h3><p>支持方法级同步和方法内部一段指令序列的同步，是使用管程(Monitor)支持。</p>
 <p>方法级的同步是隐式的,即无须通过字节码指令来控制,它实现在方法调用和返回操作 之中。虚拟机可以从方法常量池的方法表结构中的ACC_SYNCHRONIZED访问标志得知一个 方法是否声明为同步方法。当方法调用时,调用指令将会检查方法的ACC_SYNCHRONIZED 访问标志是否被设置,如果设置了,执行线程就要求先成功持有管程,然后才能执行方法, 最后当方法完成(无论是正常完成还是非正常完成)时释放管程。在方法执行期间,执行线 程持有了管程,其他任何线程都无法再获取到同一个管程。如果一个同步方法执行期间抛出 了异常,并且在方法内部无法处理此异常,那么这个同步方法所持有的管程将在异常抛到同 步方法之外时自动释放。</p>
 <p>同步一段指令集序列通常是由Java语言中的synchronized语句块来表示的,Java虚拟机的 指令集中有monitorenter和monitorexit两条指令来支持synchronized关键字的语义,正确实现 synchronized关键字需要Javac编译器与Java虚拟机两者共同协作支持。</p>
-<h1 id="Vim的简单快捷键"><a href="#Vim的简单快捷键" class="headerlink" title="Vim的简单快捷键"></a>Vim的简单快捷键</h1><p>这是在全咋会新加的一行<br>这是在全咋会新加的一行<br>这是在全咋会<br>复制先V 然后选择 y 复制  yy是复制整行 d是剪切 dd是剪切整行 p是粘贴<br>o 是在下面新开一行     O是在上面新开一行<br>x 是删除当前字符<br>a -&gt;在光标后面插入字符<br>0 -&gt;回到行头 $ 是到行尾<br>130G -&gt;跳转到130行</p>
-<p>gg -&gt;到第一行<br>G -&gt; 到最后一行<br>w -&gt; 下一个单词开头 b-&gt; 上一个单词开头<br>e -&gt; 下一个单词结尾</p>
 </div></article></div></main><footer><div class="paginator"><a href="/2017/03/02/搭建简易web微博/" class="prev">上一篇</a><a href="/2016/12/25/Redux-2/" class="next">下一篇</a></div><div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div><script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script><script>var cloudTieConfig = {
     url: document.location.href,
     sourceId: "2016/12/31/《深入理解Java虚拟机》笔记/",
