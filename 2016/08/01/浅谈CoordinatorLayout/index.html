@@ -20,11 +20,12 @@
 <li>还有个方法就是<code>layoutDependsOn</code>这个方法是在哪里调用的，这个是在onpredraw的时候就调用了，也就是没显示之前就已经开始准备各个view直接的依赖关系。当然内部实现也是在parent里面去便利child来实现的，也就只有parent可以获取到所有的child。</li>
 </ul>
 <h4 id="AppBarLayout的一些东西"><a href="#AppBarLayout的一些东西" class="headerlink" title="AppBarLayout的一些东西"></a><code>AppBarLayout</code>的一些东西</h4><p>我觉得<code>AppBarLayout</code>这个组件还是十分重要的，特别是里面的两个<code>Behavior</code>的实现，给了我们很好的参考的例子。具体的还是去看源码吧，太多了要说也是再开一篇。</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2016/08/01/自定义控件学习笔记/" class="prev">PREV</a><a href="/2016/07/09/transition介绍/" class="next">NEXT</a></div><div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div><script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script><script>var cloudTieConfig = {
-    url: document.location.href,
-    sourceId: "2016/08/01/浅谈CoordinatorLayout/",
-    productKey: "f39e35695dd943529768f0f9c5440f14",
-    target: "cloud-tie-wrapper"
-};
-var yunManualLoad = true;
-Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);</script><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">70kg</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-81769413-1",'auto');ga('send','pageview');</script></body></html>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/08/01/自定义控件学习笔记/" class="prev">上一篇</a><a href="/2016/07/09/transition介绍/" class="next">下一篇</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
+var disqus_identifier = '2016/08/01/浅谈CoordinatorLayout/';
+var disqus_title = '浅谈CoordinatorLayout';
+var disqus_url = 'http://yoursite.com/2016/08/01/浅谈CoordinatorLayout/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//70kg-info.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">70kg</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-81769413-1",'auto');ga('send','pageview');</script></body></html>
