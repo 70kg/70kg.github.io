@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>React Native</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="../templates/revealjs/css/reveal.css">
+		<link rel="stylesheet" href="../templates/revealjs/css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="../templates/revealjs/lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../templates/revealjs/css/print/pdf.css' : '../templates/revealjs/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+			<div class="slides"><section  data-markdown><script type="text/template"># React Native 
+</script></section><section  data-markdown><script type="text/template">
+## RN 是什么
+使用 JS 语言 
+利用现有成熟 React 框架
+控制 Native View
+
+A framework for building native apps with React.
+
+</script></section><section  data-markdown><script type="text/template">
+## 
+
+- 通信机制
+
+- 线程模型
+
+- 事件驱动
+
+- 渲染原理 
+
+- 脚本执行
+</script></section><section ><section data-markdown><script type="text/template">
+## 通信机制
+
+![](../assets/images/rn/bridge.png)
+</script></section><section data-markdown><script type="text/template">
+### 
+
+![](../assets/images/rn/init.png)
+</script></section></section><section  data-markdown><script type="text/template">
+## 线程模型
+
+UI线程：即Android中的主线程，负责绘制UI以及监听用户操作。
+
+Native线程：负责执行C++代码，该线程主要负责Java与C++的通信。
+
+JS线程：负责解释执行JS。
+</script></section><section ><section data-markdown><script type="text/template">
+## 事件驱动
+</script></section><section data-markdown><script type="text/template">
+### 
+![](../assets/images/rn/buffer1.png)
+</script></section><section data-markdown><script type="text/template">
+### 
+![](../assets/images/rn/buffer2.png)
+</script></section><section data-markdown><script type="text/template">
+### 
+屏幕刷新率（HZ）：代表屏幕在一秒内刷新屏幕的次数，Android手机一般为60HZ（也就是1秒刷新60帧，大约16.67毫秒刷新1帧）
+
+系统帧速率（FPS）：代表了系统在一秒内合成的帧数，该值的大小由系统算法和硬件决定。
+</script></section><section data-markdown><script type="text/template">
+### 
+垂直同步（VSync）：当屏幕从缓冲区扫描完一帧到屏幕上之后，开始扫描下一帧之前，发出的一个同步信号，该信号用来切换前缓冲区和后缓冲区。
+
+![](../assets/images/rn/vsync1.png)
+</script></section><section data-markdown><script type="text/template">
+### 
+
+```java
+ Choreographer
+
+ The choreographer receives timing pulses (such as vertical 
+ synchronization)from the display subsystem then schedules 
+ work to occur as part of rendering the next display frame.
+
+```
+
+```java
+ If your application does its rendering in a different thread,
+ possibly using GL,or does not use the animation framework 
+ or view hierarchy at all and you want to ensure that it is
+  appropriately synchronized with the display, then use
+ {@link Choreographer#postFrameCallback}.
+```
+</script></section><section data-markdown><script type="text/template">
+### 
+
+![](../assets/images/rn/eventloop.png)
+</script></section></section><section ><section data-markdown><script type="text/template">
+## 渲染原理
+</script></section><section data-markdown><script type="text/template">
+### 
+![](../assets/images/rn/render.png)
+</script></section></section><section ><section data-markdown><script type="text/template">
+## 脚本执行
+</script></section><section data-markdown><script type="text/template">
+### JS引擎选择
+![](../assets/images/rn/js.png)
+</script></section><section data-markdown><script type="text/template">
+### 
+![](../assets/images/rn/js1.png)
+</script></section></section><section  data-markdown><script type="text/template">
+## 
+思维导图 ：https://www.processon.com/view/link/599c14b8e4b0f2c6342a4f04
+
+slider地址：https://70kg.info/slider/rn
+
+
+
+
+</script></section></div>
+		</div>
+
+		<script src="../templates/revealjs/lib/js/head.min.js"></script>
+		<script src="../templates/revealjs/js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: '../templates/revealjs/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../templates/revealjs/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../templates/revealjs/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../templates/revealjs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../templates/revealjs/plugin/zoom-js/zoom.js', async: true },
+					{ src: '../templates/revealjs/plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
