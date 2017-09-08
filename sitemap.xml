@@ -2,9 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2017/08/27/ReactNative%E6%A1%86%E6%9E%B6/</loc>
+    <loc>http://yoursite.com/2017/09/08/Fragment%E5%90%AF%E5%8A%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</loc>
     
-    <lastmod>2017-08-27T13:55:04.000Z</lastmod>
+    <lastmod>2017-09-08T15:03:53.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/09/08/ReactNative%E6%98%AF%E6%80%8E%E4%B9%88%E5%9C%A8Android%E4%B8%8A%E8%B7%91%E8%B5%B7%E6%9D%A5%E7%9A%84/</loc>
+    
+    <lastmod>2017-09-08T15:02:27.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/09/08/onSaveInstanceState/</loc>
+    
+    <lastmod>2017-09-08T15:01:35.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/09/08/LifecycleComponents%E9%97%AE%E7%AD%94/</loc>
+    
+    <lastmod>2017-09-08T15:00:34.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/09/08/RxJava2%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2%E6%B5%81%E7%A8%8B/</loc>
+    
+    <lastmod>2017-09-08T14:58:00.000Z</lastmod>
     
   </url>
   
@@ -128,6 +156,20 @@
   </url>
   
   <url>
+    <loc>http://yoursite.com/2016/03/04/%E3%80%8AAndroid%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2%E3%80%8B%E7%AC%94%E8%AE%B0-1/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/12/25/Redux-2/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/08/17/Refrofit%E6%BA%90%E7%A0%81%E6%B5%85%E6%9E%90/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
@@ -135,14 +177,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/12/05/Redux-1/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/12/15/Promise%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
+    <loc>http://yoursite.com/2016/11/16/Router%E8%AE%BE%E8%AE%A1/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -163,14 +198,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/12/25/Redux-2/</loc>
+    <loc>http://yoursite.com/2016/12/05/Redux-1/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/03/04/%E3%80%8AAndroid%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2%E3%80%8B%E7%AC%94%E8%AE%B0-1/</loc>
+    <loc>http://yoursite.com/2016/12/15/Promise%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -178,13 +213,6 @@
   
   <url>
     <loc>http://yoursite.com/2016/08/01/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/11/16/Router%E8%AE%BE%E8%AE%A1/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
