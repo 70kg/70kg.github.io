@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-09-10T13:03:33.000Z</updated>
+  <updated>2017-09-10T13:04:36.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/09/08/ReactNative%E6%98%AF%E6%80%8E%E4%B9%88%E5%9C%A8Android%E4%B8%8A%E8%B7%91%E8%B5%B7%E6%9D%A5%E7%9A%84/"/>
     <id>http://yoursite.com/2017/09/08/ReactNative是怎么在Android上跑起来的/</id>
     <published>2017-09-08T15:56:12.000Z</published>
-    <updated>2017-09-10T13:03:33.000Z</updated>
+    <updated>2017-09-10T13:04:36.000Z</updated>
     
     <content type="html"><![CDATA[<p>(源码版本：0.34，新版本(0.48)基本流程是不变的，建议跟着源码看看，哪个版本的倒影响不大)<br>这篇简单刨析一下<code>React Native</code>是怎么在<code>Android</code>上跑起来的，会从下面几个方面说说。<a id="more"></a></p>
 <ul>
@@ -105,7 +105,7 @@
 <h2 id="脚本执行"><a href="#脚本执行" class="headerlink" title="脚本执行"></a>脚本执行</h2><p>这里简单说说<code>React Native</code>的<code>js引擎</code>选择，都是<code>webkit</code>的<code>JSC</code>,在<code>iOS</code>上是内置的，在<code>Android</code>上则是引入了一个完整的<code>JSC</code>，这也是为什么<code>Android</code>的<code>RN</code>会大这么多的很重要的原因，至于为什么要引入一个完整的<code>JSC</code>而不是使用内置的<code>js</code>引擎，<code>Android 4.4</code>之前的<code>android</code>系统浏览器内核是<code>WebKit</code>，<code>Android4.4</code>系统浏览器切换到了<code>Chromium</code>(内核是<code>Webkit</code>的分支<code>Blink</code>)。在<code>Android</code>平台已经启用V8作为JS引擎，<code>Android 4.0</code>以后只用到了<code>JavaScriptCore</code>中的WTF（Web Template Library）部分代码。</p>
 <p>至于为啥不都使用<code>V8</code>,这个都是<code>iOS</code>的锅，看看<code>chrome</code>在<code>iOS</code>上就是个<code>WebView</code>套个壳。。。</p>
 <p>还有其他的跨平台框架，例如<code>weex</code>,在<code>Android</code>上使用的是<code>V8</code>。现在网上也有对<code>RN</code>在<code>Android</code>上移植的<code>V8</code>版本。<br>[onesubone/react-native-android-v8][6]<br><a href="http://tsinstudio.github.io/media/React-Native-Meets-V8/" target="_blank" rel="external">React Native Android V8接入</a><br>这个是基于0.46的版本，还是可以跑起来的，但是<code>RN</code>的速度瓶颈貌似并不在<code>js引擎</code>。。</p>
-<p>中，只下发业务代码，这才是正常的做法。在<code>RN</code>这只能自己<code>hook</code>了。还有就是每个<code>RN</code>页面都是要重新初始化Bridge,但是这些bridge其实都是基本一样的，只需要把不同的<code>jsbundle</code>扔给<code>JSC</code>就好了，我测试了一下大概会快20%，但是因为缓存，也会造成一些内存泄露的问题(业务代码和具体页面过于绑定)。但是有时候甚至比重新初始化还慢，不知道为啥。。</p>
+<p>还有一点要吐槽就是每个<code>jsbundle</code>都包含了框架代码和业务代码，导致文件的有效利用率很低，看看隔壁的<code>weex</code>就做的很好，框架<code>js</code>代码直接包含在<code>sdk</code>中，只下发业务代码，这才是正常的做法。在<code>RN</code>这只能自己<code>hook</code>了。还有就是每个<code>RN</code>页面都是要重新初始化Bridge,但是这些bridge其实都是基本一样的，只需要把不同的<code>jsbundle</code>扔给<code>JSC</code>就好了，我测试了一下大概会快20%，但是因为缓存，也会造成一些内存泄露的问题(业务代码和具体页面过于绑定)。但是有时候甚至比重新初始化还慢，不知道为啥。。</p>
 <p>最后再贴一下简单画的思维导图吧</p>
 <p><img src="/React Native启动/init.png" alt="React Native启动"></p>
 <p>参考：</p>
