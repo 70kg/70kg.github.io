@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/book/index.html</loc>
+    
+    <lastmod>2017-09-10T13:29:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/09/08/ReactNative%E6%98%AF%E6%80%8E%E4%B9%88%E5%9C%A8Android%E4%B8%8A%E8%B7%91%E8%B5%B7%E6%9D%A5%E7%9A%84/</loc>
     
     <lastmod>2017-09-10T13:21:57.000Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>http://yoursite.com/2017/09/08/RxJava2%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2%E6%B5%81%E7%A8%8B/</loc>
     
     <lastmod>2017-09-08T14:58:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/book/index.html</loc>
-    
-    <lastmod>2017-08-03T13:56:40.000Z</lastmod>
     
   </url>
   
@@ -163,7 +163,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/11/16/Router%E8%AE%BE%E8%AE%A1/</loc>
+    <loc>http://yoursite.com/2016/12/25/Redux-2/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -184,7 +184,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/08/01/RxJava%E5%92%8CRetrofit%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</loc>
+    <loc>http://yoursite.com/2016/09/30/Redux/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -198,21 +198,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/09/30/Redux/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/12/25/Redux-2/</loc>
-    
-    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/12/05/Redux-1/</loc>
+    <loc>http://yoursite.com/2016/11/16/Router%E8%AE%BE%E8%AE%A1/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
@@ -220,6 +206,20 @@
   
   <url>
     <loc>http://yoursite.com/2016/12/15/Promise%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/08/01/RxJava%E5%92%8CRetrofit%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</loc>
+    
+    <lastmod>2017-02-03T10:24:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/12/05/Redux-1/</loc>
     
     <lastmod>2017-02-03T10:24:28.000Z</lastmod>
     
