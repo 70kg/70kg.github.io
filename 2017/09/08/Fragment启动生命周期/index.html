@@ -2,7 +2,7 @@
 <p>Fragment 的生命周期是依赖Activity的，假设在Activity的onCreate中有如下代码，<a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">SearchFragment searchFragment = <span class="keyword">new</span> SearchFragment();</div><div class="line">       getSupportFragmentManager().beginTransaction()</div><div class="line">               .replace(R.id.container, searchFragment)</div><div class="line">               .commitAllowingStateLoss();</div></pre></td></tr></table></figure></p>
 <p>探究一下Fragment的生命周期是如何依附的。</p>
 <p>思维导图</p>
-<p><img src="http://static.zybuluo.com/70kg/rwdb555ynki9ugjz768ed5t8/Fragment%E5%90%AF%E5%8A%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt="Fragment启动生命周期.png-407.5kB"></p>
+<p><img src="/images/Fragment启动生命周期.png" alt="Fragment启动生命周期"></p>
 </div></article></div></main><footer><div class="paginator"><a href="/2017/09/08/ReactNative是怎么在Android上跑起来的/" class="prev">PREV</a><a href="/2017/09/08/LifecycleComponents问答/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
 var disqus_identifier = '2017/09/08/Fragment启动生命周期/';
 var disqus_title = 'Fragment启动生命周期';
