@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-09-10T13:21:57.000Z</updated>
+  <updated>2017-12-07T14:31:10.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,42 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Fresco浅析</title>
+    <link href="http://yoursite.com/2017/11/30/Fresco%E6%B5%85%E6%9E%90/"/>
+    <id>http://yoursite.com/2017/11/30/Fresco浅析/</id>
+    <published>2017-11-30T14:19:14.000Z</published>
+    <updated>2017-12-07T14:31:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="SimpleDraweeView层级初始化"><a href="#SimpleDraweeView层级初始化" class="headerlink" title="SimpleDraweeView层级初始化"></a><code>SimpleDraweeView</code>层级初始化</h3><p><code>GenericDraweeHierarchyInflater</code> 从xml中解析<code>SimpleDraweeView</code>属性值，(收集属性),然后赋值给<code>GenericDraweeHierarchyBuilder</code>去创建，在G<code>enericDraweeView</code>的构造函数中去build,创建<code>GenericDraweeHierarchy</code>，也就是初始化XML中的属性。这个和代码创建一个效果。类似placeholderImage这些是按照层级放到Drawable[]中，根据这个创建<code>mTopLevelDrawable</code>，<code>mTopLevelDrawable</code>中可以做渐变，进度等操作。就是改变Drawable[]中不同的drawable实现的。然后setController时候会设置<code>mTopLevelDrawable</code>先显示。<a id="more"></a></p>
+<p>判断<code>OldController</code>能不能复用是根据<code>DraweeHolder：：isControllerValid</code>判断，实际上是<code>mController.getHierarchy() == mHierarchy</code></p>
+<p><code>PipelineDraweeController</code>是唯一实现的</p>
+<h3 id="内存缓存"><a href="#内存缓存" class="headerlink" title="内存缓存"></a>内存缓存</h3><p>内存缓存包括已经解码（<code>BitmapMemoryCache</code>）的和未解码的（<code>EncodedMemoryCache</code>）。在源码中表示为<code>MemoryCache</code>，有两个实现类，<code>InstrumentedMemoryCache</code>可以做一些自定义的东西，<code>CountingMemoryCache</code>主要缓存类。缓存的节点是<code>Entry</code>，里面有</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> K key;</div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> CloseableReference&lt;V&gt; valueRef;</div></pre></td></tr></table></figure>
+<p>使用<code>CountingLruMap</code>来存放数据，其中起作用的是<code>LinkedHashMap&lt;K, V&gt; mMap</code>。很显然是LRU。</p>
+<h3 id="文件缓存"><a href="#文件缓存" class="headerlink" title="文件缓存"></a>文件缓存</h3><p>会有<code>CONTENT_FILE_EXTENSION = &quot;.cnt&quot;;</code>的缓存文件和<code>TEMP_FILE_EXTENSION = &quot;.tmp&quot;;</code>临时缓存文件。文件储存主要是<code>DefaultDiskStorage</code>起作用。<code>DiskStorageCache</code>是实现文件缓存的主要类，在<code>maybeEvictFilesInCacheDir</code>也实现了LRU控制缓存。上面还有一层是<code>BufferedDiskCache</code>中的<code>StagingArea mStagingArea</code>，查找的现在这里面查找，找不到通过<code>getAsync</code>从<code>DiskStorageCache</code>中查找。写入的时候会先创建临时文件，然后在<code>endInsert</code>中使用<code>commit</code>完成缓存文件替换，写入。</p>
+<h3 id="Pipeline流水线"><a href="#Pipeline流水线" class="headerlink" title="Pipeline流水线"></a>Pipeline流水线</h3><p>触发加载图片请求是在进入到<code>AbstractDraweeController</code>的<code>onAttach</code>，然后 <code>submitRequest();</code>请求图片操作。先去<code>getCachedImage()</code>获取缓存解码图片，根据<code>mCacheKey</code>从<code>mMemoryCache中</code>获取，<code>mCacheKey</code>中包含url和对图片的一些设置，例如<code>resize</code>,<code>rotation</code>等，都是从<code>imagerequest</code>中获取的。<code>mMemoryCache</code>是通过<code>mImagePipeline.getBitmapMemoryCache()</code>获得，是通过<code>BitmapCountingMemoryCacheFactory创建的CountingMemoryCache</code>，</p>
+<p>获取到<code>CloseableReference&lt;CloseableImage&gt;</code>，然后包装成<code>drawable</code>，通过<code>GenericDraweeHierarchy</code>设置给<code>mActualImageWrapper</code>，这个也存在之前的drawable数组中，也就是<code>ACTUAL_IMAGE</code>。</p>
+<p>层层<code>Producer</code>处理，责任链,每一层存在本层能否直接给<code>Consumer</code>提供数据，不能则将<code>Consumer</code>在本层包装一下交给下一层去获取数据。本层的<code>Consumer</code>做一些缓存数据等操作。</p>
+<p>例如<code>BitmapMemoryCacheProducer</code>和<code>DecodeProducer</code>就是上下层的关系。首先先在<code>BitmapMemoryCacheProducer</code>的</p>
+<pre><code>produceResults(
+      final Consumer&lt;CloseableReference&lt;CloseableImage&gt;&gt; consumer,
+      final ProducerContext producerContext)
+</code></pre><p>方法中寻找解码的图片，如果有，返回给消费解码数据的<code>consumer</code>，如果没有则用本层的<code>wrapConsumer</code>包装一下消费解码图片的消费者传递给下面一层的<code>DecodeProducer</code>，调用<code>DecodeProducer</code>的<code>produceResults</code>方法。同理，<code>DecodeProduce</code>r本身不产生数据，他只处理图片的解码，所有把上层传来的<code>consumer</code>再包装一次，传给下面的生产者。例如在磁盘上找到了符合条件的图片，则会走消费这一条路，调用层层的<code>consumer</code>，例如到了<code>DecodeProducer</code>的<code>consumer</code>，会异步去解码，解码成功后再去调用上层的<code>Consumer</code>的<code>onNewResult</code>，内部会调用对应层的<code>onNewResultImpl</code>方法，例如<code>BitmapMemoryCacheProducer</code>中的<code>wrapConsumer</code>的<code>DelegatingConsumer</code>的<code>onNewResultImpl</code>，这里会在内存中缓存解码的图片了。然后再调用上层的<code>consumer</code>。最上层的<code>Consumer</code>是在<code>AbstractProducerToDataSourceAdapter</code>中<code>createConsumer</code>创建的。然后通过它的<code>setResult</code>方法通知所有的<code>dataSubscriber</code>，然后在主线程回调<code>dataSubscriber.onNewResult</code>，然后就是使用 <code>mSettableDraweeHierarchy.setImage</code>去给<code>mActualImageWrapper.setDrawable(drawable);</code>这就完成了图片的显示。<br>整个的producer的顺序是在<code>ProducerSequenceFactory::getDecodedImageProducerSequence</code>的方法里面确立的。</p>
+<h3 id="Bitmap在内存的分配"><a href="#Bitmap在内存的分配" class="headerlink" title="Bitmap在内存的分配"></a>Bitmap在内存的分配</h3><p><a href="http://blog.csdn.net/chiefhsing/article/details/53899242" target="_blank" rel="external">谈谈fresco的bitmap内存分配</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;SimpleDraweeView层级初始化&quot;&gt;&lt;a href=&quot;#SimpleDraweeView层级初始化&quot; class=&quot;headerlink&quot; title=&quot;SimpleDraweeView层级初始化&quot;&gt;&lt;/a&gt;&lt;code&gt;SimpleDraweeView&lt;/code&gt;层级初始化&lt;/h3&gt;&lt;p&gt;&lt;code&gt;GenericDraweeHierarchyInflater&lt;/code&gt; 从xml中解析&lt;code&gt;SimpleDraweeView&lt;/code&gt;属性值，(收集属性),然后赋值给&lt;code&gt;GenericDraweeHierarchyBuilder&lt;/code&gt;去创建，在G&lt;code&gt;enericDraweeView&lt;/code&gt;的构造函数中去build,创建&lt;code&gt;GenericDraweeHierarchy&lt;/code&gt;，也就是初始化XML中的属性。这个和代码创建一个效果。类似placeholderImage这些是按照层级放到Drawable[]中，根据这个创建&lt;code&gt;mTopLevelDrawable&lt;/code&gt;，&lt;code&gt;mTopLevelDrawable&lt;/code&gt;中可以做渐变，进度等操作。就是改变Drawable[]中不同的drawable实现的。然后setController时候会设置&lt;code&gt;mTopLevelDrawable&lt;/code&gt;先显示。
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+  </entry>
   
   <entry>
     <title>ReactNative是怎么在Android上跑起来的</title>
@@ -855,48 +891,6 @@
     
       &lt;p&gt; 这篇主要会走读一下&lt;code&gt;Retrofit&lt;/code&gt;的源码，解析一下里面遇到的一些设计模式，网络请求的过程等。&lt;/p&gt;
 &lt;h3 id=&quot;开始&quot;&gt;&lt;a href=&quot;#开始&quot; class=&quot;headerlink&quot; title=&quot;开始&quot;&gt;&lt;/a&gt;开始&lt;/h3&gt;&lt;p&gt;从创建&lt;code&gt;Retrofit&lt;/code&gt;开始，看一下常见的创建&lt;code&gt;Retrofit&lt;/code&gt;的实例的方式&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈CoordinatorLayout</title>
-    <link href="http://yoursite.com/2016/08/01/%E6%B5%85%E8%B0%88CoordinatorLayout/"/>
-    <id>http://yoursite.com/2016/08/01/浅谈CoordinatorLayout/</id>
-    <published>2016-08-01T14:24:32.000Z</published>
-    <updated>2017-07-28T13:46:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h4><p>最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了<code>ListView</code>再加上<code>addHead</code>的方式，然后动态的去控制<code>Head</code>的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下<code>CoordinatorLayout</code>的处理嵌套滑动的原理，没有效果图也影响不大。<a id="more"></a></p>
-<h4 id="开始吧"><a href="#开始吧" class="headerlink" title="开始吧"></a>开始吧</h4><p>先写出来点大纲吧：</p>
-<ul>
-<li>为什么要有<code>CoordinatorLayout</code> </li>
-<li><code>CoordinatorLayout</code>是怎么实现嵌套滑动的事件分发的</li>
-<li><code>AppBarLayout</code>的一些东西</li>
-</ul>
-<h4 id="为什么要有CoordinatorLayout"><a href="#为什么要有CoordinatorLayout" class="headerlink" title="为什么要有CoordinatorLayout"></a>为什么要有<code>CoordinatorLayout</code></h4><p>先来回想一下<code>Android</code>系统的事件分发有什么不足的地方，就是一个<code>view</code>消费了事件，与此同时，其他的<code>view</code>的没有机会去接触到这个事件了。也就是在一个事件的某一时刻，有且只有一个<code>View</code>去相应这个事件。那么当我们要去做一些嵌套滑动的时候，就会有一些不方便。例如需要一个<code>View</code>跟随另一个<code>View</code>滑动，一般就是一个<code>CallBack</code>进行滑动状态的回调。<code>CoordinatorLayout</code>就可以比较优雅的处理这种事件。</p>
-<h4 id="CoordinatorLayout是怎么实现嵌套滑动的事件分发的"><a href="#CoordinatorLayout是怎么实现嵌套滑动的事件分发的" class="headerlink" title="CoordinatorLayout是怎么实现嵌套滑动的事件分发的"></a><code>CoordinatorLayout</code>是怎么实现嵌套滑动的事件分发的</h4><p>先说一下两个接口吧，<code>NestedScrollingParent</code>和<code>NestedScrollingChild</code>，这两个接口看名字就比较容易理解他们的作用，就是一个给嵌套滑动的parent实现的，一个是给child实现，在现在的组件中，只有<code>CoordinatorLayout</code>实现了parent，所以下面说到parent就理解成<code>CoordinatorLayout</code>就OK啦，而child这个接口其实方法已经在<code>View</code>这个类里面帮我们实现好了，也就是说想要去成为一个可以嵌套滑动的child，仅仅去实现这个child接口就OK了，其他的<code>View</code>已经帮你写完了。下面还是以<code>RecycleView</code>为例子，它是实现了这个child的接口，还是回到情景里面说吧，说一下到底是怎么传递事件的。</p>
-<ul>
-<li>在<code>ReclceView</code>上down -&gt; <code>parent.onStartNestedScroll</code> -&gt;遍历有<code>Behavior</code>的直接子view -&gt;child的<code>Behavior.onStartNestedScroll</code>。<br>这里说一下<code>onStartNestedScroll</code>这个方法是有boolean的返回值，<code>true</code>的意思是要去处理这个事件，同时还会去调用<code>parent.onNestedScrollAccepted</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedScrollAccepted</code>.这个方法里面可以做一些view配置的初始化。如果不需要当然可以不去重写。</li>
-<li>在<code>RecycleView</code>上move -&gt; <code>dispatchNestedPreScroll</code>(也是child这个接口里面的)-&gt;<code>parent.onNestedPreScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedPreScroll</code>,同时之后还有一个流程也是在move的时候触发的 -&gt;<code>dispatchNestedScroll</code>(也是child这个接口里面的) -&gt;<code>parent.onNestedScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onNestedScroll</code>.。这两个的主要区别的pre那个方法里面可以去处理消费了多少的滑动距离，比如手指滑动了12px,你可以选择把consumed[1]赋值为2，那么head就移动(消费)了2px，剩下的10px就给了下面的recycleview，而在<code>onNestedScroll</code>方法中还有机会去已经消费的和没有消费的距离再进行一次处理。</li>
-<li>在<code>RecycleView</code>上面up -&gt; <code>stopNestedScroll</code>(也是child这个接口里面的) -&gt;<code>parent.onStopNestedScroll</code> -&gt; 遍历有<code>Behavior</code>的直接子view  -&gt;child的<code>Behavior.onStopNestedScroll</code>。</li>
-<li>还有两个关于<code>Fling</code>的方法，就不说了，一个套路。</li>
-</ul>
-<p>还有就是再说一下<code>CoordinatorLayout</code>的<code>onInterceptTouchEvent</code>和<code>onTouchEvent</code>，这里贴一下代码吧</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++) &#123;</div><div class="line">       <span class="keyword">final</span> View child = topmostChildList.get(i);</div><div class="line">       <span class="keyword">final</span> LayoutParams lp = (LayoutParams) child.getLayoutParams();</div><div class="line">       <span class="keyword">final</span> Behavior b = lp.getBehavior();</div><div class="line"></div><div class="line">       <span class="keyword">if</span> ((intercepted || newBlock) &amp;&amp; action != MotionEvent.ACTION_DOWN) &#123;</div><div class="line">           <span class="comment">// Cancel all behaviors beneath the one that intercepted.</span></div><div class="line">           <span class="comment">// If the event is "down" then we don't have anything to cancel yet.</span></div><div class="line">           <span class="keyword">if</span> (b != <span class="keyword">null</span>) &#123;</div><div class="line">               <span class="keyword">if</span> (cancelEvent == <span class="keyword">null</span>) &#123;</div><div class="line">                   <span class="keyword">final</span> <span class="keyword">long</span> now = SystemClock.uptimeMillis();</div><div class="line">                   cancelEvent = MotionEvent.obtain(now, now,</div><div class="line">                           MotionEvent.ACTION_CANCEL, <span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">0</span>);</div><div class="line">               &#125;</div><div class="line">               <span class="keyword">switch</span> (type) &#123;</div><div class="line">                   <span class="keyword">case</span> TYPE_ON_INTERCEPT:</div><div class="line">                       b.onInterceptTouchEvent(<span class="keyword">this</span>, child, cancelEvent);</div><div class="line">                       <span class="keyword">break</span>;</div><div class="line">                   <span class="keyword">case</span> TYPE_ON_TOUCH:</div><div class="line">                       b.onTouchEvent(<span class="keyword">this</span>, child, cancelEvent);</div><div class="line">                       <span class="keyword">break</span>;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           <span class="keyword">continue</span>;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">if</span> (!intercepted &amp;&amp; b != <span class="keyword">null</span>) &#123;</div><div class="line">           <span class="keyword">switch</span> (type) &#123;</div><div class="line">               <span class="keyword">case</span> TYPE_ON_INTERCEPT:</div><div class="line">                   intercepted = b.onInterceptTouchEvent(<span class="keyword">this</span>, child, ev);</div><div class="line">                   <span class="keyword">break</span>;</div><div class="line">               <span class="keyword">case</span> TYPE_ON_TOUCH:</div><div class="line">                   intercepted = b.onTouchEvent(<span class="keyword">this</span>, child, ev);</div><div class="line">                   <span class="keyword">break</span>;</div><div class="line">           &#125;</div><div class="line">           <span class="keyword">if</span> (intercepted) &#123;</div><div class="line">               mBehaviorTouchView = child;</div><div class="line">           &#125;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
-<p>可以看出，每个直接的childview都会接受到拦截事件，即使你的手势不是在这个child上面触发的。</p>
-<ul>
-<li>还有个方法就是<code>layoutDependsOn</code>这个方法是在哪里调用的，这个是在onpredraw的时候就调用了，也就是没显示之前就已经开始准备各个view直接的依赖关系。当然内部实现也是在parent里面去便利child来实现的，也就只有parent可以获取到所有的child。</li>
-</ul>
-<h4 id="AppBarLayout的一些东西"><a href="#AppBarLayout的一些东西" class="headerlink" title="AppBarLayout的一些东西"></a><code>AppBarLayout</code>的一些东西</h4><p>我觉得<code>AppBarLayout</code>这个组件还是十分重要的，特别是里面的两个<code>Behavior</code>的实现，给了我们很好的参考的例子。具体的还是去看源码吧，太多了要说也是再开一篇。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h4&gt;&lt;p&gt;最近这一周空余的时间比较多，然后去重构了一个公司项目里的一个个人中心的页面，原来使用了&lt;code&gt;ListView&lt;/code&gt;再加上&lt;code&gt;addHead&lt;/code&gt;的方式，然后动态的去控制&lt;code&gt;Head&lt;/code&gt;的高度去实现嵌套滑动的效果，因为我的模拟器没有跑起来，所以也没有去录下个GIF来，因为这篇主要说一下&lt;code&gt;CoordinatorLayout&lt;/code&gt;的处理嵌套滑动的原理，没有效果图也影响不大。
     
     </summary>
     
