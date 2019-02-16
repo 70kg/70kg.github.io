@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-02-16T08:22:07.000Z</updated>
+  <updated>2019-02-16T08:23:12.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2019/02/16/okhttp/"/>
     <id>http://yoursite.com/2019/02/16/okhttp/</id>
     <published>2019-02-16T08:17:26.000Z</published>
-    <updated>2019-02-16T08:22:07.000Z</updated>
+    <updated>2019-02-16T08:23:12.000Z</updated>
     
     <content type="html"><![CDATA[<h4 id="Interceptor"><a href="#Interceptor" class="headerlink" title="Interceptor"></a>Interceptor</h4><ul>
 <li>RetryAndFollowUpInterceptor<br>用于重试和重定向，<code>StreamAllocation</code>也是在此初始化。主要是<code>while</code>拼装<code>followUpRequest</code>。</li>
@@ -28,7 +28,9 @@
 <li>CacheInterceptor<br>根据<code>CacheStrategy</code>来处理获取缓存响应，通过<code>getCandidate</code>根据<code>If-None-Match</code>配合<code>etag</code>，<code>If-Modified-Since</code>配合<code>lastModified</code>等判断缓存是否有效。请求网络，是否<code>304</code>，更新相应缓存条件，组装响应。使用了<code>DiskLruCache</code>进行缓存的持久化，通过日志文件实现类似索引的功能，读写分离，写有类似事务的概念。定期清理。</li>
 <li>ConnectInterceptor<br>负责链接的建立和复用，以及连接上流的管理。</li>
 <li>CallServerInterceptor<br>连接建立后，与服务器进行数据交互，使用最终的<code>request</code>和最原始的<code>response</code>。<a id="more"></a>
-<h4 id="相关类"><a href="#相关类" class="headerlink" title="相关类"></a>相关类</h4></li>
+</li>
+</ul>
+<h4 id="相关类"><a href="#相关类" class="headerlink" title="相关类"></a>相关类</h4><ul>
 <li>StreamAllocation<br>连接和流的桥梁。持有<code>RealConnection</code>连接和<code>HttpCodec</code>流。通过<code>newStream</code>寻找合适的连接，产生合适的流。<code>findConnection</code>方法用于寻找合适的连接。</li>
 <li>RealConnection<br>物理连接的封装。持有<code>rawSocket</code>(原始 <code>socket</code>),<code>socket</code>-<code>ssl</code>加密包装的<code>SSLSocket</code>。功能包括<code>tcp</code>的建立，协议的确定，<code>tls</code>连接的建立等。相应的握手也是由这两个对应平台的系统类实现。还实现了<code>CertificatePinner</code>，用于自定义证书指纹的验证。持有<code>List&lt;Reference&lt;StreamAllocation&gt;&gt; allocations</code>，表示该连接上有几条流，<code>http1.1</code>默认最大1.<code>http2</code>没限制。</li>
 <li>Http1Codec/Http2Codec<br>分别代表<code>http1.x</code>和<code>http2</code>的解码器，也相对于代表流。负责请求头，请求体的写入和响应头，响应体的读取。</li>
