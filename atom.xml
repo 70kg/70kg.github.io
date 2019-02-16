@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-02-16T08:17:48.000Z</updated>
+  <updated>2019-02-16T08:20:54.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>RxJava2线程切换流程</title>
+    <title>OkHttp 相关类</title>
     <link href="http://yoursite.com/2019/02/16/okhttp/"/>
     <id>http://yoursite.com/2019/02/16/okhttp/</id>
     <published>2019-02-16T08:17:26.000Z</published>
-    <updated>2019-02-16T08:17:48.000Z</updated>
+    <updated>2019-02-16T08:20:54.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="Interceptor"><a href="#Interceptor" class="headerlink" title="Interceptor"></a>Interceptor</h3><ul>
 <li>RetryAndFollowUpInterceptor<br>用于重试和重定向，<code>StreamAllocation</code>也是在此初始化。主要是<code>while</code>拼装<code>followUpRequest</code>。</li>
