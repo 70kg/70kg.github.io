@@ -38,12 +38,39 @@
 
 		<div class="reveal">
 			<div class="slides"><section  data-markdown><script type="text/template"># React Native 
-</script></section><section  data-markdown><script type="text/template">
+</script></section><section ><section data-markdown><script type="text/template">
 ## RN 是什么
 
 A framework for building native apps with React.
+</script></section><section data-markdown><script type="text/template">
+### Native
 
-</script></section><section  data-markdown><script type="text/template">
+- 性能最好,功能强大
+
+- 多平台版本的开发、维护
+
+- 开发周期长
+
+- 升级困难
+</script></section><section data-markdown><script type="text/template">
+### Web App
+
+- 跨平台
+
+- 开发效率高
+
+- 性能不好
+</script></section><section data-markdown><script type="text/template">
+### RN
+
+- 性能媲美原生应用
+
+- 开发效率高
+
+- 跨平台
+
+- 热更新
+</script></section></section><section  data-markdown><script type="text/template">
 ## 
 
 - 通信机制
@@ -60,6 +87,23 @@ A framework for building native apps with React.
 
 ![](../assets/images/rn/bridge.png)
 </script></section><section data-markdown><script type="text/template">
+### JSC
+
+- JavaScriptCore
+
+- C++实现
+
+- Apple维护
+
+- iOS 自带
+</script></section><section data-markdown><script type="text/template">
+### Why not V8
+
+- Android 版本兼容问题
+
+- 分开实现维护问题
+
+</script></section><section data-markdown><script type="text/template">
 ### Js引擎
 
 - 浏览器内核(Trident,Webkit,blink)
@@ -73,6 +117,17 @@ A framework for building native apps with React.
 ## 线程模型
 
 ![](../assets/images/rn/event.png)
+</script></section><section data-markdown><script type="text/template">
+### Js 单线程模型
+
+- Javascript 是单线程的，但浏览器是多线程的
+
+- Js线程，GUI渲染引擎线程，HTTP 网络线程，事件轮询线程...
+
+- 同步任务，异步任务
+
+- 宏任务队列,微任务队列
+
 </script></section><section data-markdown><script type="text/template">
 ###
 
