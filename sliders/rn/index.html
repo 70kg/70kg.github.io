@@ -40,9 +40,6 @@
 			<div class="slides"><section  data-markdown><script type="text/template"># React Native 
 </script></section><section  data-markdown><script type="text/template">
 ## RN 是什么
-使用 JS 语言 
-利用现有成熟 React 框架
-控制 Native View
 
 A framework for building native apps with React.
 
@@ -54,63 +51,46 @@ A framework for building native apps with React.
 - 线程模型
 
 - 事件驱动
-
+ 
 - 渲染原理 
 
-- 脚本执行
+- 框架对比
 </script></section><section ><section data-markdown><script type="text/template">
 ## 通信机制
 
 ![](../assets/images/rn/bridge.png)
 </script></section><section data-markdown><script type="text/template">
-### 
+### Js引擎
 
-![](../assets/images/rn/init.png)
-</script></section></section><section  data-markdown><script type="text/template">
+- 浏览器内核(Trident,Webkit,blink)
+
+- Js 引擎(Chakra,JavaScriptCore,V8)
+</script></section><section data-markdown><script type="text/template">
+### 基本流程 
+
+![](../assets/images/rn/base.png)
+</script></section></section><section ><section data-markdown><script type="text/template">
 ## 线程模型
+
+![](../assets/images/rn/event.png)
+</script></section><section data-markdown><script type="text/template">
+###
+
+- 《Multithreaded toolkits: A failed dream?》
+
+![](../assets/images/rn/top.png) ![](../assets/images/rn/down.png)
+</script></section><section data-markdown><script type="text/template">
+### 
 
 UI线程：即Android中的主线程，负责绘制UI以及监听用户操作。
 
 Native线程：负责执行C++代码，该线程主要负责Java与C++的通信。
 
 JS线程：负责解释执行JS。
-</script></section><section ><section data-markdown><script type="text/template">
+</script></section></section><section ><section data-markdown><script type="text/template">
 ## 事件驱动
-</script></section><section data-markdown><script type="text/template">
-### 
-![](../assets/images/rn/buffer1.png)
-</script></section><section data-markdown><script type="text/template">
-### 
-![](../assets/images/rn/buffer2.png)
-</script></section><section data-markdown><script type="text/template">
-### 
-屏幕刷新率（HZ）：代表屏幕在一秒内刷新屏幕的次数，Android手机一般为60HZ（也就是1秒刷新60帧，大约16.67毫秒刷新1帧）
-
-系统帧速率（FPS）：代表了系统在一秒内合成的帧数，该值的大小由系统算法和硬件决定。
-</script></section><section data-markdown><script type="text/template">
-### 
-垂直同步（VSync）：当屏幕从缓冲区扫描完一帧到屏幕上之后，开始扫描下一帧之前，发出的一个同步信号，该信号用来切换前缓冲区和后缓冲区。
 
 ![](../assets/images/rn/vsync1.png)
-</script></section><section data-markdown><script type="text/template">
-### 
-
-```java
- Choreographer
-
- The choreographer receives timing pulses (such as vertical 
- synchronization)from the display subsystem then schedules 
- work to occur as part of rendering the next display frame.
-
-```
-
-```java
- If your application does its rendering in a different thread,
- possibly using GL,or does not use the animation framework 
- or view hierarchy at all and you want to ensure that it is
-  appropriately synchronized with the display, then use
- {@link Choreographer#postFrameCallback}.
-```
 </script></section><section data-markdown><script type="text/template">
 ### 
 
@@ -118,26 +98,74 @@ JS线程：负责解释执行JS。
 </script></section></section><section ><section data-markdown><script type="text/template">
 ## 渲染原理
 </script></section><section data-markdown><script type="text/template">
+### Yoga
+
+![](../assets/images/rn/yoga.png)
+</script></section><section data-markdown><script type="text/template">
 ### 
-![](../assets/images/rn/render.png)
+
+![](../assets/images/rn/render1.png)
+
 </script></section></section><section ><section data-markdown><script type="text/template">
-## 脚本执行
+## 框架对比
 </script></section><section data-markdown><script type="text/template">
-### JS引擎选择
-![](../assets/images/rn/js.png)
+### WEEX
+
+- Bundle优化
+- 三端统一
 </script></section><section data-markdown><script type="text/template">
-### 
-![](../assets/images/rn/js1.png)
+### Hybrid 
+
+- Webview + Bridge
+
+- Cordova,PhoneGap
+
+![](../assets/images/rn/qrcode.png)
+</script></section><section data-markdown><script type="text/template">
+#### 包袱
+
+- 布局逻辑的向前兼容
+
+- 逻辑层和渲染层是互斥的
+</script></section><section data-markdown><script type="text/template">
+### 小程序
+
+- Js执行与渲染分离
+- 多 WebView
+- Native View混合
+</script></section><section data-markdown><script type="text/template">
+### Flutter
+
+- Dart
+
+- Skia
+
+</script></section><section data-markdown><script type="text/template">
+### 类似框架
+
+- JsBox Auto.Js(Rhino)
+
+- iqiyi/LiteApp
+
+- lynx-native
+</script></section><section data-markdown><script type="text/template">
+### Native 动态化
+
+- alibaba/Tangram-Android
+
+- Meituan-Dianping/Shield 
+
+- alibaba/LuaViewSDK
 </script></section></section><section  data-markdown><script type="text/template">
-## 
-思维导图 ：https://www.processon.com/view/link/599c14b8e4b0f2c6342a4f04
+## RN展望
 
-slider地址：https://70kg.info/slider/rn
+- Fabric
 
+- JS引擎抽象化
 
-
-
-</script></section></div>
+- 实现同步操作和性能优化
+</script></section><section  data-markdown><script type="text/template">
+## 谢谢</script></section></div>
 		</div>
 
 		<script src="../templates/revealjs/lib/js/head.min.js"></script>

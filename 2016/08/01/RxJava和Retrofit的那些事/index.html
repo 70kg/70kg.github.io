@@ -17,7 +17,7 @@
 <p>到现在发现我们并没有去解析json数据就自动生成了bean类，这是因为Retrofit已经集成了Gson，并且默认使用Gson来进行解析，当然你也可以自己去定义。在创建<code>RestAdapter</code>的时候使用<code>setConverter(new GsonConverter(gson))</code>。默认是使用okhttp进行加载的，当然你也可以去配置一些关于<code>OkHttpClient</code>的数据，然后通过<code>setClient(new OkClient(client))</code>进行设置进去。</p>
 <p>现在<code>Retrofit</code>的2.0版本已经出了，主要就是 取消了同步和异步，可以取消正在进行中的业务，取消了Gson的依赖等等，具体可以看这里<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0915/3460.html" target="_blank" rel="external">Retrofit 2.0：有史以来最大的改进</a><br>这篇参考了GitHub上的项目<a href="https://github.com/70kg/RxJava-Android-Samples" target="_blank" rel="external">RxJava-Android-Samples</a>，这里只是拣取了关于Retrofit的部分，有兴趣可以看看其他的。</p>
 <p>参考：<br><a href="http://www.tuicool.com/articles/26jUZjv" target="_blank" rel="external">http://www.tuicool.com/articles/26jUZjv</a><br><a href="http://www.cnblogs.com/angeldevil/p/3757335.html" target="_blank" rel="external">http://www.cnblogs.com/angeldevil/p/3757335.html</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2016/08/17/Refrofit源码浅析/" class="prev">上一篇</a><a href="/2016/08/01/浅谈CoordinatorLayout/" class="next">下一篇</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
+</div></article></div></main><footer><div class="paginator"><a href="/2016/08/17/Refrofit源码浅析/" class="prev">PREV</a><a href="/2016/08/01/浅谈CoordinatorLayout/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
 var disqus_identifier = '2016/08/01/RxJava和Retrofit的那些事/';
 var disqus_title = 'RxJava和Retrofit的那些事';
 var disqus_url = 'http://yoursite.com/2016/08/01/RxJava和Retrofit的那些事/';
