@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-02-16T08:23:12.000Z</updated>
+  <updated>2019-04-09T09:34:31.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>撸一个简易 Stream</title>
+    <link href="http://yoursite.com/2019/04/09/%E6%92%B8%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93Stream/"/>
+    <id>http://yoursite.com/2019/04/09/撸一个简易Stream/</id>
+    <published>2019-04-09T09:33:10.000Z</published>
+    <updated>2019-04-09T09:34:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>从<code>jdk8</code>开始，<code>java</code>新增了<code>Stream</code>相关的<code>API</code>。配合<code>lambda</code>表达式，<code>java</code>也拥有了部分的函数式编程的能力。<a id="more"></a><br><code>Stream</code>的出现，使得<code>java</code>对集合的操作变得简单且意图明确，同时<code>parallel</code>方法也使得并行计算变得方便。下面仿照<code>jdk</code>的代码自己实现下面的代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Stream.of(<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>)</div><div class="line">               .map(x -&gt; String.valueOf(x + <span class="number">1</span>))</div><div class="line">               .sorted()</div><div class="line">               .map(Integer::parseInt)</div><div class="line">               .forEach(System.out::println);</div></pre></td></tr></table></figure>
+<p>这一篇只是初步实现<code>stream</code>的简易串行版本，后面会再尝试实现简易的并行<code>API</code>。</p>
+<p>在上面的代码中，包含四种操作</p>
+<ul>
+<li>创建<code>stream</code>操作，不包含其他的操作</li>
+<li><code>map</code>这种无状态的操作，也就是不依赖上下文的操作</li>
+<li><code>sorted</code>有状态的操作，需要得到全部的信息才能生效</li>
+<li><code>foreach</code>终止操作，后面不能再有其他操作。</li>
+</ul>
+<p>上面这四种操作，分别在在代码中对应为<code>Head</code>,<code>StatelessOp</code>,<code>StatefulOp</code>以及<code>TerminalOp</code>。这些操作除了终止操作都是<code>referencePipeLine</code>的子类，也就是每一个操作都是流水线的一部分。为什么要设计成流水线的模式？因为在流水线的模式下，可以做到尽量在一次遍历中完成整个操作。下面来简单说一下这个流水线是怎么实现的。</p>
+<p>上面的每个操作都是一个<code>op</code>,在<code>stream</code>中，一个完整的操作可以用<code>&lt;数据源,操作,回调函数&gt;</code>简单表示。而这个完整的操作在<code>stream</code>中用<code>stage</code>表示。上面的代码最终行程的流水线类似一个个<code>stage</code>组成的双向链表。至于为什么是双向的链表，是因为前面的<code>stage</code>要调用后面的<code>stage</code>，所以需要后面<code>stage</code>的引用。真正触发整个流水线工作的地方是在最后的终止操作，也就是前面的非终止操作都是惰性执行的。当终止操作开始，需要一层层的包装回去，包装成”一个操作”，执行这个操作就相当于执行整个流水线，所以当前的 <code>stage</code>需要有前一个<code>stage</code>的引用，也就形成了双线链表。同时两个<code>stage</code>之间的调用肯定也是有一个协议，也就是<code>sink</code>接口。<br>整个代码的设计还是很精巧的。下面的我写的简易的<code>stream</code>。<br><a href="https://dev.tencent.com/u/70kg/p/Spring-boot-Demo/git/tree/dev/src/main/java/com/example/demo/steam" target="_blank" rel="external">MyStream</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;从&lt;code&gt;jdk8&lt;/code&gt;开始，&lt;code&gt;java&lt;/code&gt;新增了&lt;code&gt;Stream&lt;/code&gt;相关的&lt;code&gt;API&lt;/code&gt;。配合&lt;code&gt;lambda&lt;/code&gt;表达式，&lt;code&gt;java&lt;/code&gt;也拥有了部分的函数式编程的能力。
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>OkHttp 相关类</title>
@@ -867,33 +899,6 @@
     
     
       <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>React Native + Redux + React-Redux</title>
-    <link href="http://yoursite.com/2016/09/30/Redux/"/>
-    <id>http://yoursite.com/2016/09/30/Redux/</id>
-    <published>2016-09-30T07:17:53.000Z</published>
-    <updated>2017-02-03T10:24:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>在<code>Component</code>中的<code>state</code>相当于组件内的本地变量，用于储存view的本地变化</p>
-<p><code>props</code>中存储数据， <code>props</code>属于readOnly的常量dic<a id="more"></a></p>
-<p>store相当于全集的数据状态仓库，只有一个，改变它的唯一方式就是store.dispatch(action)，可以通过store.getState对当前的store进行一次快照，store还有store.subscribe方法，也就是在store.dispatch触发了store的数据更新，回调这个subscribe方法。</p>
-<p>使用了React-Redux这个库有两个重要的方法：<code>mapStateToProps</code>是用来把外部的state,也就是当前store的快照映射到UI组件的参数上(props),也就是输入数据。<code>mapDispatchToProps</code>是把对UI组件的操作映射成action，</p>
-<p>当dispatch一个action后，reduce会自动生成一个当前store的快照 =&gt;state，调用mapStateToProps，将state映射到props,调用React native的生命周期方法<code>componentWillReceiveProps</code>,这里可以再处理一下数据，改变this.state的值。</p>
-<p><code>mapStateToProps</code>会订阅 Store，每当state更新的时候，就会自动执行，重新计算 UI 组件的参数，从而触发 UI 组件的重新渲染</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在&lt;code&gt;Component&lt;/code&gt;中的&lt;code&gt;state&lt;/code&gt;相当于组件内的本地变量，用于储存view的本地变化&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;props&lt;/code&gt;中存储数据， &lt;code&gt;props&lt;/code&gt;属于readOnly的常量dic
-    
-    </summary>
-    
-    
-      <category term="React Native" scheme="http://yoursite.com/tags/React-Native/"/>
     
   </entry>
   
