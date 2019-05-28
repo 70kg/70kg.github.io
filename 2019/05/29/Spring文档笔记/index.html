@@ -1,6 +1,6 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Spring文档笔记 · 70kg</title><meta name="description" content="Spring文档笔记 - 70kg"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="70kg"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/应聘Android开发工程师_王鹏.pdf" target="_self" class="nav-list-link">RESUME</a></li><li class="nav-list-item"><a href="/book/" target="_self" class="nav-list-link">BOOKS</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Spring文档笔记</h1><div class="post-info">May 29, 2019</div><div class="post-content"><h2 id="Ioc容器"><a href="#Ioc容器" class="headerlink" title="Ioc容器"></a>Ioc容器</h2><ul>
 <li><code>ApplicationContext</code>是<code>BeanFactory</code>的子接口，更好的与<code>spring</code>的<code>aop</code>集成，消息资源处理（用于国际化），事件发布，特定的<code>context</code>,like WebApplicationContext for use in web applications.</li>
-<li><code>GenericApplicationContext</code>可以用来加载多种方式的配置，然后调用<code>refresh</code></li>
+<li><code>GenericApplicationContext</code>可以用来加载多种方式的配置，然后调用<code>refresh</code><a id="more"></a></li>
 <li>在<code>Ioc</code>容器中，<code>bean</code>的定义被表示为<code>BeanDefinition</code>，包括但不限于<br>1，包限定类名，一般是实现类。<br>2，<code>bean</code>的行为配置，例如生命周期，作用域，回调等<br>3，所需要的其他<code>bean</code>的引用<br>4，创建<code>bean</code>的其他配置，例如对象池大小，连接等</li>
 <li>可以使用<code>getBeanFactory::registerSingleton</code>动态注册<code>bean</code>，甚至可以覆盖已有的<code>bean</code>以及配置，但是很不推荐。</li>
 <li><code>id</code>和<code>name</code>都要去在容器中唯一，不同的是前者只能设置一个，后者可以多个；</li>
@@ -57,7 +57,7 @@
 </ul>
 <hr>
 <p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#context-introduction" target="_blank" rel="external">https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#context-introduction</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2019/05/28/Mysql原理简介/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
+</div></article></div></main><footer><div class="paginator"><a href="/2019/05/28/Mysql原理简介/" class="next">下一篇</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
 var disqus_identifier = '2019/05/29/Spring文档笔记/';
 var disqus_title = 'Spring文档笔记';
 var disqus_url = 'http://yoursite.com/2019/05/29/Spring文档笔记/';

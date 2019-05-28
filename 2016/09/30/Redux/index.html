@@ -4,7 +4,7 @@
 <p>使用了React-Redux这个库有两个重要的方法：<code>mapStateToProps</code>是用来把外部的state,也就是当前store的快照映射到UI组件的参数上(props),也就是输入数据。<code>mapDispatchToProps</code>是把对UI组件的操作映射成action，</p>
 <p>当dispatch一个action后，reduce会自动生成一个当前store的快照 =&gt;state，调用mapStateToProps，将state映射到props,调用React native的生命周期方法<code>componentWillReceiveProps</code>,这里可以再处理一下数据，改变this.state的值。</p>
 <p><code>mapStateToProps</code>会订阅 Store，每当state更新的时候，就会自动执行，重新计算 UI 组件的参数，从而触发 UI 组件的重新渲染</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2016/11/16/Router设计/" class="prev">PREV</a><a href="/2016/08/17/Refrofit源码浅析/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
+</div></article></div></main><footer><div class="paginator"><a href="/2016/11/16/Router设计/" class="prev">上一篇</a><a href="/2016/08/17/Refrofit源码浅析/" class="next">下一篇</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
 var disqus_identifier = '2016/09/30/Redux/';
 var disqus_title = 'React Native + Redux + React-Redux';
 var disqus_url = 'http://yoursite.com/2016/09/30/Redux/';

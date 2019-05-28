@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-05-28T14:50:18.272Z</updated>
+  <updated>2019-05-28T14:51:44.721Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,11 +20,11 @@
     <link href="http://yoursite.com/2019/05/29/Spring%E6%96%87%E6%A1%A3%E7%AC%94%E8%AE%B0/"/>
     <id>http://yoursite.com/2019/05/29/Spring文档笔记/</id>
     <published>2019-05-29T15:10:10.000Z</published>
-    <updated>2019-05-28T14:50:18.272Z</updated>
+    <updated>2019-05-28T14:51:44.721Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Ioc容器"><a href="#Ioc容器" class="headerlink" title="Ioc容器"></a>Ioc容器</h2><ul>
 <li><code>ApplicationContext</code>是<code>BeanFactory</code>的子接口，更好的与<code>spring</code>的<code>aop</code>集成，消息资源处理（用于国际化），事件发布，特定的<code>context</code>,like WebApplicationContext for use in web applications.</li>
-<li><code>GenericApplicationContext</code>可以用来加载多种方式的配置，然后调用<code>refresh</code></li>
+<li><code>GenericApplicationContext</code>可以用来加载多种方式的配置，然后调用<code>refresh</code><a id="more"></a></li>
 <li>在<code>Ioc</code>容器中，<code>bean</code>的定义被表示为<code>BeanDefinition</code>，包括但不限于<br>1，包限定类名，一般是实现类。<br>2，<code>bean</code>的行为配置，例如生命周期，作用域，回调等<br>3，所需要的其他<code>bean</code>的引用<br>4，创建<code>bean</code>的其他配置，例如对象池大小，连接等</li>
 <li>可以使用<code>getBeanFactory::registerSingleton</code>动态注册<code>bean</code>，甚至可以覆盖已有的<code>bean</code>以及配置，但是很不推荐。</li>
 <li><code>id</code>和<code>name</code>都要去在容器中唯一，不同的是前者只能设置一个，后者可以多个；</li>
@@ -86,7 +86,8 @@
     <summary type="html">
     
       &lt;h2 id=&quot;Ioc容器&quot;&gt;&lt;a href=&quot;#Ioc容器&quot; class=&quot;headerlink&quot; title=&quot;Ioc容器&quot;&gt;&lt;/a&gt;Ioc容器&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;ApplicationContext&lt;/code&gt;是&lt;code&gt;BeanFactory&lt;/c
+&lt;li&gt;&lt;code&gt;ApplicationContext&lt;/code&gt;是&lt;code&gt;BeanFactory&lt;/code&gt;的子接口，更好的与&lt;code&gt;spring&lt;/code&gt;的&lt;code&gt;aop&lt;/code&gt;集成，消息资源处理（用于国际化），事件发布，特定的&lt;code&gt;context&lt;/code&gt;,like WebApplicationContext for use in web applications.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GenericApplicationContext&lt;/code&gt;可以用来加载多种方式的配置，然后调用&lt;code&gt;refresh&lt;/code&gt;
     
     </summary>
     

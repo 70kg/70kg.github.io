@@ -11,7 +11,7 @@
 <p>上面这四种操作，分别在在代码中对应为<code>Head</code>,<code>StatelessOp</code>,<code>StatefulOp</code>以及<code>TerminalOp</code>。这些操作除了终止操作都是<code>referencePipeLine</code>的子类，也就是每一个操作都是流水线的一部分。为什么要设计成流水线的模式？因为在流水线的模式下，可以做到尽量在一次遍历中完成整个操作。下面来简单说一下这个流水线是怎么实现的。</p>
 <p>上面的每个操作都是一个<code>op</code>,在<code>stream</code>中，一个完整的操作可以用<code>&lt;数据源,操作,回调函数&gt;</code>简单表示。而这个完整的操作在<code>stream</code>中用<code>stage</code>表示。上面的代码最终行程的流水线类似一个个<code>stage</code>组成的双向链表。至于为什么是双向的链表，是因为前面的<code>stage</code>要调用后面的<code>stage</code>，所以需要后面<code>stage</code>的引用。真正触发整个流水线工作的地方是在最后的终止操作，也就是前面的非终止操作都是惰性执行的。当终止操作开始，需要一层层的包装回去，包装成”一个操作”，执行这个操作就相当于执行整个流水线，所以当前的 <code>stage</code>需要有前一个<code>stage</code>的引用，也就形成了双线链表。同时两个<code>stage</code>之间的调用肯定也是有一个协议，也就是<code>sink</code>接口。<br>整个代码的设计还是很精巧的。下面的我写的简易的<code>stream</code>。<br><a href="https://dev.tencent.com/u/70kg/p/Spring-boot-Demo/git/tree/dev/src/main/java/com/example/demo/steam" target="_blank" rel="external">MyStream</a></p>
 <p>参考：<br><a href="https://www.cnblogs.com/CarpenterLee/p/6637118.html" target="_blank" rel="external">深入理解Java Stream流水线</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2019/05/28/Mysql原理简介/" class="prev">PREV</a><a href="/2019/02/16/okhttp/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
+</div></article></div></main><footer><div class="paginator"><a href="/2019/05/28/Mysql原理简介/" class="prev">上一篇</a><a href="/2019/02/16/okhttp/" class="next">下一篇</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
 var disqus_identifier = '2019/04/09/撸一个简易Stream/';
 var disqus_title = '撸一个简易 Stream';
 var disqus_url = 'http://yoursite.com/2019/04/09/撸一个简易Stream/';
