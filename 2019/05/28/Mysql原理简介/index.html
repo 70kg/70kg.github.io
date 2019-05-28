@@ -1,0 +1,151 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Mysql原理简介 · 70kg</title><meta name="description" content="Mysql原理简介 - 70kg"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="70kg"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/应聘Android开发工程师_王鹏.pdf" target="_self" class="nav-list-link">RESUME</a></li><li class="nav-list-item"><a href="/book/" target="_self" class="nav-list-link">BOOKS</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Mysql原理简介</h1><div class="post-info">May 28, 2019</div><div class="post-content"><p>InnoDB是什么，有什么作用。在 MySQL 的什么层级上。</p>
+<p>介绍下很多名词，(行格式，页，段，表空间，索引，B+树)</p>
+<h2 id="行格式"><a href="#行格式" class="headerlink" title="行格式"></a>行格式</h2><p><code>InnoDB</code>有四种行格式，或者是记录格式，分别是<code>Compact</code>，<code>Redundant</code>，<code>Dynamic</code>，<code>Compressed</code>，1，3，4是比较相似的，区别在于页溢出的处理方式。<a id="more"></a></p>
+<p><img src="http://static.zybuluo.com/70kg/xrg1uza3x3z76ntlbub9wdai/169710e8fafc21aa.webp" alt="169710e8fafc21aa.webp-8.9kB"></p>
+<table>
+<thead>
+<tr>
+<th>c1(VARCHAR(10)</th>
+<th style="text-align:right">c2(VARCHAR(10) NOT NULL)</th>
+<th style="text-align:center">c3(CHAR(10))</th>
+<th>c4(VARCHAR(10)) </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aaaa</td>
+<td style="text-align:right">bbb</td>
+<td style="text-align:center">cc</td>
+<td>d</td>
+</tr>
+<tr>
+<td>eeee</td>
+<td style="text-align:right">fff</td>
+<td style="text-align:center">NULL</td>
+<td>NULL</td>
+</tr>
+</tbody>
+</table>
+<h4 id="变长字段长度列表"><a href="#变长字段长度列表" class="headerlink" title="变长字段长度列表"></a>变长字段长度列表</h4><p>在变长字段长度列表里面逆序存储 变长列的真实数据的字节长度。类似<code>VARCHAR(M)</code>这样的变长字段。<br>举例：</p>
+<p>现在列中的内容长度比较短，长度可以使用一个字节来表示，如果长度很长，可以使用两个字节来表示。具体使用一个还是两个，you有具体的算法。<br>变长字段长度列表中不存储null 的列。</p>
+<h4 id="Null-值列表"><a href="#Null-值列表" class="headerlink" title="Null 值列表"></a>Null 值列表</h4><p>如果表中没有允许存储 Null 的列，那么 Null 值列表也不存在。使用二进制按照列的顺序逆序排列，1:表示该列的值为 Null，0表示该列的值不为Null。同时必须是整数个字节的位，否则高位补0。<br>以第二条记录为例，011，逆序就是110，高位补5个0，十进制为6。</p>
+<h4 id="记录头信息"><a href="#记录头信息" class="headerlink" title="记录头信息"></a>记录头信息</h4><p>包括改记录是否被删除，当前记录的类型，下一条记录的相对位置等等。</p>
+<h4 id="真是数据"><a href="#真是数据" class="headerlink" title="真是数据"></a>真是数据</h4><p>会添加隐藏列，如果没有合适的作为主键的列，会添加 row_id,(先寻找自定义的主键，没有的话寻找非 null, nuique的键),transaction_id,roll_pointer 的三个隐藏列。<br><img src="http://static.zybuluo.com/70kg/k0esi8igherzbt9z9d31yx8k/169710e973b70372.webp" alt="169710e973b70372.webp-19kB"></p>
+<p>如果使用的变长字符集，c3列也会加入到变长字段长度列表中。</p>
+<h4 id="行溢出数据"><a href="#行溢出数据" class="headerlink" title="行溢出数据"></a>行溢出数据</h4><p>MySQL 对一条记录占用的最大存储空间是有限制的，除了<code>blob</code>或者<code>text</code>类型的列之外，其他的列占用的字节长度之和不能超过65535个字节。<br><img src="http://static.zybuluo.com/70kg/efi6s7lv06co8579eg45qww2/169710e9aab47ea5.webp" alt="169710e9aab47ea5.webp-25.9kB"></p>
+<h2 id="数据页结构"><a href="#数据页结构" class="headerlink" title="数据页结构"></a>数据页结构</h2><p>页是 innodb 管理存储的基本单位，一个页的大小一般是16kb。为了不同的目的，设计了很多种不同的页。存放记录的页就 index 页，暂时称为数据页。</p>
+<p><img src="http://static.zybuluo.com/70kg/tueek8acq1cn3w6i77kbpofy/16a95c0ff3068b29.webp" alt="16a95c0ff3068b29.webp-13.6kB"></p>
+<h4 id="行记录"><a href="#行记录" class="headerlink" title="行记录"></a>行记录</h4><p>插入行记录时先去<code>free space</code>申请空间。每一行记录的记录头信息中包含<code>heap_no</code>：在页中的位置，在<code>infimum+supremum</code>中存储这自动生成的两个隐藏行，最小最大行，分别是0和1。<code>next_record</code>：下一条记录的真实数据的地址偏移量，可以简单的理解成链表。</p>
+<h4 id="页目录"><a href="#页目录" class="headerlink" title="页目录"></a>页目录</h4><p>是为了更快的查找页中的记录，将页中的记录分组，在分组的最后一条记录的头信息中记录当前组的记录条数。最小组只能有1条记录，最大组在1-8条，剩下的在4-8条。<br><img src="http://static.zybuluo.com/70kg/5yeubd0eqerziynil5b90dtw/16a95c10f2e61ad5.webp" alt="16a95c10f2e61ad5.webp-18.9kB"><br>查找的时候使用二分查找查找槽，对比查找到的槽对应的记录的主键大小，决定查找的方向。因为页中的记录是单链表，所以找到槽之后，找上一个的槽，然后找这个槽对应的记录向下找。</p>
+<h4 id="Page-Header页面头部"><a href="#Page-Header页面头部" class="headerlink" title="Page Header页面头部"></a><code>Page Header</code>页面头部</h4><p>数据页专属，记录存储了多少记录，多少槽，第一条记录的地址等。</p>
+<h4 id="File-Header文件头部"><a href="#File-Header文件头部" class="headerlink" title="File Header文件头部"></a><code>File Header</code>文件头部</h4><p>页通用的部分，包括页校验和，页号(使用这个定位页),前一个页和后一个页的(页号)”指针”，页类型</p>
+<h4 id="File-Trailer"><a href="#File-Trailer" class="headerlink" title="File Trailer"></a><code>File Trailer</code></h4><p>存储的时候校验页的完整性，和 header中的校验和进行对比</p>
+<h2 id="B-树索引"><a href="#B-树索引" class="headerlink" title="B+树索引"></a>B+树索引</h2><p>非叶子节点使用的是和存放记录的页一样的数据页，但是其中的记录只有两列，对应子节点的最小主键和对应的子节点的页号。还有就是头信息中的<code>record_type</code>=1,正常的是0。</p>
+<p><img src="http://static.zybuluo.com/70kg/aeqkmcr4pti5agc5y268aue4/16a01bd2a6c7a65f.webp" alt="16a01bd2a6c7a65f.webp-30.1kB"></p>
+<p>查找的过程，先从根页面开始，在页面的槽中进行二分查找，找对对应的下一级页号，在循环执行上面的操作，找到叶子节点，在叶子节点中寻找真实的记录。页中的记录是按照主键大小从小到大。页与页之间形成了双向链表。这叫聚簇索引。</p>
+<h4 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h4><p>非叶子节点也是类似聚餐索引，按照列的顺序，不过叶子节点中的记录只有对应列的值和主键，然后在进行回表，进行聚簇索引的查找。为了保证b+树的同一层内节点的目录项记录除了页号以外的唯一性，会加入主键作为一列。也就是会有三列，索引列，主键，页号。</p>
+<h4 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h4><p>规则也是类似上面，不过页中的记录存放的联合索引的所有列，按照索引中的顺序进行先后排序。这也能很好的理解联合索引中的最左匹配原则。因为页中的记录是要有序排列的。</p>
+<p>建索引的时候，先创建根节点，然后随着记录的插入，进行页分裂。也就是索引一旦建立，根节点就确定了，不会再移动，这也方便了根节点的查找。根节点的页面信息存储在数据字典中。</p>
+<h4 id="MyISAM的索引"><a href="#MyISAM的索引" class="headerlink" title="MyISAM的索引"></a>MyISAM的索引</h4><p>索引和数据是分开的，也就是所有的索引都相当于二级索引。先在索引文件中根据主键或索引列找到对应的行号，再去数据文件中根据行号找到完整的记录。</p>
+<h4 id="索引使用注意"><a href="#索引使用注意" class="headerlink" title="索引使用注意"></a>索引使用注意</h4><p><img src="http://static.zybuluo.com/70kg/x14c027m7ghg3tuqydpus4hf/WX20190523-232842.png" alt="WX20190523-232842.png-138.1kB"></p>
+<h2 id="表空间"><a href="#表空间" class="headerlink" title="表空间"></a>表空间</h2><p>区：连续的64个页<br>组：256个区</p>
+<p>第一个组的前三个页面是固定的：<br><code>FSP_HDR</code>：表空间的整体属性和本组的所有区的属性，一个表空间就这一个<br><code>IBUF_BITMAP</code>：存放本组的区的所有页面关于<code>INSERT BUFFER</code>的信息<br><code>INODE</code>：存放<code>INODE</code>类型</p>
+<p>每组最开始的两个页是固定的：<br><code>XDES</code>：记录本组区的熟悉<br><code>IBUF_BITMAP</code>：同上</p>
+<p>区的概念的引入是为了让相邻的页尽可能的在一起，顺序<code>I/O</code>。当数据量很大的时候，以区为单位分配空间。</p>
+<p>为了区分叶子节点和非叶子节点，提出了<code>段</code>的概念：叶子节点所在的区放在一个段里面，非叶子节点所在区放到一个段里面，也就是一个索引有两个段。</p>
+<p>为了在数据量较少的时候节约空间，提出<code>碎片区</code>的概念，这里面的页面可以属于不同的段。碎片区属于表空间。先向碎片区中以页面为单位分配空间，当一个段中有32个碎片页面的时候，就以完整的区分配空间。后面再有数据来，就不在属于表空间的碎片区中找了，就去段的那三个链表中找页面。</p>
+<p>为了管理区，设计了<code>XDES Entry</code>的结构，存储了区的信息。<br><img src="http://static.zybuluo.com/70kg/7fyurp3sjl2yjekp99sfdzbk/16a739f343654829.webp" alt="16a739f343654829.webp-17.8kB"><br><code>Page State Bitmap</code>存储区中的页面是否空闲</p>
+<p>这个结构的双向链表的作用：空闲区组成一个链表，有空间的碎片区组成一个链表，满的碎片区组成一个链表。为了插入数据的时候更快的找个应该插入的区。</p>
+<p>上面说的都是针对属于表空间的碎片区。为了更好的管理属于段的区，每个段也有三个链表。</p>
+<p>也就是一个索引，有两个段，每个段有三个链表。还有属于表空间的三个链表。</p>
+<p>为了找到这些链表的头结点或者尾节点，设计了<code>List Base Node</code>的结构。包括链表长度，首尾指针的位置。</p>
+<p>类似区有对应的<code>XDES Entry</code>结构，段也有<code>INODE Entry</code>的结构用来表示段的信息。有段号，三个链表的<code>List Base Node</code>，碎片页面的信息。</p>
+<p>前面说的，表空间的第一个页面<code>FSP_HDR</code>，存储了表空间的整体熟悉和第一个组的256个区对应的<code>XDES Entry</code>信息。<br><img src="http://static.zybuluo.com/70kg/a7a0fjhnowm9watdoeoopf1a/16a739f47508ede5.webp" alt="16a739f47508ede5.webp-27.6kB"><br>所以属于表空间的三个链表的基节点可以在这里找到。后两个是段对应的<code>INODE Entry</code>构成的链表的基节点。</p>
+<p>而索引的根节点的头信息中有对应的段信息，所有就把根节点和段映射到了一起。</p>
+<h4 id="系统表空间"><a href="#系统表空间" class="headerlink" title="系统表空间"></a>系统表空间</h4><p><img src="http://static.zybuluo.com/70kg/i4hxrvtq6guif2pq4u0rdxjo/WX20190524-214237.png" alt="WX20190524-214237.png-61.8kB"></p>
+<h2 id="单表查询"><a href="#单表查询" class="headerlink" title="单表查询"></a>单表查询</h2><p><code>const</code>:通过主键或者唯一二级索引<br><code>ref</code>:使用普通二级索引进行等值比较<br><code>ref_or_null</code>:普通二级索引进行等值比较或者 null<br><code>range</code>:范围匹配<br><code>index</code>:匹配规则不是联合索引的最左索引列，可以遍历索引叶子节点。<br><code>all</code>:全表扫描</p>
+<p>一般只能使用单个二级索引进行查询，也就是会选择最优的索引。</p>
+<p>索引合并的情况可以使用到多个二级索引。(1，二级索引是等值匹配;2,主键列可以是范围匹配)<br><code>Intersection合并</code>:交集合并<br><code>Union合并</code>:并集合并<br><code>Sort-Union合并</code>:排序并集合并</p>
+<h2 id="连接的原理"><a href="#连接的原理" class="headerlink" title="连接的原理"></a>连接的原理</h2><p>驱动表:首先查询的表<br>被驱动表:根据驱动表查询出来的数据进行查询的表<br>内连接:驱动表中找不到的数据不会加入结果集<br>外连接:驱动表中的找不到的数据仍然加入结果集<br>左外连接:左边的表作为驱动表<br>右外连接:右边的表作为驱动表<br><img src="http://static.zybuluo.com/70kg/1pl29r0ihquaodwhqvsms56b/WX20190525-225316.png" alt="WX20190525-225316.png-130.9kB"><br>1<code>嵌套循环连接</code>:最简单粗暴的循环查询，在被驱动表使用合适的索引加速<br>1<code>基于块的嵌套循环连接</code>:设计了内存的<code>join buffer</code>，将驱动表的结果集放到这里，搜索被驱动表的每一条记录时，在内存中与这些记录比较。</p>
+<h2 id="基于成本的优化"><a href="#基于成本的优化" class="headerlink" title="基于成本的优化"></a>基于成本的优化</h2><p>读取一个页的成本:1.0<br>读取以及检测一条记录:0.2</p>
+<p>找执行计划的步骤：<br>1.根据搜索条件，找出所有可能的使用的索引<br>2.计算全表扫描的代价<br>3.计算使用不同索引执行查询的代价<br>4.对比各种方案，找出陈本最低的那个</p>
+<p>计算全表扫描的代价时，页面数和记录数是由<code>mysql</code>为每个表维护了一份统计数据。</p>
+<p>当计算成本的代价很大时候，使用索引统计数据计算代价。</p>
+<p>连接的查询成本，驱动表的访问成本+驱动表的扇出数*被驱动表的访问成本</p>
+<p>外链接驱动表固定，方便计算。内连接需要将两个表分别作为驱动表计算成本。</p>
+<h2 id="如何收集统计数据"><a href="#如何收集统计数据" class="headerlink" title="如何收集统计数据"></a>如何收集统计数据</h2><p>以表为单位收集和存储统计数据，数据可以持久化也可以只在内存中。</p>
+<p>分为表统计数据和索引统计数据，分别保存在两个表中。</p>
+<p>表有多少行记录的估计值。按照一定的算法选取几个叶子节点页面(默认20个)，计算每个页面中的主键值记录数，然后计算平均一个页面中主键值的记录数量乘以全部叶子节点的数量。</p>
+<p>更新统计数据可以自动的异步更新，也可以手动触发更新</p>
+<p>有个变量决定在统计索引列不重复值的数量时如何对待<code>Null</code>。最好不要在索引列放<code>Null</code></p>
+<h2 id="基于规则的优化"><a href="#基于规则的优化" class="headerlink" title="基于规则的优化"></a>基于规则的优化</h2><ul>
+<li>移除不必要的括号</li>
+<li>常量传递</li>
+<li>等值传递</li>
+<li>移除没用的条件</li>
+<li>表达式计算</li>
+<li>HAVING子句和WHERE子句的合并</li>
+<li>常量表检测</li>
+<li>外连接消除(符合null值拒绝)<h4 id="子查询优化"><a href="#子查询优化" class="headerlink" title="子查询优化"></a>子查询优化</h4>标量子查询和行子查询就是想象的那样<br>in查询条件少时，也是类似上面，条件多的时候会创建临时表，叫做物化表。还有进一步的<code>semi-join</code>半连接(有规则限制)。</li>
+</ul>
+<h2 id="Explain-详解"><a href="#Explain-详解" class="headerlink" title="Explain 详解"></a>Explain 详解</h2><ul>
+<li><code>table</code>表名</li>
+<li><code>id</code>分配的唯一id。连接的时候，每个表对应一条记录，id相同；前面的驱动表，后面的被驱动表；当优化器重写了子查询，可能转换成连接，id也是一样。</li>
+<li><code>select_type</code>查询的类型，有<code>SIMPLE</code>，<code>PRIMARY</code>等等</li>
+<li><code>type</code>执行查询的访问方法。前面有介绍，有<code>const</code>，<code>ref</code>等等</li>
+<li><code>possible_keys和key</code>可能用到的索引和实际使用的索引</li>
+<li><code>key_len</code>使用的索引记录的最大长度，一般用在联合索引中</li>
+<li><code>ref</code>当使用索引列等值匹配的条件去执行查询时，展示与索引列作等值匹配的东东是个啥</li>
+<li><code>rows</code>全表扫描时表示要扫描的行数，索引时表示预计扫描的索引记录行数</li>
+<li><code>filtered</code>单表查询没什么意义，用在连接查询中。</li>
+<li><code>Extra</code>额外信息</li>
+</ul>
+<h2 id="Buffer-Pool"><a href="#Buffer-Pool" class="headerlink" title="Buffer Pool"></a><code>Buffer Pool</code></h2><p>从磁盘中加载记录是以页为单位。缓存池就是在内存中缓存从磁盘上加载的页。<br>为了控制缓存池中的页，每个页有对应的控制块。是连续的一块内存。</p>
+<p>为了记录缓存池中那些页是可用的，设计了<code>free</code>链表。<br><img src="http://static.zybuluo.com/70kg/8v1dmn9ilvyn7cyk4gtl56pz/1693e86e300173c1.webp" alt="1693e86e300173c1.webp-26kB"></p>
+<p>为了找到缓存池中的页，使用表空间号+页号作为 key，页作为 value，加入到哈希表中。</p>
+<p>为了记录缓存池中那些页是脏页，也就是修改了的页，设计了<code>flush</code>链表，结构类似上面。</p>
+<p>缓存池的大小有限制，设计了<code>lru</code>链表来控制页的淘汰。</p>
+<p>因为<code>innodb</code>有线性预读和l随机预读的功能，为了防止预读的页加入到<code>lru</code>链表头部而降低缓存命中率，将<code>lru</code>链表分成了<code>toung</code>和<code>old</code>区域，比例是3/8。</p>
+<p>当页第一次从磁盘加载到缓存中，放到<code>old</code>的头部。后面访问到再放到<code>jian&#39;gejiangey</code> young`的头部。</p>
+<p>为了防止全表扫描时大量使用频率低的页加入到<code>young</code>的头部。规定在对处于<code>old</code>的页第一次访问时候，记录下访问时间，如果下次访问时间和第一次的在某个时间间隔以内，不会加入到<code>young</code>的头，否则加入。</p>
+<p>脏页的刷新分为把<code>lru</code>的<code>old</code>中的一些脏页刷新到磁盘，定时/当缓存池不足的时候执行。</p>
+<p>根据繁忙情况，将<code>flush</code>链表中的页刷新到磁盘。</p>
+<p>为了更好支持多线程，设计了多个缓存池实例。</p>
+<p>为了支持运行时调整缓存池大小，不再一次性的申请一大片连续的内存空间，而是以<code>chunk</code>为单位申请。默认128m。</p>
+<p>使用<code>SHOW ENGINE INNODB STATUS</code>查看缓存池状态。</p>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ul>
+<li>原子性(Atomicity)</li>
+<li>隔离性(Isolation)</li>
+<li>一致性(Consistency)</li>
+<li>持久性(Durability)</li>
+</ul>
+<p>数据库某些操作的原子性和隔离性都是保证一致性的一种手段，在操作执行完成后保持符合所有既定的约束则是一种结果。</p>
+<p>使用<code>SAVEPOINT</code>保存点，方便回滚到特定的地方。</p>
+<h2 id="redo日志"><a href="#redo日志" class="headerlink" title="redo日志"></a>redo日志</h2><p>因为<code>innodb</code>是以页为单位来管理存储空间，在持久化时也是以页为单位刷新到磁盘。 但是刷新一个完整的页比较浪费，随机<code>io</code>刷新比较慢。为了解决这个保证事务的持久性，设计了<code>redo</code>日志。因为<code>redo</code>日志仅仅记录的改动的内容，占用的空间小，顺序存储，顺序<code>io</code>效率高。</p>
+<p>有很多种不同类型的<code>redo</code>日志，大部分的有这样的格式<br><img src="http://static.zybuluo.com/70kg/wom1hahmd9xrb810ojn3hxz1/1694892fdec61898.webp" alt="1694892fdec61898.webp-5.6kB"></p>
+<p>执行一条语句可能涉及修改多个页，所有会产生多个<code>redo</code>日志。将日志进行分组，以组的形式操作日志，保证日志的原子性。</p>
+<p>分组的标记是在组最后插入一个特殊的<code>redo</code>日志。</p>
+<p>事务，语句和日志的关系<br><img src="http://static.zybuluo.com/70kg/teynwelybswe87w94jrtgrlx/169489303b9e5c9f.webp" alt="169489303b9e5c9f.webp-5.4kB"></p>
+<h3 id="日志的写入过程"><a href="#日志的写入过程" class="headerlink" title="日志的写入过程"></a>日志的写入过程</h3><p>把<code>mtr</code>生成的日志都放到一个页里面(block)。同时也存在一个日志的缓存池<code>redo log buffer</code>。</p>
+<p>在<code>mtr</code>运行时生成的日志，先放到一个临时的地方，执行完之后，再一起复制到<code>log buffer</code>中。</p>
+<h3 id="日志刷盘时机"><a href="#日志刷盘时机" class="headerlink" title="日志刷盘时机"></a>日志刷盘时机</h3><ul>
+<li>缓存池空间不足时</li>
+<li>事务提交时候候</li>
+<li>后台线程自动刷新</li>
+<li>正常关闭服务器时候。</li>
+<li>等等</li>
+</ul>
+<p>日志文件可能有多个，一个一个写，写到最后一个再从头开始。</p>
+<p>文件头2048个字节是管理数据，后面的存储缓存池中的<code>block</code>镜像。</p>
+<p>每一组由mtr生成的redo日志都有一个唯一的LSN值与其对应，LSN值越小，说明redo日志产生的越早。</p>
+<p>1<code>redo</code>日志只是为了系统崩溃后恢复脏页用的，当脏页已经刷新到磁盘，这些日志也就不需要了，也就是可以被覆盖了。</p>
+<p>使用<code>checkpoint</code>记录脏页刷新到的位置。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2019/04/09/撸一个简易Stream/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
+var disqus_identifier = '2019/05/28/Mysql原理简介/';
+var disqus_title = 'Mysql原理简介';
+var disqus_url = 'http://yoursite.com/2019/05/28/Mysql原理简介/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//70kg-info.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2019 <a href="http://yoursite.com">70kg</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-81769413-1",'auto');ga('send','pageview');</script></body></html>
