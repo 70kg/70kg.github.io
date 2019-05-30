@@ -101,7 +101,7 @@
     <link href="http://yoursite.com/2019/05/28/Mysql%E5%8E%9F%E7%90%86%E7%AE%80%E4%BB%8B/"/>
     <id>http://yoursite.com/2019/05/28/Mysql原理简介/</id>
     <published>2019-05-28T15:00:10.000Z</published>
-    <updated>2019-05-30T13:40:55.979Z</updated>
+    <updated>2019-05-30T13:42:43.789Z</updated>
     
     <content type="html"><![CDATA[<h2 id="行格式"><a href="#行格式" class="headerlink" title="行格式"></a>行格式</h2><p><code>InnoDB</code>有四种行格式，或者是记录格式，分别是<code>Compact</code>，<code>Redundant</code>，<code>Dynamic</code>，<code>Compressed</code>，1，3，4是比较相似的，区别在于页溢出的处理方式。<a id="more"></a></p>
 <p><img src="http://static.zybuluo.com/70kg/xrg1uza3x3z76ntlbub9wdai/169710e8fafc21aa.webp" alt="169710e8fafc21aa.webp-8.9kB"></p>
@@ -273,7 +273,7 @@
 <p>当事务提交后，槽指向的页面符合重用条件，加入到缓存链表中，再有新事务分配槽时候，先去这个缓存链表中查找，找不到再去回滚段中的槽查找。</p>
 <p>如果不能重用，对于指向的是<code>insert undo</code>链表，直接释放，初始化状态。<code>update undo</code>链表，初始化状态，将这些<code>undo</code>日志放到<code>History链表</code>中。</p>
 <p>为了支持更多的事务并发，设计了多个回滚段。为了管理这些回滚段，在系统表空间中的第5号页面设计了128个包含8字节的格子，每一个格子对应一个回滚段。</p>
-<p>##事务隔离级别和MVCC(多版本并发控制)<br>因为事务并发执行的原因，为了最大可能的保持隔离性和性能，提出了<code>mvcc</code>。</p>
+<h2 id="事务隔离级别和MVCC-多版本并发控制"><a href="#事务隔离级别和MVCC-多版本并发控制" class="headerlink" title="事务隔离级别和MVCC(多版本并发控制)"></a>事务隔离级别和MVCC(多版本并发控制)</h2><p>因为事务并发执行的原因，为了最大可能的保持隔离性和性能，提出了<code>mvcc</code>。</p>
 <p>脏写：</p>
 <p>一个事务修改了另外一个未提交事务修改过的数据。这是一定要避免的。<br><img src="http://static.zybuluo.com/70kg/lskrogkzmq4ckpy1w9wquq6e/16a2f43405cb6e70.webp" alt="16a2f43405cb6e70.webp-12.8kB"></p>
 <p>脏读：<br>li一个事务读到另外一个未提交事务修改过的数据。<br><img src="http://static.zybuluo.com/70kg/c5at9oodawhwizasmkhkrbia/16a2f79b4eacc05d.webp" alt="16a2f79b4eacc05d.webp-15kB"></p>
