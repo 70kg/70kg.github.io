@@ -101,7 +101,7 @@
     <link href="http://yoursite.com/2019/05/28/Mysql%E5%8E%9F%E7%90%86%E7%AE%80%E4%BB%8B/"/>
     <id>http://yoursite.com/2019/05/28/Mysql原理简介/</id>
     <published>2019-05-28T15:00:10.000Z</published>
-    <updated>2019-05-30T13:42:43.789Z</updated>
+    <updated>2019-05-30T13:43:38.444Z</updated>
     
     <content type="html"><![CDATA[<h2 id="行格式"><a href="#行格式" class="headerlink" title="行格式"></a>行格式</h2><p><code>InnoDB</code>有四种行格式，或者是记录格式，分别是<code>Compact</code>，<code>Redundant</code>，<code>Dynamic</code>，<code>Compressed</code>，1，3，4是比较相似的，区别在于页溢出的处理方式。<a id="more"></a></p>
 <p><img src="http://static.zybuluo.com/70kg/xrg1uza3x3z76ntlbub9wdai/169710e8fafc21aa.webp" alt="169710e8fafc21aa.webp-8.9kB"></p>
