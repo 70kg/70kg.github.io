@@ -101,11 +101,9 @@
     <link href="http://yoursite.com/2019/05/28/Mysql%E5%8E%9F%E7%90%86%E7%AE%80%E4%BB%8B/"/>
     <id>http://yoursite.com/2019/05/28/Mysql原理简介/</id>
     <published>2019-05-28T15:00:10.000Z</published>
-    <updated>2019-05-28T14:44:54.883Z</updated>
+    <updated>2019-05-30T13:40:55.979Z</updated>
     
-    <content type="html"><![CDATA[<p>InnoDB是什么，有什么作用。在 MySQL 的什么层级上。</p>
-<p>介绍下很多名词，(行格式，页，段，表空间，索引，B+树)</p>
-<h2 id="行格式"><a href="#行格式" class="headerlink" title="行格式"></a>行格式</h2><p><code>InnoDB</code>有四种行格式，或者是记录格式，分别是<code>Compact</code>，<code>Redundant</code>，<code>Dynamic</code>，<code>Compressed</code>，1，3，4是比较相似的，区别在于页溢出的处理方式。<a id="more"></a></p>
+    <content type="html"><![CDATA[<h2 id="行格式"><a href="#行格式" class="headerlink" title="行格式"></a>行格式</h2><p><code>InnoDB</code>有四种行格式，或者是记录格式，分别是<code>Compact</code>，<code>Redundant</code>，<code>Dynamic</code>，<code>Compressed</code>，1，3，4是比较相似的，区别在于页溢出的处理方式。<a id="more"></a></p>
 <p><img src="http://static.zybuluo.com/70kg/xrg1uza3x3z76ntlbub9wdai/169710e8fafc21aa.webp" alt="169710e8fafc21aa.webp-8.9kB"></p>
 <table>
 <thead>
@@ -245,13 +243,71 @@
 <p>每一组由mtr生成的redo日志都有一个唯一的LSN值与其对应，LSN值越小，说明redo日志产生的越早。</p>
 <p>1<code>redo</code>日志只是为了系统崩溃后恢复脏页用的，当脏页已经刷新到磁盘，这些日志也就不需要了，也就是可以被覆盖了。</p>
 <p>使用<code>checkpoint</code>记录脏页刷新到的位置。</p>
+<h2 id="undo日志"><a href="#undo日志" class="headerlink" title="undo日志"></a><code>undo</code>日志</h2><p><code>undo</code>日志是为了保证事务的原子性。为回滚设计。</p>
+<p>在事务中，只有第一次对表进行增删改操作才会给这个事务分配一个事务 id.</p>
+<p>记录的行格式，有<code>trx_id</code>，<code>roll_pointer</code>两个隐藏列。</p>
+<p>在增删改之前要先记录<code>undo</code>日志。</p>
+<h3 id="插入的日志"><a href="#插入的日志" class="headerlink" title="插入的日志"></a>插入的日志</h3><p>对应的日志类型是<code>TRX_UNDO_INSERT_REC</code>，主要记录表个主键信息。</p>
+<h4 id="roll-pointer的含义"><a href="#roll-pointer的含义" class="headerlink" title="roll_pointer的含义"></a><code>roll_pointer</code>的含义</h4><p><img src="http://static.zybuluo.com/70kg/1dmxvyz9dxi0bpiya9h5t9w9/16a52ce7de875e53.webp" alt="16a52ce7de875e53.webp-13.8kB"></p>
+<p>简单说就是指向<code>undo</code>日志的指针。</p>
+<h3 id="删除对应的日志"><a href="#删除对应的日志" class="headerlink" title="删除对应的日志"></a>删除对应的日志</h3><p>删除一条记录分为两步：</p>
+<ol>
+<li>将记录头信息中的<code>delete_mask</code>置为1，这个阶段是<code>delete mark</code></li>
+<li>当事务提交后，由专门的线程将这个记录从正常的链表中移除，加入到垃圾链表中。这个阶段是<code>purge</code>。<br>这么做主要是为了事务的<code>mvcc</code>。</li>
+</ol>
+<p>对应的日志类型<code>TRX_UNDO_DEL_MARK_REC</code>。</p>
+<p>在进行<code>delete mark</code>之前，先把这个记录的当前的<code>trx_id</code>和<code>roll_pointer</code>记录到日志中，这样形成了一个版本链，也是为<code>mvcc</code>服务。类似的情况可以是先插入一个，再删除这个，那回滚的时候就会用到这个版本链。<br><img src="http://static.zybuluo.com/70kg/orm75cvjlqrewbjsaj7et7wy/16a52ce88f2eff73.webp" alt="16a52ce88f2eff73.webp-7kB"></p>
+<h3 id="更新对应的日志"><a href="#更新对应的日志" class="headerlink" title="更新对应的日志"></a>更新对应的日志</h3><p>不更新主键的情况：<br>就地更新，也就是记录的各列的数据长度不变。<br>不能就地更新的，先删除旧记录，再插入新记录，这里的删除是直接移到垃圾链表中，而不是仅仅的标记，同时使用的同步剔除，而不是专门的线程。<br>使用的日志类型是<code>TRX_UNDO_UPD_EXIST_REC</code>；</p>
+<p>更新主键的情况：<br>因为这时候主键变化了，在索引的中的位置也要改变。<br>先标记删除，这里仅仅的标记，是因为其他的事务也可能访问这个记录，如果直接移除到垃圾链表，别的事务就访问不到了，也是为了<code>mvcc</code><br>然后插入一条数据。</p>
+<p>记录一条<code>TRX_UNDO_DEL_MARK_REC</code>类型的日志</p>
+<h3 id="存储位置"><a href="#存储位置" class="headerlink" title="存储位置"></a>存储位置</h3><p>日志页是存储在<code>FIL_PAGE_UNDO_LOG</code>页中，这些页也是像之前一样，组成双向链表。<br>在这种页的页头信息中记录的当前页存储的两大类日志的类型：<br><code>TRX_UNDO_INSERT</code>:插入语句或者更新主键的时候产生<br><code>TRX_UNDO_UPDATE</code>:删除语句或者更新普通记录产生</p>
+<p>一个页面只能存储一种大类型的日志，不能混存。之所以分为两大类，也是为了<code>mvcc</code>，第一类在事务提交后可以直接删除，第二类还有用处。</p>
+<p>两种类型的的日志的链表分别组成了两个双向链表，同时还有临时表和普通表的区别，也就是一个事务中，最多会产生四条链表。</p>
+<p>不同的事务的链表是隔离的。也就是不同的事务过程中产生的日志需要写入不同的日志页面链表中。</p>
+<p>每个<code>undo</code>页面链表都对应一个段，叫做<code>Undo Log Segment</code>，也就是链表中的页面都是从这个段中申请的。在链表的第一个页面中有<code>Undo Log Segment Header</code>，记录了对应段的信息。存储了当前页面链表处在什么状态</p>
+<p>有活跃状态：一个活跃的事务正在往这个链表里面写日志；<br>被缓存状态：等待被其他事务重用<br>等等</p>
+<h3 id="重用undo页面"><a href="#重用undo页面" class="headerlink" title="重用undo页面"></a>重用<code>undo</code>页面</h3><p>因为有些事务占用的日志页面很少，也为其分配了新链表比较浪费空间。<br>判断能否重用：<br>该链表中只包含一个页面；(页面很多，维护也是成本)<br>该页面使用的空间小于整个页面空间的3/4;</p>
+<p>1<code>insert undo链表</code>的重用：因为这种链表在事务提交后可以删除，所有直接覆盖写页面<br>1<code>update undo链表</code>的重用：因为这种不能直接删除，所有在页面后面继续写，也就是一个页面包含多组的日志。</p>
+<h3 id="回滚段"><a href="#回滚段" class="headerlink" title="回滚段"></a>回滚段</h3><p>为了管理这些<code>undo</code>链表，设计了回滚段的概念，这是一个段，但是就一个页面，这个页面中存储了<code>undo</code>链表的第一个页面的地址(<code>undo slot</code>)。</p>
+<p>初始的<code>undo slot</code>的值的<code>FIL_NULL</code>。当要开始分配<code>undo</code>链表时候，先看这个槽是不是初始状态，如果是，就在这个槽中记录链表的第一个页面地址；如果不是，看下一个槽是不是。一共有1024个槽，也就是并发支持的事务有上限，会抛出异常。</p>
+<p>当事务提交后，槽指向的页面符合重用条件，加入到缓存链表中，再有新事务分配槽时候，先去这个缓存链表中查找，找不到再去回滚段中的槽查找。</p>
+<p>如果不能重用，对于指向的是<code>insert undo</code>链表，直接释放，初始化状态。<code>update undo</code>链表，初始化状态，将这些<code>undo</code>日志放到<code>History链表</code>中。</p>
+<p>为了支持更多的事务并发，设计了多个回滚段。为了管理这些回滚段，在系统表空间中的第5号页面设计了128个包含8字节的格子，每一个格子对应一个回滚段。</p>
+<p>##事务隔离级别和MVCC(多版本并发控制)<br>因为事务并发执行的原因，为了最大可能的保持隔离性和性能，提出了<code>mvcc</code>。</p>
+<p>脏写：</p>
+<p>一个事务修改了另外一个未提交事务修改过的数据。这是一定要避免的。<br><img src="http://static.zybuluo.com/70kg/lskrogkzmq4ckpy1w9wquq6e/16a2f43405cb6e70.webp" alt="16a2f43405cb6e70.webp-12.8kB"></p>
+<p>脏读：<br>li一个事务读到另外一个未提交事务修改过的数据。<br><img src="http://static.zybuluo.com/70kg/c5at9oodawhwizasmkhkrbia/16a2f79b4eacc05d.webp" alt="16a2f79b4eacc05d.webp-15kB"></p>
+<p>不可重复读：<br>一个事务只能读到另一个已经提交的事务修改过的数据，并且其他事务每次对这个数据进行一次修改并且提交后，该事务都能读取到最新值<br><img src="http://static.zybuluo.com/70kg/3t0qcigh8wh4ua4i4w1orvyy/16a2f5b32bc1f76b.webp" alt="16a2f5b32bc1f76b.webp-23.3kB"></p>
+<p>幻读：<br>一个事务先根据某些条件查出一些数据，之后另一个书屋又向表中插入了符合这些条件的数据，原来的事务在此按照此条件查询时候，能把另一个事务插入的记录页读取出来<br><img src="http://static.zybuluo.com/70kg/bq9df1pujc6xe0knwt169m12/16a2f5b32d7b9ada.webp" alt="16a2f5b32d7b9ada.webp-16kB"></p>
+<h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><p><img src="http://static.zybuluo.com/70kg/0no60hso9jjlzfjzq6b7a8c6/WX20190530-204506.png" alt="WX20190530-204506.png-27.9kB"><br><img src="http://static.zybuluo.com/70kg/v4hbju6f9h1afhdt2nou1f6k/WX20190530-204552.png" alt="WX20190530-204552.png-64.9kB"><br><code>mysql</code>在<code>repeatable read</code>的隔离级别下是可以禁止幻读的发生。</p>
+<h3 id="mvcc原理"><a href="#mvcc原理" class="headerlink" title="mvcc原理"></a>mvcc原理</h3><p>前面说的版本链。每一条记录的头有<code>trx_id</code>事务 id 和<code>roll_pointer</code>回滚点，也是指向<code>undo</code>日志。同时在<code>undo</code>日志中，也又指向前一个<code>undo</code>日志的指针，这就形成了一个版本链。<code>undo</code>日志中页记录了事务 id。</p>
+<p>####<code>ReadView</code><br>对于<code>READ UNCOMMITTED</code>，每次读取最新的值就好了；对于<code>SERIALIZABLE</code>，使用加锁保证串行化。其他两个级别都要保证读取到已经提交的记录。也就是要判断版本链中哪个版本是对当前事务可见的。因此提出了<code>ReadView</code>的概念。一个<code>ReadView</code>包含下面四个重要内容：</p>
+<p>1<code>m_ids</code>：在生成<code>ReadView</code>时，当前系统中活跃的读写事务的 id 列表<br>1<code>min_trx_id</code>：在生成<code>ReadView</code>时，当前活跃的读写事务 id的最小值，也是上面列表中的最小值<br>1<code>max_trx_id</code>：在生成<code>ReadView</code>时，系统应该分配给下一个事务的 id<br>1<code>creator_trx_id</code>:生成<code>ReadView</code>的事务 id。</p>
+<p>当访问记录中的事务 id==当前的事务 id,说明是自己修改的，可以访问。</p>
+<p>当访问版本的事务 id&lt; 最小事务 id。说明访问的这个记录已经提交了，可以访问。</p>
+<p>当访问的版本的事务 id&gt;下一个事务 id。说明这个事务是在生成<code>ReadView</code>之后才开启的，不能访问。</p>
+<p>如果访问的版本事务 id在 2，3之间，要判断事务 id在不在活跃的事务 id 列表中，如果在，不能访问。</p>
+<p>如果当前版本的数据对当前事务不可见，就沿着版本链找，看能不能找到符合的版本。</p>
+<p>1<code>READ COMMITTED</code>和<code>REPEATABLE READ</code>的不同在于生成<code>ReadView</code>的时机不同，前一个是每次读取事务前就生成一个，后一个是事务中第一次读取数据时生成一个，后面就不生成了。所以前一个能读取到相对较多的数据，后一个读取的数据就是生成<code>ReadView</code>时能读的，后面的就读不到了。前一个还有可能读到，因为它是不断生成的。类似快照。</p>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><p>为了禁止脏写的情况，也就是并发写要排队，提出了锁的概念。锁在 MySQL 中是一个在内存中的结构。</p>
+<p>当想对一条记录进行修改时候，如果没有对应的锁结构，生成一个。</p>
+<p>如果一个有了，要阻塞等待锁释放。<br><img src="http://static.zybuluo.com/70kg/j221dijvoov774xp5doqcnb2/16a680105e955d9a.webp" alt="16a680105e955d9a.webp-13.6kB"></p>
+<p>实现<code>mvcc</code>一种是上面的版本链，还可以使用锁。</p>
+<p>共享锁(s锁):<br>一个事务对一个记录加了 s 锁，另一个也可以加 s 锁。不能加 x 锁。</p>
+<p>独占锁(x锁)：<br>一个事务对一个记录加了 x锁，其他事务不能加 s 锁也不能 x 锁。</p>
+<p><code>SELECT ... LOCK IN SHARE MODE;</code>s 锁读<br><code>SELECT ... FOR UPDATE;</code>x锁 读</p>
+<p>删除操作可以看成获取 x 锁的锁定读；<br>插入操作一般不加锁，提供隐私锁保护该记录在事务提交前被别的事务访问。<br>更新分三种：没修改主键且更新列的存储空间不变，就地更新，看成 x 锁的锁定读。<br>没修改主键但是更新列的存储空间变化了，要先删再插入，看成 x 锁的锁定读。</p>
+<h3 id="多粒度锁"><a href="#多粒度锁" class="headerlink" title="多粒度锁"></a>多粒度锁</h3><p>表 s 锁：不能访问表 x锁和记录的 x 锁<br>表 x 锁：啥都不行。</p>
+<p>当对表进行上锁时候，如何知道表中有没有被上行锁？因此设计了意向锁。</p>
+<p>意向共享锁(IS)：当准备给一个记录上 s 锁，先对表上一个 IS 锁。<br>意向独占所(IX)：当准备给一个记录上 x 锁，先对表上一个 IX 锁。</p>
+<p><code>MyISAM</code>等其他引擎只支持表锁。</p>
+<h3 id="行级锁详情"><a href="#行级锁详情" class="headerlink" title="行级锁详情"></a>行级锁详情</h3><p>1<code>Record Locks</code>：皮称 正经记录锁，分 s 和 x 锁。就是理解中的锁。<br>1<code>Gap Locks</code>：gap 锁，给当前记录前面加锁。仅仅是为了防止插入幻读记录提出的。<br>1<code>Next-Key Locks</code>:next-key 锁，给当前记录以及记录前面加锁。<br>插入的时候可以不显式的加锁。当插入一个记录后，马上有事务访问这个记录，会自动帮这个新插入的记录生成一个x 锁，然后在给自己生成一个锁，进行阻塞等待。</p>
+<p><a href="https://mp.weixin.qq.com/s/wSlNZcQkax-2KZCNEHOYLA" target="_blank" rel="external">超全面MySQL语句加锁分析（上篇）</a><br><a href="https://mp.weixin.qq.com/s/ODbju9fjB5QFEN8IIYp__A" target="_blank" rel="external">超全面MySQL语句加锁分析（中篇）</a><br><a href="https://mp.weixin.qq.com/s/9WWBXLNoUcTkS4DJnM5ViA" target="_blank" rel="external">超全面MySQL语句加锁分析（下篇）</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;InnoDB是什么，有什么作用。在 MySQL 的什么层级上。&lt;/p&gt;
-&lt;p&gt;介绍下很多名词，(行格式，页，段，表空间，索引，B+树)&lt;/p&gt;
-&lt;h2 id=&quot;行格式&quot;&gt;&lt;a href=&quot;#行格式&quot; class=&quot;headerlink&quot; title=&quot;行格式&quot;&gt;&lt;/a&gt;行格式&lt;/h2&gt;&lt;p&gt;&lt;code&gt;InnoDB&lt;/code&gt;有四种行格式，或者是记录格式，分别是&lt;code&gt;Compact&lt;/code&gt;，&lt;code&gt;Redundant&lt;/code&gt;，&lt;code&gt;Dynamic&lt;/code&gt;，&lt;code&gt;Compressed&lt;/code&gt;，1，3，4是比较相似的，区别在于页溢出的处理方式。
+      &lt;h2 id=&quot;行格式&quot;&gt;&lt;a href=&quot;#行格式&quot; class=&quot;headerlink&quot; title=&quot;行格式&quot;&gt;&lt;/a&gt;行格式&lt;/h2&gt;&lt;p&gt;&lt;code&gt;InnoDB&lt;/code&gt;有四种行格式，或者是记录格式，分别是&lt;code&gt;Compact&lt;/code&gt;，&lt;code&gt;Redundant&lt;/code&gt;，&lt;code&gt;Dynamic&lt;/code&gt;，&lt;code&gt;Compressed&lt;/code&gt;，1，3，4是比较相似的，区别在于页溢出的处理方式。
     
     </summary>
     

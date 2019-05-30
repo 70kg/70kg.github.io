@@ -12,7 +12,7 @@
 <li>Http1Codec/Http2Codec<br>分别代表<code>http1.x</code>和<code>http2</code>的解码器，也相对于代表流。负责请求头，请求体的写入和响应头，响应体的读取。</li>
 <li>ConnectionPool<br>连接池，管理连接的缓存和复用。<code>cleanupRunnable</code>用于定期或者某些条件触发根据最大空闲连接和最大存活时间进行连接的清理。清理是根据有没有<code>StreamAllocation</code>还在引用<code>RealConnection</code>，也就是引用计数。当响应返回，在<code>RetryAndFollowUpInterceptor</code>中<code>streamAllocation.release()</code>，然后读取完<code>response</code>后，在<code>Http1Codec</code>中标记<code>streamFinished</code>，然后表示这个连接空闲。</li>
 </ul>
-</div></article></div></main><footer><div class="paginator"><a href="/2019/04/09/撸一个简易Stream/" class="prev">上一篇</a><a href="/2017/11/30/Fresco浅析/" class="next">下一篇</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
+</div></article></div></main><footer><div class="paginator"><a href="/2019/04/09/撸一个简易Stream/" class="prev">PREV</a><a href="/2017/11/30/Fresco浅析/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
 var disqus_identifier = '2019/02/16/okhttp/';
 var disqus_title = 'OkHttp 相关类';
 var disqus_url = 'http://yoursite.com/2019/02/16/okhttp/';
