@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 撸一个简易JVM · 70kg</title><meta name="description" content="撸一个简易JVM - 70kg"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="70kg"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/应聘Android开发工程师_王鹏.pdf" target="_self" class="nav-list-link">RESUME</a></li><li class="nav-list-item"><a href="/book/" target="_self" class="nav-list-link">BOOKS</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">撸一个简易JVM</h1><div class="post-info">Jul 29, 2019</div><div class="post-content"><p>使用<code>Java</code>实现一个最简易的<code>JVM</code>，主要实现下面的功能：<a id="more"></a></p>
+<ul>
+<li><code>ClassPath</code>的实现，主要用于定位<code>Class</code>文件，可能处在<code>JDK</code>包含的<code>jar</code>包中，可能是用户的路径，支持通配符，绝对/相对路径解析。</li>
+<li><code>Class</code>文件的解析，主要是根据读取<code>Class</code>的字节要求去读取字节流，解析出文件常量池，属性表等。</li>
+<li><code>ClassLoader</code>的实现，用于通过上一步解析出<code>Class</code>文件构造内存中的<code>Class</code>抽象结构。主要是实现类的加载(在内存中生成<code>Class</code>表示，生成运行时常量池)，<del>校验</del>，准备(类静态变量初始化0)，解析(符号引用到直接引用(是在使用的时候才去解析))，初始化(<code>clinit</code>方法)。</li>
+<li>运行时结构的构建，包括线程，栈，栈帧，pc 计数器，本地变量表，操作数栈等。方法调用的本质就是栈帧在栈中进出的过程。</li>
+<li>指令集的实现。指令包括操作码和操作数。包括加载指令，控制指令，算术运算指令，方法调用指令等。</li>
+</ul>
+<p><a href="https://dev.tencent.com/u/70kg/p/Spring-boot-Demo/git/tree/tem/src/main/java/com/example/demo/jvm" target="_blank" rel="external">代码地址</a></p>
+<p>参考：<br>《深入理解 Java虚拟机》<br>《Java虚拟机规范》<br><a href="https://github.com/tinylcy/ClassAnalyzer" target="_blank" rel="external">ClassAnalyzer</a><br><a href="https://github.com/zachaxy/JVM" target="_blank" rel="external">手写JVM系列</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2019/05/29/Spring文档笔记/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = '70kg-info';
+var disqus_identifier = '2019/07/29/撸一个简易JVM/';
+var disqus_title = '撸一个简易JVM';
+var disqus_url = 'http://yoursite.com/2019/07/29/撸一个简易JVM/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//70kg-info.disqus.com/count.js" async></script><div class="copyright"><p>© 2015 - 2019 <a href="http://yoursite.com">70kg</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-81769413-1",'auto');ga('send','pageview');</script></body></html>

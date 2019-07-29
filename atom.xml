@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-05-28T14:51:44.721Z</updated>
+  <updated>2019-07-29T13:52:19.371Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>撸一个简易JVM</title>
+    <link href="http://yoursite.com/2019/07/29/%E6%92%B8%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93JVM/"/>
+    <id>http://yoursite.com/2019/07/29/撸一个简易JVM/</id>
+    <published>2019-07-29T12:56:27.000Z</published>
+    <updated>2019-07-29T13:52:19.371Z</updated>
+    
+    <content type="html"><![CDATA[<p>使用<code>Java</code>实现一个最简易的<code>JVM</code>，主要实现下面的功能：<a id="more"></a></p>
+<ul>
+<li><code>ClassPath</code>的实现，主要用于定位<code>Class</code>文件，可能处在<code>JDK</code>包含的<code>jar</code>包中，可能是用户的路径，支持通配符，绝对/相对路径解析。</li>
+<li><code>Class</code>文件的解析，主要是根据读取<code>Class</code>的字节要求去读取字节流，解析出文件常量池，属性表等。</li>
+<li><code>ClassLoader</code>的实现，用于通过上一步解析出<code>Class</code>文件构造内存中的<code>Class</code>抽象结构。主要是实现类的加载(在内存中生成<code>Class</code>表示，生成运行时常量池)，<del>校验</del>，准备(类静态变量初始化0)，解析(符号引用到直接引用(是在使用的时候才去解析))，初始化(<code>clinit</code>方法)。</li>
+<li>运行时结构的构建，包括线程，栈，栈帧，pc 计数器，本地变量表，操作数栈等。方法调用的本质就是栈帧在栈中进出的过程。</li>
+<li>指令集的实现。指令包括操作码和操作数。包括加载指令，控制指令，算术运算指令，方法调用指令等。</li>
+</ul>
+<p><a href="https://dev.tencent.com/u/70kg/p/Spring-boot-Demo/git/tree/tem/src/main/java/com/example/demo/jvm" target="_blank" rel="external">代码地址</a></p>
+<p>参考：<br>《深入理解 Java虚拟机》<br>《Java虚拟机规范》<br><a href="https://github.com/tinylcy/ClassAnalyzer" target="_blank" rel="external">ClassAnalyzer</a><br><a href="https://github.com/zachaxy/JVM" target="_blank" rel="external">手写JVM系列</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用&lt;code&gt;Java&lt;/code&gt;实现一个最简易的&lt;code&gt;JVM&lt;/code&gt;，主要实现下面的功能：
+    
+    </summary>
+    
+    
+      <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
+    
+  </entry>
   
   <entry>
     <title>Spring文档笔记</title>
@@ -1059,34 +1089,6 @@
     <summary type="html">
     
       &lt;h4 id=&quot;扯一扯&quot;&gt;&lt;a href=&quot;#扯一扯&quot; class=&quot;headerlink&quot; title=&quot;扯一扯&quot;&gt;&lt;/a&gt;扯一扯&lt;/h4&gt;&lt;p&gt;这段时间在看 &lt;code&gt;Redux&lt;/code&gt; 的东西，稍微梳理一下整个框架的流程。其实整个 &lt;code&gt;Redux&lt;/code&gt; 的代码很少，现在我也不能理解很多它的思想，反正先撸出个简单的 &lt;code&gt;Redux&lt;/code&gt; 吧。目标是照着它的流程写一个最简单的，也要支持异步 &lt;code&gt;Action&lt;/code&gt;。也算是个笔记性的东西。
-    
-    </summary>
-    
-    
-      <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Asncy await Promise的使用</title>
-    <link href="http://yoursite.com/2016/12/15/Promise%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
-    <id>http://yoursite.com/2016/12/15/Promise的使用/</id>
-    <published>2016-12-15T03:53:56.000Z</published>
-    <updated>2017-02-03T10:24:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> fetch = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">            <span class="comment">// resolve('success');</span></div><div class="line">            reject(<span class="string">'error'</span>);</div><div class="line">        &#125;, <span class="number">2000</span>);</div><div class="line">    &#125;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">const</span> testAsync = <span class="keyword">async</span>() =&gt; &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">await</span> fetch();</div><div class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">testAsync().then(<span class="function">(<span class="params">result</span>)=&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'这是成功的---&gt;'</span> + result);</div><div class="line">&#125;).catch(<span class="function">(<span class="params">error</span>)=&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'这是失败的---&gt;'</span> + error);</div><div class="line">&#125;);;</div></pre></td></tr></table></figure>
-<p><code>async</code>函数返回的一个 <code>Promise</code>， 调用耗时函数前面加 <code>await</code> 关键字，返回成功的值，可以使用 <code>try..catch</code> 来进行捕获错误。上面的代码可以模拟一次请求的过程，最基本用法差不多都包括了<a id="more"></a></p>
-<p><a href="http://babeljs.io/repl/#?babili=false&amp;evaluate=true&amp;lineWrap=true&amp;presets=latest,react,stage-2&amp;code=const%20fetch%20=%20%28%29%20=%3E%20%7B%0A%20%20%20%20return%20new%20Promise%28%28resolve,%20reject%29%20=%3E%20%7B%0A%20%20%20%20%20%20%20%20setTimeout%28%28%29%20=%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20//%20resolve%28%27success%27%29;%0A%20%20%20%20%20%20%20%20%20%20%20%20reject%28%27error%27%29;%0A%20%20%20%20%20%20%20%20%7D,%202000%29;%0A%20%20%20%20%7D%29;%0A%7D;%0A%0Aconst%20testAsync%20=%20async%28%29%20=%3E%20%7B%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20%20%20%20return%20await%20fetch%28%29;%0A%20%20%20%20%7D%20catch%20%28error%29%20%7B%0A%20%20%20%20%20%20%20%20return%20Promise.reject%28error%29;%0A%20%20%20%20%7D%0A%7D;%0A%0AtestAsync%28%29.then%28%28result%29=%3E%20%7B%0A%20%20%20%20console.log%28%27%E8%BF%99%E6%98%AF%E6%88%90%E5%8A%9F%E7%9A%84---%3E%27%20%2b%20result%29;%0A%7D%29.catch%28%28error%29=%3E%20%7B%0A%20%20%20%20console.log%28%27%E8%BF%99%E6%98%AF%E5%A4%B1%E8%B4%A5%E7%9A%84---%3E%27%20%2b%20error%29;%0A%7D%29;;&amp;experimental=false&amp;loose=false&amp;spec=false&amp;playground=true" target="_blank" rel="external">点我运行</a></p>
-<h4 id="Promise-then是异步的"><a href="#Promise-then是异步的" class="headerlink" title="Promise.then是异步的"></a><code>Promise.then</code>是异步的</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var promise = new Promise(function (resolve)&#123;</div><div class="line">    console.log(&quot;inner promise&quot;); // 1</div><div class="line">    resolve(42);</div><div class="line">&#125;);</div><div class="line">promise.then(function(value)&#123;</div><div class="line">    console.log(value); // 3</div><div class="line">&#125;);</div><div class="line">console.log(&quot;outer promise&quot;); // 2</div><div class="line"></div><div class="line"></div><div class="line">----------</div><div class="line">inner promise // 1</div><div class="line">outer promise // 2</div><div class="line">42            // 3</div></pre></td></tr></table></figure>
-<p><a href="https://wohugb.gitbooks.io/promise/content/usage/async.html" target="_blank" rel="external">为啥这样</a></p>
-<p>更多的关于 <code>Promise</code> 看下面的这本电子书，就不扯了，啦啦啦。</p>
-<p>参考:<br><a href="https://wohugb.gitbooks.io/promise/content/index.html" target="_blank" rel="external">JavaScript Promise迷你书（中文版）</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;20&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;21&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;22&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; fetch = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;Promise&lt;/span&gt;(&lt;span class=&quot;function&quot;&gt;(&lt;span class=&quot;params&quot;&gt;resolve, reject&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        setTimeout(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            &lt;span class=&quot;comment&quot;&gt;// resolve(&#39;success&#39;);&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            reject(&lt;span class=&quot;string&quot;&gt;&#39;error&#39;&lt;/span&gt;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &amp;#125;, &lt;span class=&quot;number&quot;&gt;2000&lt;/span&gt;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;#125;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; testAsync = &lt;span class=&quot;keyword&quot;&gt;async&lt;/span&gt;() =&amp;gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;try&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;         &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;await&lt;/span&gt; fetch();&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;#125; &lt;span class=&quot;keyword&quot;&gt;catch&lt;/span&gt; (error) &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;Promise&lt;/span&gt;.reject(error);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;testAsync().then(&lt;span class=&quot;function&quot;&gt;(&lt;span class=&quot;params&quot;&gt;result&lt;/span&gt;)=&amp;gt;&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(&lt;span class=&quot;string&quot;&gt;&#39;这是成功的---&amp;gt;&#39;&lt;/span&gt; + result);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;).catch(&lt;span class=&quot;function&quot;&gt;(&lt;span class=&quot;params&quot;&gt;error&lt;/span&gt;)=&amp;gt;&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(&lt;span class=&quot;string&quot;&gt;&#39;这是失败的---&amp;gt;&#39;&lt;/span&gt; + error);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;);;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;&lt;code&gt;async&lt;/code&gt;函数返回的一个 &lt;code&gt;Promise&lt;/code&gt;， 调用耗时函数前面加 &lt;code&gt;await&lt;/code&gt; 关键字，返回成功的值，可以使用 &lt;code&gt;try..catch&lt;/code&gt; 来进行捕获错误。上面的代码可以模拟一次请求的过程，最基本用法差不多都包括了
     
     </summary>
     
