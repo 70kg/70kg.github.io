@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/book/index.html</loc>
+    
+    <lastmod>2020-05-27T15:30:25.387Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/07/29/%E6%92%B8%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93JVM/</loc>
     
     <lastmod>2019-07-29T13:52:19.371Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>http://yoursite.com/2019/02/16/okhttp/</loc>
     
     <lastmod>2019-02-16T08:23:12.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/book/index.html</loc>
-    
-    <lastmod>2018-12-27T13:41:36.000Z</lastmod>
     
   </url>
   
